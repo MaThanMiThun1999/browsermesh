@@ -17,7 +17,7 @@ trap 'cleanup_on_error' ERR
 # CONFIGURATION
 # ==============================================================================
 # The official download link for the latest BrowserMesh backend release
-BACKEND_ZIP_URL="https://github.com/MaThanMiThun1999/browsermesh/raw/refs/heads/main/backend-latest.tar.gz"
+BACKEND_ZIP_URL="https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.ps1"
 INSTALL_DIR="$HOME/browsermesh-node"
 NODE_VERSION="20"
 
