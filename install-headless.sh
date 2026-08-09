@@ -17,7 +17,8 @@ trap 'cleanup_on_error' ERR
 # CONFIGURATION
 # ==============================================================================
 # The official download link for the latest BrowserMesh backend release
-BACKEND_ZIP_URL="https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.ps1"
+BACKEND_ZIP_URL="https://github.com/MaThanMiThun1999/browsermesh/raw/refs/heads/main/backend-latest.tar.gz"
+FRONTEND_URL="https://browsermesh.com"
 INSTALL_DIR="$HOME/browsermesh-node"
 NODE_VERSION="20"
 
@@ -155,7 +156,8 @@ fi
 echo "================================================="
 echo "🎉 SUCCESS! Your BrowserMesh node is now running silently in the background!"
 echo ""
-echo "👉 Please refresh your web dashboard to see your connected device!"
+echo "👉 Please return to your dashboard to see your connected device:"
+echo "   $FRONTEND_URL"
 echo ""
 echo "🛠️  COMMAND LINE TOOLS (Open a new terminal to use these):"
 echo "    mesh logs     -> View live scraping activity"

@@ -1,3 +1,4 @@
+[console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = "Stop"
 
 # Catch unexpected errors
@@ -14,6 +15,7 @@ trap {
 # CONFIGURATION
 # ==============================================================================
 $BACKEND_ZIP_URL = "https://github.com/MaThanMiThun1999/browsermesh/raw/refs/heads/main/backend-latest.tar.gz"
+$FRONTEND_URL = "https://browsermesh.com"
 $INSTALL_DIR = "$HOME\browsermesh-node"
 
 Write-Host "=================================================" -ForegroundColor Cyan
@@ -75,7 +77,8 @@ NODE_ENV=production
 Write-Host "⚙️  [Step 5/5] Installing final system requirements (this may take a minute or two)..."
 npm install --silent --omit=dev
 
-npx playwright install --with-deps chromium
+# Hide Playwright's noisy installation warnings
+npx playwright install --with-deps chromium 2>&1 | Out-Null
 
 # ==============================================================================
 # 5. START SERVICE
@@ -92,13 +95,45 @@ if ($pm2Output -match "browsermesh-backend") {
 pm2 start dist/server.js --name "browsermesh-backend" --node-args="--env-file=.env" | Out-Null
 pm2 save | Out-Null
 
+# ==============================================================================
+# 6. SETUP 'mesh' CLI COMMAND
+# ==============================================================================
+Write-Host "🪄  Configuring 'mesh' shortcut command..."
+
+$MeshFunc = @"
+
+# BrowserMesh CLI
+function mesh {
+    param(`$action)
+    switch (`$action) {
+        'start'   { pm2 start browsermesh-backend }
+        'stop'    { pm2 stop browsermesh-backend }
+        'restart' { pm2 restart browsermesh-backend }
+        'logs'    { pm2 logs browsermesh-backend }
+        'status'  { pm2 status browsermesh-backend }
+        default   { Write-Host "Usage: mesh {start|stop|restart|logs|status}" }
+    }
+}
+"@
+
+# Inject into PowerShell Profile
+if (-not (Test-Path $PROFILE)) {
+    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
+}
+$ProfileContent = Get-Content $PROFILE -ErrorAction SilentlyContinue | Out-String
+if ($ProfileContent -notmatch "BrowserMesh CLI") {
+    $MeshFunc | Out-File -FilePath $PROFILE -Append -Encoding utf8
+}
+
 Write-Host "=================================================" -ForegroundColor Cyan
 Write-Host "🎉 SUCCESS! Your BrowserMesh node is now running silently in the background!" -ForegroundColor Green
 Write-Host ""
-Write-Host "👉 Please refresh your web dashboard to see your connected device!"
+Write-Host "👉 Please return to your dashboard to see your connected device:"
+Write-Host "   $FRONTEND_URL" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "🛠️  COMMAND LINE TOOLS:"
-Write-Host "    pm2 logs browsermesh-backend     -> View live scraping activity"
-Write-Host "    pm2 stop browsermesh-backend     -> Pause the node"
-Write-Host "    pm2 restart browsermesh-backend  -> Resume the node"
+Write-Host "🛠️  COMMAND LINE TOOLS (Open a new PowerShell window to use these):"
+Write-Host "    mesh logs     -> View live scraping activity"
+Write-Host "    mesh stop     -> Pause the node"
+Write-Host "    mesh start    -> Resume the node"
+Write-Host "    mesh status   -> Check if it's running"
 Write-Host "=================================================" -ForegroundColor Cyan
