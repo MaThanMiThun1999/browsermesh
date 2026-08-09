@@ -82,9 +82,9 @@ npx playwright install --with-deps chromium
 # ==============================================================================
 Write-Host "🚀 Starting your BrowserMesh Node..."
 
-# Clean up any existing older instances
-$existing = pm2 jlist | ConvertFrom-Json
-if ($existing.name -contains "browsermesh-backend") {
+# Clean up any existing older instances safely (ignoring PM2's welcome banner)
+$pm2Output = pm2 list 2>&1
+if ($pm2Output -match "browsermesh-backend") {
     pm2 delete "browsermesh-backend" | Out-Null
 }
 
