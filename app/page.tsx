@@ -1,4 +1,3 @@
-
 import Hero from "@/components/home/Hero";
 import Features from "@/components/home/Features";
 import MarketplacePreview from "@/components/home/MarketplacePreview";
@@ -9,16 +8,16 @@ import Testimonials from "@/components/home/Testimonials";
 import CTABanner from "@/components/home/CTABanner";
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Features />
-      <MarketplacePreview />
-      <GetStarted />
-      <DownloadPlatforms />
-      <WhyBrowserMesh />
-      <Testimonials />
-      <CTABanner />
-    </>
-  );
+    return (
+        <>
+            <Hero />
+            <Features />
+            <MarketplacePreview />
+            <GetStarted />
+            <DownloadPlatforms />
+            <WhyBrowserMesh />
+            <Testimonials />
+            <CTABanner />
+        </>
+    );
 }

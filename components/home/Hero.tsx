@@ -10,12 +10,23 @@ import { heroImg } from "@/assets/images";
 export default function Hero() {
     const platforms = [
         { icon: <FaGlobe size={20} className="text-indigo-500" />, line1: "Web", line2: "App" },
-        { icon: <FaWindows size={20} className="text-indigo-500" />, line1: "Windows", line2: "App" },
-        { icon: <FaAndroid size={20} className="text-indigo-500" />, line1: "Android", line2: "App" },
+        {
+            icon: <FaWindows size={20} className="text-indigo-500" />,
+            line1: "Windows",
+            line2: "App",
+        },
+        {
+            icon: <FaAndroid size={20} className="text-indigo-500" />,
+            line1: "Android",
+            line2: "App",
+        },
         { icon: <FaLinux size={20} className="text-indigo-500" />, line1: "Linux", line2: "App" },
     ];
     return (
-        <KineticGrid className="!bg-mesh !bg-transparent relative overflow-hidden" globalColor="default">
+        <KineticGrid
+            className="!bg-mesh !bg-transparent relative overflow-hidden"
+            globalColor="default"
+        >
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl" />
@@ -27,15 +38,21 @@ export default function Hero() {
                     <div>
                         <div className="inline-flex items-center gap-2 bg-indigo-950/40 border border-indigo-500/30 rounded-full px-4 py-1.5 mb-6">
                             <Target size={14} className="text-cyan-400" />
-                            <span className="text-xs font-medium text-indigo-200 tracking-wide">Enterprise-Grade Stealth Scraping Platform</span>
+                            <span className="text-xs font-medium text-indigo-200 tracking-wide">
+                                Enterprise-Grade Stealth Scraping Platform
+                            </span>
                         </div>
                         <h1 className="text-[42px] leading-[1.1] md:text-5xl lg:text-6xl font-black lg:leading-[1.05] tracking-tight mb-6">
-                            <span className="text-white">Extract Anything.</span><br />
-                            <span className="text-white">Run Anywhere.</span><br />
+                            <span className="text-white">Extract Anything.</span>
+                            <br />
+                            <span className="text-white">Run Anywhere.</span>
+                            <br />
                             <span className="text-gradient">Undetected.</span>
                         </h1>
                         <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg">
-                            The ultimate cross-platform stealth scraping ecosystem powered by plugins, built for developers, and trusted by data professionals worldwide.
+                            The ultimate cross-platform stealth scraping ecosystem powered by
+                            plugins, built for developers, and trusted by data professionals
+                            worldwide.
                         </p>
                         <div className="flex flex-wrap gap-4 mb-10">
                             <button className="btn-primary flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm">
@@ -50,8 +67,12 @@ export default function Hero() {
                                 <div key={i} className="flex items-center gap-2.5">
                                     {p.icon}
                                     <div className="flex flex-col">
-                                        <span className="text-[11px] font-bold text-slate-200 leading-[1.2]">{p.line1}</span>
-                                        <span className="text-[11px] font-bold text-slate-200 leading-[1.2]">{p.line2}</span>
+                                        <span className="text-[11px] font-bold text-slate-200 leading-[1.2]">
+                                            {p.line1}
+                                        </span>
+                                        <span className="text-[11px] font-bold text-slate-200 leading-[1.2]">
+                                            {p.line2}
+                                        </span>
                                     </div>
                                 </div>
                             ))}
@@ -60,12 +81,15 @@ export default function Hero() {
 
                     {/* Right: hero image */}
                     <div className="flex justify-center lg:justify-end relative mt-8 lg:mt-0">
+                        {/* Direct Pedestal Glowing Base & Ambient Radial Glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] lg:w-[600px] h-[300px] sm:h-[500px] lg:h-[600px] bg-gradient-to-tr from-purple-600/35 via-indigo-600/25 to-blue-500/20 blur-[100px] rounded-full pointer-events-none z-0" />
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[65%] h-[40px] bg-gradient-to-r from-purple-500 via-indigo-400 to-cyan-400 rounded-full blur-[30px] opacity-70 pointer-events-none z-0" />
+
                         <Image
                             src={heroImg}
                             alt={`${siteInfo.name} cross-platform ecosystem`}
                             title={`${siteInfo.name} cross-platform ecosystem`}
-                            className="relative w-full max-w-xl h-auto object-contain z-10"
-                            style={{ filter: "drop-shadow(0 0 40px rgba(99,102,241,0.35))" }}
+                            className="relative w-full max-w-xl h-auto object-contain z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
                             priority
                             loading="eager"
                         />

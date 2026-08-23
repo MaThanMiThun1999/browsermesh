@@ -2,11 +2,23 @@ import { Star } from "lucide-react";
 
 export default function Testimonials() {
     const reviews = [
-        { name: "Sarah Chen", role: "Data Analyst", text: "BrowserMesh has completely changed how we collect data. Undetectable and blazing fast." },
-        { name: "Mark Johnson", role: "Developer", text: "The plugin marketplace is a game changer. I've built and sold 5 plugins in the first month." },
-        { name: "Lisa Wong", role: "Marketing Lead", text: "Reliable, powerful and easy to use. Our agency saves hours every week." },
+        {
+            name: "Sarah Chen",
+            role: "Data Analyst",
+            text: "BrowserMesh has completely changed how we collect data. Undetectable and blazing fast.",
+        },
+        {
+            name: "Mark Johnson",
+            role: "Developer",
+            text: "The plugin marketplace is a game changer. I've built and sold 5 plugins in the first month.",
+        },
+        {
+            name: "Lisa Wong",
+            role: "Marketing Lead",
+            text: "Reliable, powerful and easy to use. Our agency saves hours every week.",
+        },
     ];
-    
+
     return (
         <section className="max-w-7xl mx-auto px-6 py-8">
             <h2 className="text-2xl font-bold text-white mb-8">What Our Users Say</h2>
@@ -22,10 +34,19 @@ export default function Testimonials() {
                                 <p className="text-slate-500 text-xs">{r.role}</p>
                             </div>
                             <div className="ml-auto flex gap-0.5">
-                                {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={12} className="text-yellow-400" fill="currentColor" />)}
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                    <Star
+                                        key={i}
+                                        size={12}
+                                        className="text-yellow-400"
+                                        fill="currentColor"
+                                    />
+                                ))}
                             </div>
                         </div>
-                        <p className="text-slate-300 text-sm leading-relaxed">&quot;{r.text}&quot;</p>
+                        <p className="text-slate-300 text-sm leading-relaxed">
+                            &quot;{r.text}&quot;
+                        </p>
                     </div>
                 ))}
             </div>
