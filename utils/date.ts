@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const formatDate = dateString => {
+export const formatDate = (dateString: any) => {
   const date = moment(dateString);
 
   if (!date.isValid()) {
@@ -10,7 +10,7 @@ export const formatDate = dateString => {
   return date.format('MMM D, YYYY h:mm A'); // e.g., "Oct 26, 2024 1:48 PM"
 };
 
-export const formatRelativeTime = dateString => {
+export const formatRelativeTime = (dateString: any) => {
   const date = moment(dateString);
 
   if (!date.isValid()) {
@@ -22,7 +22,7 @@ export const formatRelativeTime = dateString => {
 
 // New customizable date function
 export const formatCustomDate = (
-  dateString,
+  dateString: any,
   formatString = 'MMM D, YYYY h:mm A'
 ) => {
   const date = moment(dateString);

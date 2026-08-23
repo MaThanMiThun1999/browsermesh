@@ -1,5 +1,5 @@
 export function SendSuccessResponse(
-    data,
+    data: any,
     fallbackMessage = 'Operation completed successfully'
   ) {
     const resolvedMessage = data?.message || fallbackMessage;
@@ -11,7 +11,7 @@ export function SendSuccessResponse(
   }
   
   export function SendErrorResponse(
-    error,
+    error: any,
     fallbackMessage = 'Something went wrong'
   ) {
     const backendMessage = error?.response?.data?.message || error?.message;

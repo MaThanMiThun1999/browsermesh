@@ -1,10 +1,10 @@
-export const handleApiError = (error) => {
+export const handleApiError = (error: any) => {
     console.log('error: ', error);
     const defaultMessage = 'An unexpected error occurred. Please try again.';
-    const backendMessage = error.response?.data?.message;
-    const status = error.response?.status;
+    const backendMessage = error?.response?.data?.message;
+    const status = error?.response?.status as number;
   
-    const messages = {
+    const messages: Record<number, string> = {
       400: 'Invalid request data',
       401: 'Session expired. Please login again',
       403: 'You are not authorized for this action',
@@ -12,7 +12,7 @@ export const handleApiError = (error) => {
       500: 'Server error. Please try later',
     };
   
-    if (error.message === 'Network Error' && error.code === 'ERR_NETWORK') {
+    if (error?.message === 'Network Error' && error?.code === 'ERR_NETWORK') {
       return {
         message: 'Connection refused. Please check your network connection.',
         code: 'ERR_CONNECTION_REFUSED',
