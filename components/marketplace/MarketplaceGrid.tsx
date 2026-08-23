@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { marketplacePlugins, PluginData } from "@/data/marketplaceData";
 import { Grid, List, Star, Download, Clock, ChevronRight, ChevronLeft } from "lucide-react";
@@ -179,9 +180,12 @@ export default function MarketplaceGrid() {
                                     <span className="text-slate-300 text-xs font-semibold">
                                         {plugin.price}
                                     </span>
-                                    <button className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs px-5 py-2 rounded-xl shadow-[0_0_15px_rgba(76,53,230,0.4)]">
+                                    <Link
+                                        href={`/marketplace/${plugin.id}`}
+                                        className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs px-5 py-2 rounded-xl shadow-[0_0_15px_rgba(76,53,230,0.4)]"
+                                    >
                                         View
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -309,9 +313,12 @@ export default function MarketplaceGrid() {
                                 </div>
 
                                 <div className="flex flex-col items-center gap-1 shrink-0">
-                                    <button className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs sm:text-[13px] px-6 sm:px-7 py-2 sm:py-2.5 rounded-xl shadow-[0_0_20px_rgba(76,53,230,0.4)]">
+                                    <Link
+                                        href={`/marketplace/${plugin.id}`}
+                                        className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs sm:text-[13px] px-6 sm:px-7 py-2 sm:py-2.5 rounded-xl shadow-[0_0_20px_rgba(76,53,230,0.4)]"
+                                    >
                                         View
-                                    </button>
+                                    </Link>
                                     <span className="text-slate-400 text-[11px] font-medium">
                                         {plugin.price}
                                     </span>

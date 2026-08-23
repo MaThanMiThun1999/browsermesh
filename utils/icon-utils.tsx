@@ -1,5 +1,5 @@
 import * as Lucide from "lucide-react";
-import * as Fa from "react-icons/fa";
+import * as Fa6 from "react-icons/fa6";
 
 /**
  * Dynamically selects an appropriate icon based on a table column name.
@@ -7,21 +7,45 @@ import * as Fa from "react-icons/fa";
 export function getColumnIcon(col: string, className: string = "w-4 h-4") {
     const lw = col.toLowerCase();
     if (lw.includes("id") || lw.includes("sku")) return <Lucide.Tag className={className} />;
-    if (lw.includes("price") || lw.includes("cost"))
+    if (lw.includes("price") || lw.includes("cost") || lw.includes("amount") || lw.includes("fee"))
         return <Lucide.CreditCard className={className} />;
-    if (lw.includes("stock") || lw.includes("inventory") || lw.includes("quantity"))
+    if (
+        lw.includes("stock") ||
+        lw.includes("inventory") ||
+        lw.includes("quantity") ||
+        lw.includes("qty")
+    )
         return <Lucide.Package className={className} />;
-    if (lw.includes("date") || lw.includes("time") || lw.includes("updated"))
+    if (
+        lw.includes("date") ||
+        lw.includes("time") ||
+        lw.includes("updated") ||
+        lw.includes("created")
+    )
         return <Lucide.Clock className={className} />;
-    if (lw.includes("url") || lw.includes("link") || lw.includes("image"))
+    if (lw.includes("url") || lw.includes("link") || lw.includes("image") || lw.includes("avatar"))
         return <Lucide.Link className={className} />;
-    if (lw.includes("name") || lw.includes("title")) return <Lucide.Type className={className} />;
+    if (lw.includes("name") || lw.includes("title") || lw.includes("label"))
+        return <Lucide.Type className={className} />;
+    if (lw.includes("rating") || lw.includes("star") || lw.includes("score"))
+        return <Lucide.Star className={className} />;
+    if (
+        lw.includes("location") ||
+        lw.includes("city") ||
+        lw.includes("address") ||
+        lw.includes("country")
+    )
+        return <Lucide.MapPin className={className} />;
+    if (lw.includes("email") || lw.includes("mail") || lw.includes("contact"))
+        return <Lucide.Mail className={className} />;
+    if (lw.includes("phone") || lw.includes("mobile") || lw.includes("tel"))
+        return <Lucide.Phone className={className} />;
     return <Lucide.AlignLeft className={className} />;
 }
 
 /**
- * Dynamically selects an appropriate icon based on a plugin's category and tags.
- * Falls back to a contextual lucide icon if no iconUrl is provided.
+ * Dynamically selects an accurate, brand-matching or category-matching icon based on a plugin's category and tags.
+ * Falls back to a contextual Lucide icon if no custom iconUrl image is provided.
  */
 export function getDynamicPluginIcon(
     category?: string,
@@ -43,69 +67,114 @@ export function getDynamicPluginIcon(
     const safeTags = (tags || []).map((t) => t.toLowerCase());
     const combined = [safeCategory, ...safeTags].join(" ");
 
-    // 1. Specific Brand / Social Media
-    if (combined.includes("twitter") || combined.includes("x.com"))
-        return <Fa.FaTwitter className={className} style={{ color: "#1DA1F2" }} />;
+    // 1. SPECIFIC MAJOR BRANDS & PLATFORMS (Highest priority for accurate branding)
+    if (combined.includes("amazon"))
+        return <Fa6.FaAmazon className={className} style={{ color: "#FF9900" }} />;
+    if (
+        combined.includes("google") ||
+        combined.includes("gmaps") ||
+        combined.includes("google maps")
+    )
+        return <Fa6.FaGoogle className={className} style={{ color: "#4285F4" }} />;
     if (combined.includes("instagram"))
-        return <Fa.FaInstagram className={className} style={{ color: "#E1306C" }} />;
+        return <Fa6.FaInstagram className={className} style={{ color: "#E1306C" }} />;
     if (combined.includes("linkedin"))
-        return <Fa.FaLinkedin className={className} style={{ color: "#0077b5" }} />;
+        return <Fa6.FaLinkedin className={className} style={{ color: "#0A66C2" }} />;
+    if (combined.includes("twitter") || combined.includes("x.com") || combined.includes("tweet"))
+        return <Fa6.FaXTwitter className={className} style={{ color: "#F8FAFC" }} />;
     if (combined.includes("youtube"))
-        return <Fa.FaYoutube className={className} style={{ color: "#FF0000" }} />;
-    if (combined.includes("github") || combined.includes("repository"))
-        return <Fa.FaGithub className={className} />;
+        return <Fa6.FaYoutube className={className} style={{ color: "#FF0000" }} />;
+    if (combined.includes("reddit"))
+        return <Fa6.FaReddit className={className} style={{ color: "#FF4500" }} />;
+    if (combined.includes("facebook") || combined.includes("fb"))
+        return <Fa6.FaFacebook className={className} style={{ color: "#1877F2" }} />;
+    if (combined.includes("tiktok"))
+        return <Fa6.FaTiktok className={className} style={{ color: "#25F4EE" }} />;
+    if (combined.includes("github"))
+        return <Fa6.FaGithub className={className} style={{ color: "#F0F6FC" }} />;
+    if (combined.includes("shopify"))
+        return <Fa6.FaShopify className={className} style={{ color: "#95BF47" }} />;
+    if (combined.includes("ebay"))
+        return <Fa6.FaEbay className={className} style={{ color: "#E53238" }} />;
+    if (combined.includes("pinterest"))
+        return <Fa6.FaPinterest className={className} style={{ color: "#BD081C" }} />;
+    if (combined.includes("spotify"))
+        return <Fa6.FaSpotify className={className} style={{ color: "#1DB954" }} />;
+    if (combined.includes("twitch"))
+        return <Fa6.FaTwitch className={className} style={{ color: "#9146FF" }} />;
+    if (combined.includes("yelp"))
+        return <Fa6.FaYelp className={className} style={{ color: "#AF0606" }} />;
+    if (combined.includes("discord"))
+        return <Fa6.FaDiscord className={className} style={{ color: "#5865F2" }} />;
+    if (combined.includes("slack"))
+        return <Fa6.FaSlack className={className} style={{ color: "#E01E5A" }} />;
+    if (combined.includes("telegram"))
+        return <Fa6.FaTelegram className={className} style={{ color: "#24A1DE" }} />;
+    if (combined.includes("whatsapp"))
+        return <Fa6.FaWhatsapp className={className} style={{ color: "#25D366" }} />;
+    if (combined.includes("wikipedia") || combined.includes("wiki"))
+        return <Fa6.FaWikipediaW className={className} style={{ color: "#FFFFFF" }} />;
 
-    // 2. Real Estate & Property
+    // 2. REAL ESTATE & PROPERTY
     if (
         combined.includes("real estate") ||
         combined.includes("property") ||
         combined.includes("house") ||
         combined.includes("zillow") ||
-        combined.includes("rent")
+        combined.includes("rent") ||
+        combined.includes("apartment")
     ) {
         return <Lucide.Building className={className} />;
     }
 
-    // 3. E-commerce & Shopping
+    // 3. E-COMMERCE & SHOPPING
     if (
         combined.includes("shop") ||
         combined.includes("ecommerce") ||
         combined.includes("product") ||
-        combined.includes("amazon") ||
-        combined.includes("ebay") ||
-        combined.includes("price")
+        combined.includes("price") ||
+        combined.includes("store") ||
+        combined.includes("retail")
     ) {
-        return <Fa.FaShoppingCart className={className} />;
+        return <Lucide.ShoppingBag className={className} />;
     }
 
-    // 4. Jobs & Recruitment
+    // 4. JOBS & RECRUITMENT
     if (
         combined.includes("job") ||
         combined.includes("recruit") ||
         combined.includes("career") ||
-        combined.includes("indeed")
+        combined.includes("indeed") ||
+        combined.includes("hire")
     ) {
         return <Lucide.Briefcase className={className} />;
     }
 
-    // 5. Finance, Crypto, & Stocks
-    if (combined.includes("crypto") || combined.includes("bitcoin") || combined.includes("web3")) {
-        return <Fa.FaBitcoin className={className} style={{ color: "#F7931A" }} />;
+    // 5. FINANCE, CRYPTO, & STOCKS
+    if (
+        combined.includes("crypto") ||
+        combined.includes("bitcoin") ||
+        combined.includes("web3") ||
+        combined.includes("nft")
+    ) {
+        return <Fa6.FaBitcoin className={className} style={{ color: "#F7931A" }} />;
     }
     if (
         combined.includes("finance") ||
         combined.includes("stock") ||
         combined.includes("market") ||
-        combined.includes("money")
+        combined.includes("money") ||
+        combined.includes("trading")
     ) {
         return <Lucide.TrendingUp className={className} />;
     }
 
-    // 6. Travel, Flights, & Hotels
+    // 6. TRAVEL, FLIGHTS, & HOTELS
     if (
         combined.includes("travel") ||
         combined.includes("flight") ||
-        combined.includes("airline")
+        combined.includes("airline") ||
+        combined.includes("vacation")
     ) {
         return <Lucide.Plane className={className} />;
     }
@@ -113,52 +182,54 @@ export function getDynamicPluginIcon(
         return <Lucide.Hotel className={className} />;
     }
 
-    // 7. Maps, Local & Reviews
+    // 7. MAPS, LOCAL, PLACES & REVIEWS
     if (
         combined.includes("map") ||
         combined.includes("local") ||
         combined.includes("places") ||
-        combined.includes("yelp") ||
-        combined.includes("restaurant")
+        combined.includes("restaurant") ||
+        combined.includes("location")
     ) {
-        return <Fa.FaMapMarkerAlt className={className} />;
+        return <Lucide.MapPin className={className} />;
     }
     if (
         combined.includes("review") ||
         combined.includes("rating") ||
         combined.includes("feedback")
     ) {
-        return <Fa.FaStar className={className} style={{ color: "#FFD700" }} />;
+        return <Lucide.Star className={className} style={{ color: "#F59E0B" }} />;
     }
 
-    // 8. Leads, Contacts, & B2B
+    // 8. LEADS, CONTACTS, & B2B
     if (
         combined.includes("lead") ||
         combined.includes("email") ||
         combined.includes("contact") ||
-        combined.includes("b2b")
+        combined.includes("b2b") ||
+        combined.includes("prospect")
     ) {
-        return <Fa.FaAddressCard className={className} />;
-    }
-    if (combined.includes("phone") || combined.includes("number")) {
-        return <Fa.FaPhone className={className} />;
+        return <Lucide.Users className={className} />;
     }
 
-    // 9. AI, LLM, & Machine Learning
+    // 9. AI, BOT & AUTOMATION
     if (
         combined.includes("ai") ||
         combined.includes("llm") ||
         combined.includes("chatgpt") ||
         combined.includes("prompt") ||
-        combined.includes("machine learning")
+        combined.includes("gpt")
     ) {
         return <Lucide.Brain className={className} />;
     }
-    if (combined.includes("bot") || combined.includes("automation")) {
+    if (
+        combined.includes("bot") ||
+        combined.includes("automation") ||
+        combined.includes("scraper")
+    ) {
         return <Lucide.Bot className={className} />;
     }
 
-    // 10. Media: Images, Video, Audio
+    // 10. MEDIA: IMAGES, VIDEO, AUDIO
     if (combined.includes("image") || combined.includes("photo") || combined.includes("picture"))
         return <Lucide.Image className={className} />;
     if (combined.includes("video") || combined.includes("movie") || combined.includes("stream"))
@@ -166,27 +237,17 @@ export function getDynamicPluginIcon(
     if (combined.includes("audio") || combined.includes("music") || combined.includes("podcast"))
         return <Lucide.Music className={className} />;
 
-    // 11. Social & Community (Generic)
+    // 11. SOCIAL & COMMUNITY
     if (
         combined.includes("social") ||
         combined.includes("profile") ||
         combined.includes("community") ||
         combined.includes("forum")
     ) {
-        return <Lucide.Users className={className} />;
+        return <Lucide.MessageSquare className={className} />;
     }
 
-    // 12. News, Blogs, & Articles
-    if (
-        combined.includes("news") ||
-        combined.includes("article") ||
-        combined.includes("blog") ||
-        combined.includes("press")
-    ) {
-        return <Lucide.Newspaper className={className} />;
-    }
-
-    // 13. Data, Databases, & Analytics
+    // 12. DATA & ANALYTICS
     if (
         combined.includes("data") ||
         combined.includes("database") ||
@@ -196,7 +257,7 @@ export function getDynamicPluginIcon(
         return <Lucide.Database className={className} />;
     }
 
-    // 14. Code & Tech
+    // 13. CODE & DEV
     if (
         combined.includes("code") ||
         combined.includes("dev") ||
@@ -206,43 +267,12 @@ export function getDynamicPluginIcon(
         return <Lucide.Code className={className} />;
     }
 
-    // 15. Search & SEO
-    if (
-        combined.includes("search") ||
-        combined.includes("seo") ||
-        combined.includes("google") ||
-        combined.includes("bing") ||
-        combined.includes("keyword")
-    ) {
+    // 14. SEARCH & SEO
+    if (combined.includes("search") || combined.includes("seo") || combined.includes("keyword")) {
         return <Lucide.Search className={className} />;
     }
 
-    // 16. Documents & Text
-    if (
-        combined.includes("text") ||
-        combined.includes("document") ||
-        combined.includes("pdf") ||
-        combined.includes("book")
-    ) {
-        return <Lucide.FileText className={className} />;
-    }
-
-    // 17. Vehicles & Automotive
-    if (combined.includes("car") || combined.includes("auto") || combined.includes("vehicle")) {
-        return <Lucide.Car className={className} />;
-    }
-
-    // 18. Gaming
-    if (combined.includes("game") || combined.includes("gaming") || combined.includes("steam")) {
-        return <Lucide.Gamepad className={className} />;
-    }
-
-    // 19. Hardware & Performance
-    if (combined.includes("cpu") || combined.includes("hardware") || combined.includes("gpu")) {
-        return <Lucide.Cpu className={className} />;
-    }
-
-    // 20. Fallbacks for general web scraping
+    // 15. GENERAL WEB SCRAPING FALLBACK
     if (combined.includes("web") || combined.includes("crawler") || combined.includes("spider")) {
         return <Lucide.Globe className={className} />;
     }

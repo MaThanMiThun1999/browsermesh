@@ -11,7 +11,7 @@ import {
     Code2,
     ChevronRight,
 } from "lucide-react";
-import { FaGoogle, FaAmazon, FaInstagram, FaLinkedin } from "react-icons/fa6";
+import { getDynamicPluginIcon } from "@/utils/icon-utils";
 
 export default function MarketplacePreview() {
     const [activeTab, setActiveTab] = useState("Top Rated");
@@ -24,7 +24,6 @@ export default function MarketplacePreview() {
 
     const plugins = [
         {
-            brand: <FaGoogle size={22} className="text-blue-400" />,
             name: "Google Maps Scraper",
             rating: "4.9",
             reviews: "1.2k",
@@ -35,7 +34,6 @@ export default function MarketplacePreview() {
             grad: "from-green-500/15 to-blue-500/15",
         },
         {
-            brand: <FaAmazon size={22} className="text-orange-400" />,
             name: "Amazon Product Scraper",
             rating: "4.6",
             reviews: "982",
@@ -46,7 +44,6 @@ export default function MarketplacePreview() {
             grad: "from-orange-500/15 to-yellow-500/15",
         },
         {
-            brand: <FaInstagram size={22} className="text-pink-400" />,
             name: "Instagram Scraper",
             rating: "4.7",
             reviews: "756",
@@ -57,7 +54,6 @@ export default function MarketplacePreview() {
             grad: "from-pink-500/15 to-purple-500/15",
         },
         {
-            brand: <FaLinkedin size={22} className="text-sky-400" />,
             name: "LinkedIn Scraper",
             rating: "4.8",
             reviews: "1.1k",
@@ -122,8 +118,12 @@ export default function MarketplacePreview() {
                             className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 card-hover flex flex-col transition-all duration-300 hover:bg-white/[0.03]"
                         >
                             <div className="flex items-start justify-between mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner">
-                                    {p.brand}
+                                <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400">
+                                    {getDynamicPluginIcon(
+                                        undefined,
+                                        [p.name.toLowerCase(), ...p.tags],
+                                        "w-5 h-5"
+                                    )}
                                 </div>
                                 <button className="w-6 h-6 rounded-md glass-framer flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all">
                                     <X size={12} />
