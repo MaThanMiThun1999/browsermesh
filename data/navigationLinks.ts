@@ -5,10 +5,10 @@ export interface NavigationLink {
 
 export const navigationLinks: NavigationLink[] = [
     { label: "Home", path: "/" },
+    { label: "Features", path: "/features" },
     { label: "Marketplace", path: "/marketplace" },
     { label: "Pricing", path: "/pricing" },
-    { label: "Docs", path: "/docs" },
-    { label: "Blog", path: "/blog" },
+    { label: "Docs", path: "/docs/getting-started" },
 ];
 
 export interface FooterLinkGroup {
@@ -29,17 +29,15 @@ export const footerLinks: FooterLinkGroup[] = [
     {
         title: "Resources",
         links: [
-            { label: "Documentation", path: "/docs" },
-            { label: "API Reference", path: "/api-reference" },
-            { label: "Blog", path: "/blog" },
-            { label: "Community", path: "/community" },
+            { label: "Documentation", path: "/docs/getting-started" },
+            { label: "API Reference", path: "/docs/api-reference" },
+            { label: "How it Works", path: "/docs/how-it-works" },
         ],
     },
     {
         title: "Company",
         links: [
             { label: "About Us", path: "/about" },
-            { label: "Contact", path: "/contact" },
             { label: "Privacy", path: "/privacy" },
             { label: "Terms", path: "/terms" },
         ],

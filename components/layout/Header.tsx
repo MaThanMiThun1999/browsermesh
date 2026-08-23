@@ -23,7 +23,7 @@ export default function Header() {
 
     return (
         <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6">
-            <nav className="glass-nav flex items-center justify-between h-[60px] px-6 w-full max-w-5xl rounded-full">
+            <nav className="glass-nav flex items-center justify-between h-[60px] px-6 w-full max-w-5xl rounded-full relative z-20">
                 <Link href="/" className="flex items-center">
                     <Image
                         src={logoWithText}
@@ -58,42 +58,76 @@ export default function Header() {
                 </div>
 
                 <div className="hidden md:flex items-center gap-3">
-                    <button className="btn-primary text-sm font-semibold text-white px-6 py-2 rounded-full">
+                    <Link
+                        href="/docs/getting-started"
+                        className="btn-primary inline-flex text-sm font-semibold text-white px-6 py-2 rounded-full cursor-pointer"
+                    >
                         Get Started
-                    </button>
+                    </Link>
                 </div>
 
-                <button className="md:hidden text-slate-400" onClick={() => setOpen(!open)}>
-                    {open ? <X size={22} /> : <Menu size={22} />}
+                {/* Mobile Menu Toggle Icon with Smooth Rotation */}
+                <button
+                    className="md:hidden text-slate-400 hover:text-white focus:outline-none p-1 transition-colors"
+                    onClick={() => setOpen(!open)}
+                    aria-label="Toggle navigation menu"
+                >
+                    <div className="relative w-6 h-6 flex items-center justify-center">
+                        <Menu
+                            size={22}
+                            className={`absolute transition-all duration-300 transform ${
+                                open
+                                    ? "rotate-90 opacity-0 scale-50"
+                                    : "rotate-0 opacity-100 scale-100"
+                            }`}
+                        />
+                        <X
+                            size={22}
+                            className={`absolute transition-all duration-300 transform ${
+                                open
+                                    ? "rotate-0 opacity-100 scale-100"
+                                    : "-rotate-90 opacity-0 scale-50"
+                            }`}
+                        />
+                    </div>
                 </button>
             </nav>
 
-            {open && (
-                <div className="absolute top-20 left-6 right-6 md:hidden bg-[#07071a]/95 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-2xl p-4 flex flex-col gap-2">
-                    {navigationLinks.map((link) => {
-                        const active = isActive(link.path);
-                        return (
-                            <Link
-                                key={link.label}
-                                href={link.path}
-                                className={`text-sm font-medium px-3.5 py-2.5 rounded-xl transition-all ${
-                                    active
-                                        ? "bg-indigo-600/20 text-white font-bold border border-indigo-500/30"
-                                        : "text-slate-300 hover:text-white hover:bg-white/5"
-                                }`}
-                                onClick={() => setOpen(false)}
-                            >
-                                {link.label}
-                            </Link>
-                        );
-                    })}
-                    <div className="flex pt-2">
-                        <button className="btn-primary text-sm font-semibold text-white px-6 py-3 rounded-xl flex-1">
-                            Get Started
-                        </button>
-                    </div>
+            {/* Mobile Navigation Drawer with Smooth Slide & Fade Animation */}
+            <div
+                className={`absolute top-20 left-6 right-6 md:hidden bg-[#07071a]/95 backdrop-blur-3xl border border-white/15 shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-2xl p-4 flex flex-col gap-2 transition-all duration-300 ease-out transform z-10 ${
+                    open
+                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 scale-95 -translate-y-4 pointer-events-none"
+                }`}
+            >
+                {navigationLinks.map((link) => {
+                    const active = isActive(link.path);
+                    return (
+                        <Link
+                            key={link.label}
+                            href={link.path}
+                            className={`text-sm font-medium px-4 py-3 rounded-xl transition-all duration-200 ${
+                                active
+                                    ? "bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-white font-bold border border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.2)]"
+                                    : "text-slate-300 hover:text-white hover:bg-white/10"
+                            }`}
+                            onClick={() => setOpen(false)}
+                        >
+                            {link.label}
+                        </Link>
+                    );
+                })}
+                <div className="flex pt-2">
+                    <Link
+                        href="/docs/getting-started"
+                        className="btn-primary text-center text-sm font-semibold text-white px-6 py-3 rounded-xl flex-1 cursor-pointer shadow-[0_0_20px_rgba(99,102,241,0.4)]"
+                        onClick={() => setOpen(false)}
+                    >
+                        Get Started
+                    </Link>
                 </div>
-            )}
+            </div>
         </div>
     );
 }

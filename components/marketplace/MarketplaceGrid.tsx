@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { marketplacePlugins, PluginData } from "@/data/marketplaceData";
-import { Grid, List, Star, Download, Clock, ChevronRight, ChevronLeft } from "lucide-react";
+import { Grid, List, Star, Download, Clock } from "lucide-react";
 import { FaWindows, FaApple, FaLinux, FaAndroid, FaGlobe } from "react-icons/fa";
 
 import { getDynamicPluginIcon } from "@/utils/icon-utils";
@@ -50,10 +50,10 @@ export default function MarketplaceGrid() {
                 </div>
 
                 {/* Grid / List View Toggle Controls */}
-                <div className="flex items-center gap-1 bg-[#05050f] border border-white/10 rounded-xl p-1">
+                <div className="flex items-center gap-1 bg-[#05050f]/80 backdrop-blur-md border border-white/10 rounded-xl p-1">
                     <button
                         onClick={() => setViewMode("grid")}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                             viewMode === "grid"
                                 ? "bg-[#4c35e6] text-white shadow-[0_0_12px_rgba(76,53,230,0.5)]"
                                 : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -63,7 +63,7 @@ export default function MarketplaceGrid() {
                     </button>
                     <button
                         onClick={() => setViewMode("list")}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                             viewMode === "list"
                                 ? "bg-[#4c35e6] text-white shadow-[0_0_12px_rgba(76,53,230,0.5)]"
                                 : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -81,12 +81,12 @@ export default function MarketplaceGrid() {
                     {marketplacePlugins.map((plugin) => (
                         <div
                             key={plugin.id}
-                            className="bg-[#080514]/90 border border-white/10 hover:border-indigo-500/40 transition-all rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(99,102,241,0.15)] group"
+                            className="glass-framer rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-1 hover:border-indigo-500/50 hover:shadow-[0_8px_35px_rgba(99,102,241,0.25)] transition-all duration-300 group"
                         >
                             {/* Card Header: Logo + Title + Type Badge */}
                             <div>
                                 <div className="flex items-start justify-between gap-3 mb-3">
-                                    <div className="w-14 h-14 bg-[#0c0919] border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/30 transition-colors">
+                                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
                                         <PluginLogo plugin={plugin} />
                                     </div>
                                     <span
@@ -197,19 +197,19 @@ export default function MarketplaceGrid() {
                     {marketplacePlugins.map((plugin) => (
                         <div
                             key={plugin.id}
-                            className="bg-[#080514]/90 border border-white/10 hover:border-indigo-500/30 transition-all rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-5 hover:-translate-y-0.5"
+                            className="glass-framer rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-5 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-[0_8px_35px_rgba(99,102,241,0.2)] transition-all duration-300 group"
                         >
                             {/* Left Main Content Block */}
                             <div className="flex items-start gap-4 flex-1 min-w-0">
                                 {/* Logo Box */}
-                                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#0c0919] border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden">
+                                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
                                     <PluginLogo plugin={plugin} />
                                 </div>
 
                                 {/* Title, Description, Metadata */}
                                 <div className="flex-1 flex flex-col min-w-0">
                                     <div className="flex items-center gap-2.5 mb-1">
-                                        <h3 className="text-white font-bold text-base sm:text-[18px] tracking-tight">
+                                        <h3 className="text-white font-bold text-base sm:text-[18px] tracking-tight group-hover:text-indigo-300 transition-colors">
                                             {plugin.name}
                                         </h3>
                                         <span

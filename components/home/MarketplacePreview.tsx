@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
     Star,
     TrendingUp,
@@ -92,9 +93,12 @@ export default function MarketplacePreview() {
                             </p>
                         </div>
                     </div>
-                    <button className="text-sm text-[#7c3aed] hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors pl-16 md:pl-0">
+                    <Link
+                        href="/marketplace"
+                        className="text-sm text-[#7c3aed] hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors pl-16 md:pl-0"
+                    >
                         View All Plugins <ChevronRight size={14} />
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Tabs */}

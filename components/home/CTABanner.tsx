@@ -1,4 +1,5 @@
 import { Rocket } from "lucide-react";
+import Link from "next/link";
 import { siteInfo } from "@/data/siteInfo";
 
 export default function CTABanner() {
@@ -39,12 +40,18 @@ export default function CTABanner() {
                 </div>
 
                 <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0 mt-2 md:mt-0">
-                    <button className="bg-[#4c35e6] hover:bg-[#5a46e8] text-white transition-all flex items-center justify-center px-6 md:px-8 py-3.5 rounded-xl font-semibold text-[14px] shadow-[0_0_20px_rgba(76,53,230,0.5)] w-full sm:w-auto whitespace-nowrap">
+                    <Link
+                        href="/docs/getting-started"
+                        className="bg-[#4c35e6] hover:bg-[#5a46e8] text-white transition-all flex items-center justify-center px-6 md:px-8 py-3.5 rounded-xl font-semibold text-[14px] shadow-[0_0_20px_rgba(76,53,230,0.5)] w-full sm:w-auto whitespace-nowrap"
+                    >
                         Get Started
-                    </button>
-                    <button className="bg-transparent border border-indigo-500/40 hover:bg-white/[0.05] text-white transition-all flex items-center justify-center px-6 md:px-8 py-3.5 rounded-xl font-semibold text-[14px] w-full sm:w-auto whitespace-nowrap">
+                    </Link>
+                    <Link
+                        href="/docs/how-it-works"
+                        className="bg-transparent border border-indigo-500/40 hover:bg-white/[0.05] text-white transition-all flex items-center justify-center px-6 md:px-8 py-3.5 rounded-xl font-semibold text-[14px] w-full sm:w-auto whitespace-nowrap"
+                    >
                         View Docs
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

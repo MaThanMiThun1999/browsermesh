@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import KineticGrid from "@/components/ui/kinetic-grid";
 import { Download, TerminalSquare, Target } from "lucide-react";
 import { FaGlobe, FaWindows, FaAndroid, FaLinux } from "react-icons/fa6";
@@ -55,12 +56,18 @@ export default function Hero() {
                             worldwide.
                         </p>
                         <div className="flex flex-wrap gap-4 mb-10">
-                            <button className="btn-primary flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm">
+                            <Link
+                                href="/docs/getting-started"
+                                className="btn-primary flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm"
+                            >
                                 <Download size={16} /> Download {siteInfo.name}
-                            </button>
-                            <button className="btn-outline  flex items-center  gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm">
+                            </Link>
+                            <Link
+                                href="/marketplace"
+                                className="btn-outline flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm"
+                            >
                                 <TerminalSquare size={16} /> Explore Marketplace
-                            </button>
+                            </Link>
                         </div>
                         <div className="flex flex-wrap gap-6 items-center">
                             {platforms.map((p, i) => (

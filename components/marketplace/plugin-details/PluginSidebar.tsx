@@ -2,6 +2,7 @@
 
 import { Download, BookOpen, Globe, Flag, Mail, ExternalLink, Star } from "lucide-react";
 import { FaWindows, FaApple, FaAndroid, FaGlobe } from "react-icons/fa";
+import Link from "next/link";
 
 export default function PluginSidebar() {
     return (
@@ -66,8 +67,8 @@ export default function PluginSidebar() {
             <div className="bg-[#080517]/90 border border-white/10 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col gap-3 text-xs">
                 <h3 className="text-white font-bold text-base mb-1">Links</h3>
 
-                <a
-                    href="#"
+                <Link
+                    href="/docs"
                     className="flex items-center justify-between text-slate-300 hover:text-white py-2 border-b border-white/5 transition-colors group"
                 >
                     <div className="flex items-center gap-2">
@@ -78,10 +79,10 @@ export default function PluginSidebar() {
                         size={13}
                         className="text-slate-500 group-hover:text-white transition-colors"
                     />
-                </a>
+                </Link>
 
-                <a
-                    href="#"
+                <Link
+                    href="/"
                     className="flex items-center justify-between text-slate-300 hover:text-white py-2 border-b border-white/5 transition-colors group"
                 >
                     <div className="flex items-center gap-2">
@@ -92,27 +93,27 @@ export default function PluginSidebar() {
                         size={13}
                         className="text-slate-500 group-hover:text-white transition-colors"
                     />
-                </a>
+                </Link>
 
-                <a
-                    href="#"
+                <Link
+                    href="/contact"
                     className="flex items-center justify-between text-slate-300 hover:text-rose-400 py-2 border-b border-white/5 transition-colors group"
                 >
                     <div className="flex items-center gap-2">
                         <Flag size={14} className="text-rose-400" />
                         <span>Report Abuse</span>
                     </div>
-                </a>
+                </Link>
 
-                <a
-                    href="#"
+                <Link
+                    href="/contact"
                     className="flex items-center justify-between text-slate-300 hover:text-white py-1.5 transition-colors group"
                 >
                     <div className="flex items-center gap-2">
                         <Mail size={14} className="text-indigo-400" />
                         <span>Support / Contact</span>
                     </div>
-                </a>
+                </Link>
             </div>
 
             {/* 4. More by DataMiner Labs Box */}
@@ -170,9 +171,12 @@ export default function PluginSidebar() {
                     ))}
                 </div>
 
-                <button className="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition-colors mt-1">
+                <Link
+                    href="/marketplace"
+                    className="w-full block text-center bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 text-xs font-semibold py-2.5 rounded-xl transition-colors mt-1"
+                >
                     View all plugins
-                </button>
+                </Link>
             </div>
         </div>
     );
