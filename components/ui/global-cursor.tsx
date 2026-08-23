@@ -16,7 +16,25 @@ export default function GlobalCursor() {
     const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
-        // Only enable on non-touch devices
+        // Disable right click (context menu) and dragging on all images globally
+        const handleContextMenu = (e: MouseEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (target && (target.tagName === "IMG" || target.closest("img"))) {
+                e.preventDefault();
+            }
+        };
+
+        const handleDragStart = (e: DragEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (target && (target.tagName === "IMG" || target.closest("img"))) {
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener("contextmenu", handleContextMenu);
+        window.addEventListener("dragstart", handleDragStart);
+
+        // Only enable custom cursor on non-touch devices
         const checkMobile = () => {
             if (window.matchMedia("(pointer: coarse)").matches) {
                 setIsMobile(true);
@@ -27,7 +45,10 @@ export default function GlobalCursor() {
         checkMobile();
 
         if (window.matchMedia("(pointer: coarse)").matches) {
-            return;
+            return () => {
+                window.removeEventListener("contextmenu", handleContextMenu);
+                window.removeEventListener("dragstart", handleDragStart);
+            };
         }
 
         let isVisible = false;
@@ -37,9 +58,8 @@ export default function GlobalCursor() {
                 isVisible = true;
                 scaleSpring.set(1);
             }
-            // Place the 16px dot exactly underneath the bottom tail of the cursor arrow
-            xSpring.set(e.clientX + 2); // Shift slightly right to align with the arrow's tail
-            ySpring.set(e.clientY + 12); // Shift down to clear the bottom of the arrow
+            xSpring.set(e.clientX + 2);
+            ySpring.set(e.clientY + 12);
         };
 
         const handleMouseLeave = () => {
@@ -52,12 +72,13 @@ export default function GlobalCursor() {
             isVisible = true;
         };
 
-        // Add listeners
         window.addEventListener("mousemove", moveCursor);
         document.addEventListener("mouseleave", handleMouseLeave);
         document.addEventListener("mouseenter", handleMouseEnter);
 
         return () => {
+            window.removeEventListener("contextmenu", handleContextMenu);
+            window.removeEventListener("dragstart", handleDragStart);
             window.removeEventListener("mousemove", moveCursor);
             document.removeEventListener("mouseleave", handleMouseLeave);
             document.removeEventListener("mouseenter", handleMouseEnter);

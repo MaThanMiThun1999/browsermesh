@@ -13,6 +13,28 @@
     box-sizing: border-box;
 }
 
+/* Ensure cursor pointer globally for all buttons, links, and interactive elements */
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    cursor: pointer;
+}
+
+/* Disable image dragging and selection globally */
+img,
+svg {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 html.lenis,
 html.lenis body {
     height: auto;

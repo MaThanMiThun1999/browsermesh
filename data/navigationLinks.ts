@@ -6,6 +6,7 @@ export interface NavigationLink {
 export const navigationLinks: NavigationLink[] = [
     { label: "Home", path: "/" },
     { label: "Features", path: "/features" },
+    { label: "About Us", path: "/about" },
     { label: "Marketplace", path: "/marketplace" },
     { label: "Pricing", path: "/pricing" },
     { label: "Docs", path: "/docs/getting-started" },

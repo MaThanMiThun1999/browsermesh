@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, Puzzle, Users, Zap, ShieldCheck } from "lucide-react";
+import { Box, Download, Users, Zap, ShieldCheck } from "lucide-react";
 
-export default function FeaturesStats() {
+export default function AboutStats() {
     const stats = [
         {
             value: "250+",
@@ -13,7 +13,7 @@ export default function FeaturesStats() {
         {
             value: "1.2M+",
             label: "Installations",
-            icon: <Puzzle className="w-5 h-5 text-purple-400" />,
+            icon: <Download className="w-5 h-5 text-purple-400" />,
             bgColor: "bg-purple-500/10 border-purple-500/20",
         },
         {

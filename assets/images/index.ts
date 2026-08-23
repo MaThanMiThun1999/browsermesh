@@ -18,6 +18,8 @@ import featureHeroImg from "./feature_hero_img.png";
 import featureAssets1 from "./feature_assets_1.png";
 import featureAssets2 from "./feature_assets_2.png";
 
+import aboutHeroImg from "./about_hero_img.png";
+
 export {
     assetsImg1,
     assetsImg2,
@@ -35,4 +37,5 @@ export {
     featureHeroImg,
     featureAssets1,
     featureAssets2,
+    aboutHeroImg,
 };
