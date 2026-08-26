@@ -1,35 +1,36 @@
 "use client";
 
 import { Box, Puzzle, Users, Zap, ShieldCheck } from "lucide-react";
+import { siteInfo } from "@/data/siteInfo";
 
 export default function FeaturesStats() {
     const stats = [
         {
-            value: "250+",
+            value: siteInfo.stats.plugins,
             label: "Plugins",
             icon: <Box className="w-5 h-5 text-indigo-400" />,
             bgColor: "bg-indigo-500/10 border-indigo-500/20",
         },
         {
-            value: "1.2M+",
+            value: siteInfo.stats.installations,
             label: "Installations",
             icon: <Puzzle className="w-5 h-5 text-purple-400" />,
             bgColor: "bg-purple-500/10 border-purple-500/20",
         },
         {
-            value: "10K+",
+            value: siteInfo.stats.developers,
             label: "Developers",
             icon: <Users className="w-5 h-5 text-blue-400" />,
             bgColor: "bg-blue-500/10 border-blue-500/20",
         },
         {
-            value: "500K+",
+            value: siteInfo.stats.jobsExecuted,
             label: "Jobs Executed",
             icon: <Zap className="w-5 h-5 text-amber-400" />,
             bgColor: "bg-amber-500/10 border-amber-500/20",
         },
         {
-            value: "99.99%",
+            value: siteInfo.stats.uptime,
             label: "Uptime",
             icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
             bgColor: "bg-emerald-500/10 border-emerald-500/20",

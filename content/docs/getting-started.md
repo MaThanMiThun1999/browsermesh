@@ -1,32 +1,85 @@
 ---
 title: Getting Started
-description: Welcome to the BrowserMesh documentation. Learn how to install and connect your first device.
+description: Welcome to the BrowserMesh documentation. Learn how to install the native desktop/mobile apps or headless node script and connect to the Web Console.
 order: 1
 category: Introduction
 ---
 
 # Getting Started with BrowserMesh
 
-BrowserMesh is a decentralized web automation and scraping network. It allows you to run headless browsers directly on your own devices (Android or Desktop) while managing all jobs, plugins, and data centrally in the cloud.
+BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, macOS, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://console.browsermesh.in)**.
 
-## Installation
+---
 
-To get started, you need to install the BrowserMesh node on your device.
+## 1. Access the Web Console
 
-### Android
+All platform management and telemetry are handled through our centralized dashboard:
 
-1. Download the latest APK from the [Releases](https://github.com/MaThanMiThun1999/scraper_frontend) page.
-2. Install the app on your Android device (Android 10+ recommended).
-3. Open the app and grant the necessary permissions (Storage, Background Execution).
-4. The app will automatically unpack its internal Node.js backend and start the proxy server.
+- **Web Console Link:** [https://console.browsermesh.in](https://console.browsermesh.in)
+- Log in or create an account to view active devices, execute marketplace plugins, and monitor job queues.
 
-## Connecting to the Cloud
+---
 
-Once the local node is running:
+## 2. Platform Installation Methods
 
-1. Open the BrowserMesh app.
-2. Navigate to the **Cloud Sync** tab.
-3. Log in with your BrowserMesh account credentials.
-4. Your device will now appear in your cloud dashboard under **Active Devices**.
+BrowserMesh supports both **Desktop & Mobile Applications (GUI)** and **Headless Node Scripts (CLI/Server)**.
 
-You are now ready to run your first scraping job!
+### Option A: Desktop & Mobile Applications (GUI Apps)
+
+If you prefer graphical user interfaces, download the dedicated native app for your device:
+
+- **Windows Desktop App:** Install our native Windows installer. Read the **[Windows Installation Guide](/docs/install-windows)**.
+- **Linux Desktop App:** Install via `.deb` package or AppImage (`chmod +x BrowserMesh-linux.AppImage`). Read the **[Linux Installation Guide](/docs/install-linux)**.
+- **Android Mobile App:** Download the `BrowserMesh-v1.0.apk` for mobile IP proxy scraping (Android 10+). Read the **[Android Installation Guide](/docs/install-android)**.
+
+---
+
+### Option B: Headless Terminal Node Scripts (CLI / Server Setup)
+
+For background servers, cloud VPS, or headless environments, use our automated one-line setup scripts:
+
+#### Linux / macOS / Cloud VPS (One-Command Setup)
+
+Open your terminal and execute:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.sh | bash
+```
+
+_Alternative using `wget`:_
+
+```bash
+wget -qO- https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.sh | bash
+```
+
+#### Windows Headless Setup (PowerShell)
+
+Open **PowerShell as Administrator** and execute:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.ps1" -OutFile "install-headless.ps1"; .\install-headless.ps1
+```
+
+---
+
+## 3. Managing & Connecting Your Node
+
+Once installed (via GUI app or Headless CLI daemon), connect your device to your account:
+
+### Linking to Your Account
+
+1. Open the **[Web Console](https://console.browsermesh.in)**.
+2. Copy your Device Auth Token from **Console Dashboard -> Active Devices**.
+3. **If using GUI App:** Enter your token or log in directly under the **Cloud Sync** tab.
+4. **If using Headless CLI:** Link your node by running in your terminal:
+    ```bash
+    mesh link <YOUR_DEVICE_TOKEN>
+    ```
+5. Your device will immediately appear under the **Active Devices** tab on [console.browsermesh.in](https://console.browsermesh.in).
+
+### CLI Management Commands (Headless Nodes)
+
+- `mesh status`: Check memory, CPU, and connection status.
+- `mesh logs`: View live scraping activity logs.
+- `mesh restart`: Reboot the background scraping daemon.
+- `mesh stop`: Pause the node daemon.

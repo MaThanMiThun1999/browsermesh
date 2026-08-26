@@ -28,6 +28,8 @@ export const metadata: Metadata = {
     },
 };
 
+import { SettingsProvider } from "@/context/SettingsContext";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="en" className="h-full antialiased" suppressHydrationWarning>
@@ -35,12 +37,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 className="min-h-full flex flex-col bg-mesh overflow-x-hidden"
                 suppressHydrationWarning
             >
-                <GlobalCursor />
-                <SmoothScrolling>
-                    <Header />
-                    <main className="flex-1">{children}</main>
-                    <Footer />
-                </SmoothScrolling>
+                <SettingsProvider>
+                    <GlobalCursor />
+                    <SmoothScrolling>
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                    </SmoothScrolling>
+                </SettingsProvider>
             </body>
         </html>
     );

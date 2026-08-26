@@ -1,14 +1,102 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import KineticGrid from "@/components/ui/kinetic-grid";
 import { Download, TerminalSquare, Target } from "lucide-react";
-import { FaGlobe, FaWindows, FaAndroid, FaLinux } from "react-icons/fa6";
+import { FaGlobe, FaWindows, FaAndroid, FaLinux, FaApple } from "react-icons/fa6";
 import { siteInfo } from "@/data/siteInfo";
 import { heroImg } from "@/assets/images";
+import { getLatestReleases, LatestReleases } from "@/lib/api";
 
-// Grid pattern replaced by KineticGrid
+type PlatformType = "windows" | "macos" | "linux" | "android" | "web" | "unknown";
+
+interface DownloadInfo {
+    label: string;
+    url: string;
+    icon: React.ReactNode;
+    platformName: string;
+}
 
 export default function Hero() {
+    const [releases, setReleases] = useState<LatestReleases | null>(null);
+    const [detectedPlatform, setDetectedPlatform] = useState<PlatformType>("windows");
+
+    useEffect(() => {
+        // Fetch latest release URLs from API
+        getLatestReleases().then((res) => {
+            if (res) {
+                setReleases(res);
+            }
+        });
+
+        // Detect running platform via userAgent in callback
+        if (typeof window !== "undefined") {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let currentOS: PlatformType = "windows";
+            if (userAgent.includes("mac") || userAgent.includes("darwin")) {
+                currentOS = "macos";
+            } else if (userAgent.includes("android")) {
+                currentOS = "android";
+            } else if (userAgent.includes("linux")) {
+                currentOS = "linux";
+            } else if (userAgent.includes("win")) {
+                currentOS = "windows";
+            }
+
+            const timer = setTimeout(() => {
+                setDetectedPlatform(currentOS);
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
+    const getDownloadDetails = (): DownloadInfo => {
+        switch (detectedPlatform) {
+            case "windows":
+                return {
+                    label: `Download for Windows`,
+                    url: releases?.downloads?.windows || siteInfo.links.docs,
+                    icon: <FaWindows size={16} className="text-[#00a4ef]" />,
+                    platformName: "Windows",
+                };
+            case "macos":
+                return {
+                    label: `Download for macOS`,
+                    url: siteInfo.links.docs,
+                    icon: <FaApple size={16} className="text-slate-200" />,
+                    platformName: "macOS",
+                };
+            case "linux":
+                return {
+                    label: `Download for Linux`,
+                    url:
+                        releases?.downloads?.linuxAppImage ||
+                        releases?.downloads?.linuxDeb ||
+                        "/docs/install-linux",
+                    icon: <FaLinux size={16} className="text-yellow-400" />,
+                    platformName: "Linux",
+                };
+            case "android":
+                return {
+                    label: `Download for Android`,
+                    url: releases?.downloads?.androidApk || "/docs/install-android",
+                    icon: <FaAndroid size={16} className="text-[#3ddc84]" />,
+                    platformName: "Android",
+                };
+            default:
+                return {
+                    label: `Download ${siteInfo.name}`,
+                    url: releases?.downloads?.windows || siteInfo.links.docs,
+                    icon: <Download size={16} />,
+                    platformName: "Desktop",
+                };
+        }
+    };
+
+    const downloadInfo = getDownloadDetails();
+
     const platforms = [
         { icon: <FaGlobe size={20} className="text-indigo-500" />, line1: "Web", line2: "App" },
         {
@@ -23,6 +111,7 @@ export default function Hero() {
         },
         { icon: <FaLinux size={20} className="text-indigo-500" />, line1: "Linux", line2: "App" },
     ];
+
     return (
         <KineticGrid
             className="!bg-mesh !bg-transparent relative overflow-hidden"
@@ -51,19 +140,29 @@ export default function Hero() {
                             <span className="text-gradient">Undetected.</span>
                         </h1>
                         <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg">
-                            The ultimate cross-platform stealth scraping ecosystem powered by
-                            plugins, built for developers, and trusted by data professionals
-                            worldwide.
+                            {siteInfo.tagline} Powered by plugins, built for developers, and trusted
+                            by data professionals worldwide.
                         </p>
                         <div className="flex flex-wrap gap-4 mb-10">
+                            {downloadInfo.url.startsWith("http") ? (
+                                <a
+                                    href={downloadInfo.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-primary flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-white text-sm shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-all"
+                                >
+                                    {downloadInfo.icon} {downloadInfo.label}
+                                </a>
+                            ) : (
+                                <Link
+                                    href={downloadInfo.url}
+                                    className="btn-primary flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-white text-sm shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-all"
+                                >
+                                    {downloadInfo.icon} {downloadInfo.label}
+                                </Link>
+                            )}
                             <Link
-                                href="/docs/getting-started"
-                                className="btn-primary flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm"
-                            >
-                                <Download size={16} /> Download {siteInfo.name}
-                            </Link>
-                            <Link
-                                href="/marketplace"
+                                href={siteInfo.links.marketplace}
                                 className="btn-outline flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white text-sm"
                             >
                                 <TerminalSquare size={16} /> Explore Marketplace

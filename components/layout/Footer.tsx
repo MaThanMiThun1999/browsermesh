@@ -12,11 +12,27 @@ export default function Footer() {
         {
             icon: <FaDiscord size={20} />,
             label: "Discord",
+            href: siteInfo.links.discord,
             color: "text-[#8b5cf6] drop-shadow-[0_0_10px_rgba(139,92,246,0.4)]",
         },
-        { icon: <FaXTwitter size={20} />, label: "X", color: "text-white" },
-        { icon: <FaGithub size={20} />, label: "GitHub", color: "text-white" },
-        { icon: <FaYoutube size={20} />, label: "YouTube", color: "text-white" },
+        {
+            icon: <FaXTwitter size={20} />,
+            label: "X",
+            href: siteInfo.links.twitter,
+            color: "text-white",
+        },
+        {
+            icon: <FaGithub size={20} />,
+            label: "GitHub",
+            href: siteInfo.links.github,
+            color: "text-white",
+        },
+        {
+            icon: <FaYoutube size={20} />,
+            label: "YouTube",
+            href: siteInfo.links.youtube,
+            color: "text-white",
+        },
     ];
 
     return (
@@ -41,12 +57,16 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-5">
                             {socials.map((s) => (
-                                <button
+                                <Link
                                     key={s.label}
+                                    href={s.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={s.label}
                                     className={`${s.color} hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all`}
                                 >
                                     {s.icon}
-                                </button>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -81,7 +101,7 @@ export default function Footer() {
                                 placeholder="Your email"
                                 className="flex-1 bg-[#0a0515] border border-white/10 rounded-lg px-4 py-2.5 text-[13px] text-white placeholder-slate-600 outline-none focus:border-indigo-500 focus:bg-[#0e0720] transition-colors min-w-0 shadow-inner"
                             />
-                            <button className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors px-3.5 rounded-lg flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(76,53,230,0.4)]">
+                            <button className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors px-3.5 rounded-lg flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(76,53,230,0.4)] cursor-pointer">
                                 <ArrowRight size={16} className="text-white" />
                             </button>
                         </div>

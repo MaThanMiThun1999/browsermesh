@@ -2,43 +2,47 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { marketplacePlugins, PluginData } from "@/data/marketplaceData";
-import { Grid, List, Star, Download, Clock } from "lucide-react";
+import { Grid, List, Star, Download, RefreshCw, ChevronRight } from "lucide-react";
 import { FaWindows, FaApple, FaLinux, FaAndroid, FaGlobe } from "react-icons/fa";
-
 import { getDynamicPluginIcon } from "@/utils/icon-utils";
-
-function PluginLogo({ plugin }: { plugin: PluginData }) {
-    if (plugin.id === "google-maps") {
-        return (
-            <svg
-                viewBox="0 0 24 24"
-                className="w-9 h-9 drop-shadow-[0_2px_8px_rgba(66,133,244,0.4)]"
-            >
-                <path
-                    fill="#EA4335"
-                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                />
-                <path fill="#34A853" d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.92 2.88 7.37L12 9z" />
-                <path
-                    fill="#FBBC05"
-                    d="M12 9l-4.12 7.37C9.37 18.3 10.74 20 12 22s2.63-1.7 4.12-5.63L12 9z"
-                    opacity="0.9"
-                />
-                <path fill="#4285F4" d="M12 2c1.86 0 3.54.72 4.79 1.9L12 9z" />
-                <circle cx="12" cy="9" r="2.5" fill="#FFFFFF" />
-            </svg>
-        );
-    }
-
-    return getDynamicPluginIcon(undefined, [plugin.id, ...plugin.tags], "w-8 h-8", plugin.logoUrl);
-}
-
+import { PublicPlugin } from "@/lib/api";
 import Pagination from "@/components/ui/pagination";
 
-export default function MarketplaceGrid() {
+interface MarketplaceGridProps {
+    plugins: PublicPlugin[];
+    loading: boolean;
+    error: string | null;
+    onRetry: () => void;
+    totalResults: number;
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
+    onClearFilters: () => void;
+}
+
+export default function MarketplaceGrid({
+    plugins,
+    loading,
+    error,
+    onRetry,
+    totalResults,
+    currentPage,
+    totalPages,
+    onPageChange,
+    onClearFilters,
+}: MarketplaceGridProps) {
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-    const [currentPage, setCurrentPage] = useState(1);
+
+    const isPlatformSupported = (plugin: PublicPlugin, platform: string) => {
+        const list = plugin.compatibility || ["windows", "macos", "linux", "android", "web"];
+        const target = platform.toLowerCase();
+        return list.some((item) => {
+            const lower = item.toLowerCase();
+            if (target === "macos" || target === "mac")
+                return lower === "macos" || lower === "mac" || lower === "ios";
+            return lower === target;
+        });
+    };
 
     return (
         <div className="flex-1 flex flex-col min-w-0">
@@ -46,7 +50,11 @@ export default function MarketplaceGrid() {
             <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
                 <div>
                     <h2 className="text-white font-bold text-xl sm:text-[22px]">All Plugins</h2>
-                    <p className="text-slate-400 text-xs sm:text-[13px]">250+ results</p>
+                    <p className="text-slate-400 text-xs sm:text-[13px]">
+                        {loading
+                            ? "Loading results..."
+                            : `${totalResults} result${totalResults === 1 ? "" : "s"}`}
+                    </p>
                 </div>
 
                 {/* Grid / List View Toggle Controls */}
@@ -75,268 +83,371 @@ export default function MarketplaceGrid() {
             </div>
 
             {/* Plugin Grid / List Items */}
-            {viewMode === "grid" ? (
-                /* GRID VIEW (2 Columns on MD, 2-3 Columns on Large Screens) */
+            {loading ? (
+                /* Skeleton Loading View */
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-5 mb-10">
-                    {marketplacePlugins.map((plugin) => (
+                    {Array.from({ length: 6 }).map((_, i) => (
                         <div
-                            key={plugin.id}
-                            className="glass-framer rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-1 hover:border-indigo-500/50 hover:shadow-[0_8px_35px_rgba(99,102,241,0.25)] transition-all duration-300 group"
+                            key={i}
+                            className="glass-framer rounded-2xl p-5 flex flex-col justify-between animate-pulse"
                         >
-                            {/* Card Header: Logo + Title + Type Badge */}
-                            <div>
-                                <div className="flex items-start justify-between gap-3 mb-3">
-                                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
-                                        <PluginLogo plugin={plugin} />
-                                    </div>
-                                    <span
-                                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0 ${
-                                            plugin.type === "Official"
-                                                ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                                                : "bg-purple-500/10 text-purple-300 border border-purple-500/20"
-                                        }`}
-                                    >
-                                        {plugin.type}
-                                    </span>
-                                </div>
-
-                                <h3 className="text-white font-bold text-base sm:text-lg mb-1 group-hover:text-indigo-300 transition-colors">
-                                    {plugin.name}
-                                </h3>
-
-                                <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2">
-                                    {plugin.description}
-                                </p>
+                            <div className="flex items-start justify-between gap-3 mb-4">
+                                <div className="w-14 h-14 bg-white/10 rounded-xl" />
+                                <div className="w-16 h-5 rounded-full bg-white/10" />
                             </div>
-
-                            {/* Card Body & Footer: OS Icons, Rating, Action */}
-                            <div className="flex flex-col gap-4 pt-3 border-t border-white/5">
-                                {/* OS Compatibility & Tags */}
-                                <div className="flex items-center justify-between gap-2 flex-wrap">
-                                    <div className="flex items-center gap-2 text-slate-400 bg-white/[0.03] border border-white/5 rounded-md px-2 py-1 text-[11px]">
-                                        <FaWindows
-                                            size={12}
-                                            className={
-                                                plugin.platforms.includes("windows")
-                                                    ? "text-blue-400"
-                                                    : "opacity-30"
-                                            }
-                                        />
-                                        <FaApple
-                                            size={12}
-                                            className={
-                                                plugin.platforms.includes("macos") ||
-                                                plugin.platforms.includes("ios")
-                                                    ? "text-slate-200"
-                                                    : "opacity-30"
-                                            }
-                                        />
-                                        <FaLinux
-                                            size={12}
-                                            className={
-                                                plugin.platforms.includes("linux")
-                                                    ? "text-yellow-400"
-                                                    : "opacity-30"
-                                            }
-                                        />
-                                        <FaAndroid
-                                            size={12}
-                                            className={
-                                                plugin.platforms.includes("android")
-                                                    ? "text-green-400"
-                                                    : "opacity-30"
-                                            }
-                                        />
-                                        <FaGlobe
-                                            size={12}
-                                            className={
-                                                plugin.platforms.includes("web")
-                                                    ? "text-cyan-400"
-                                                    : "opacity-30"
-                                            }
-                                        />
-                                    </div>
-
-                                    {/* Stats */}
-                                    <div className="flex items-center gap-3 text-xs text-slate-400">
-                                        <div className="flex items-center gap-1">
-                                            <Star
-                                                size={13}
-                                                className="text-yellow-400 fill-yellow-400"
-                                            />
-                                            <span className="text-white font-semibold">
-                                                {plugin.rating}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-1">
-                                            <Download size={12} />
-                                            <span>{plugin.installs}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Install Button & Price */}
-                                <div className="flex items-center justify-between pt-1">
-                                    <span className="text-slate-300 text-xs font-semibold">
-                                        {plugin.price}
-                                    </span>
-                                    <Link
-                                        href={`/marketplace/${plugin.id}`}
-                                        className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs px-5 py-2 rounded-xl shadow-[0_0_15px_rgba(76,53,230,0.4)]"
-                                    >
-                                        View
-                                    </Link>
-                                </div>
-                            </div>
+                            <div className="w-3/4 h-5 rounded bg-white/10 mb-2" />
+                            <div className="w-full h-12 rounded bg-white/10 mb-4" />
+                            <div className="w-full h-10 rounded-xl bg-white/10 pt-3 border-t border-white/5" />
                         </div>
                     ))}
                 </div>
-            ) : (
-                /* LIST VIEW (Vertical List Rows) */
-                <div className="flex flex-col gap-4 mb-10">
-                    {marketplacePlugins.map((plugin) => (
-                        <div
-                            key={plugin.id}
-                            className="glass-framer rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-5 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-[0_8px_35px_rgba(99,102,241,0.2)] transition-all duration-300 group"
-                        >
-                            {/* Left Main Content Block */}
-                            <div className="flex items-start gap-4 flex-1 min-w-0">
-                                {/* Logo Box */}
-                                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
-                                    <PluginLogo plugin={plugin} />
-                                </div>
+            ) : error ? (
+                /* Error State Card */
+                <div className="glass-framer rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4 mb-10">
+                    <p className="text-slate-300 text-sm">{error}</p>
+                    <button
+                        onClick={onRetry}
+                        className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer"
+                    >
+                        <RefreshCw size={14} /> Try Again
+                    </button>
+                </div>
+            ) : plugins.length === 0 ? (
+                /* Empty State Card */
+                <div className="glass-framer rounded-2xl p-10 text-center flex flex-col items-center justify-center gap-4 mb-10">
+                    <p className="text-slate-400 text-sm sm:text-base font-medium">
+                        No plugins match your current filters.
+                    </p>
+                    <button
+                        onClick={onClearFilters}
+                        className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                        Reset All Filters <ChevronRight size={14} />
+                    </button>
+                </div>
+            ) : viewMode === "grid" ? (
+                /* GRID VIEW */
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-5 mb-10">
+                    {plugins.map((plugin) => {
+                        const pluginTypeBadge =
+                            plugin.type === "verified" || plugin.isFeatured
+                                ? "Verified"
+                                : plugin.type === "official" ||
+                                    plugin.author?.toLowerCase() === "browsermesh"
+                                  ? "Official"
+                                  : "Community";
 
-                                {/* Title, Description, Metadata */}
-                                <div className="flex-1 flex flex-col min-w-0">
-                                    <div className="flex items-center gap-2.5 mb-1">
-                                        <h3 className="text-white font-bold text-base sm:text-[18px] tracking-tight group-hover:text-indigo-300 transition-colors">
-                                            {plugin.name}
-                                        </h3>
+                        const badgeStyle =
+                            pluginTypeBadge === "Verified"
+                                ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                                : pluginTypeBadge === "Official"
+                                  ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                  : "bg-purple-500/10 text-purple-300 border-purple-500/20";
+
+                        return (
+                            <div
+                                key={plugin.id}
+                                className="glass-framer rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-1 hover:border-indigo-500/50 hover:shadow-[0_8px_35px_rgba(99,102,241,0.25)] transition-all duration-300 group"
+                            >
+                                {/* Card Header: Logo + Title + Type Badge */}
+                                <div>
+                                    <div className="flex items-start justify-between gap-3 mb-3">
+                                        <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
+                                            {plugin.iconUrl ? (
+                                                <img
+                                                    src={plugin.iconUrl}
+                                                    alt={plugin.name}
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => {
+                                                        (e.target as HTMLElement).style.display =
+                                                            "none";
+                                                    }}
+                                                />
+                                            ) : (
+                                                getDynamicPluginIcon(
+                                                    undefined,
+                                                    [
+                                                        plugin.name.toLowerCase(),
+                                                        plugin.category?.toLowerCase() || "",
+                                                    ],
+                                                    "w-7 h-7"
+                                                )
+                                            )}
+                                        </div>
                                         <span
-                                            className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0 ${
-                                                plugin.type === "Official"
-                                                    ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                                                    : "bg-purple-500/10 text-purple-300 border border-purple-500/20"
-                                            }`}
+                                            className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border shrink-0 ${badgeStyle}`}
                                         >
-                                            {plugin.type}
+                                            {pluginTypeBadge}
                                         </span>
                                     </div>
 
-                                    <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed mb-3 max-w-[580px]">
-                                        {plugin.description}
+                                    <h3 className="text-white font-bold text-base sm:text-lg mb-1 group-hover:text-indigo-300 transition-colors line-clamp-1">
+                                        {plugin.name}
+                                    </h3>
+
+                                    <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2">
+                                        {plugin.description ||
+                                            "High-performance automated web scraper plugin for BrowserMesh."}
                                     </p>
+                                </div>
 
-                                    {/* Bottom Metadata Row */}
-                                    <div className="flex flex-wrap items-center gap-3">
-                                        <div className="flex items-center gap-2 text-slate-400 bg-white/[0.03] border border-white/5 rounded-md px-2.5 py-1 text-[11px]">
-                                            <FaWindows
-                                                size={13}
-                                                className={
-                                                    plugin.platforms.includes("windows")
-                                                        ? "text-blue-400"
-                                                        : "opacity-30"
-                                                }
-                                            />
-                                            <FaApple
-                                                size={13}
-                                                className={
-                                                    plugin.platforms.includes("macos") ||
-                                                    plugin.platforms.includes("ios")
-                                                        ? "text-slate-200"
-                                                        : "opacity-30"
-                                                }
-                                            />
-                                            <FaLinux
-                                                size={13}
-                                                className={
-                                                    plugin.platforms.includes("linux")
-                                                        ? "text-yellow-400"
-                                                        : "opacity-30"
-                                                }
-                                            />
-                                            <FaAndroid
-                                                size={13}
-                                                className={
-                                                    plugin.platforms.includes("android")
-                                                        ? "text-green-400"
-                                                        : "opacity-30"
-                                                }
-                                            />
-                                            <FaGlobe
-                                                size={13}
-                                                className={
-                                                    plugin.platforms.includes("web")
-                                                        ? "text-cyan-400"
-                                                        : "opacity-30"
-                                                }
-                                            />
+                                {/* Card Body & Footer: OS Icons, Rating, Action */}
+                                <div className="flex flex-col gap-4 pt-3 border-t border-white/5">
+                                    {/* Valid OS Compatibility Icons Only */}
+                                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                                        <div className="flex items-center gap-2 text-slate-400 bg-white/[0.03] border border-white/5 rounded-md px-2 py-1 text-[11px]">
+                                            {isPlatformSupported(plugin, "windows") && (
+                                                <FaWindows
+                                                    size={12}
+                                                    className="text-blue-400"
+                                                    title="Windows"
+                                                />
+                                            )}
+                                            {isPlatformSupported(plugin, "macos") && (
+                                                <FaApple
+                                                    size={12}
+                                                    className="text-slate-200"
+                                                    title="macOS"
+                                                />
+                                            )}
+                                            {isPlatformSupported(plugin, "linux") && (
+                                                <FaLinux
+                                                    size={12}
+                                                    className="text-yellow-400"
+                                                    title="Linux"
+                                                />
+                                            )}
+                                            {isPlatformSupported(plugin, "android") && (
+                                                <FaAndroid
+                                                    size={12}
+                                                    className="text-green-400"
+                                                    title="Android"
+                                                />
+                                            )}
+                                            {isPlatformSupported(plugin, "web") && (
+                                                <FaGlobe
+                                                    size={12}
+                                                    className="text-cyan-400"
+                                                    title="Web"
+                                                />
+                                            )}
                                         </div>
 
-                                        <div className="w-[1px] h-4 bg-white/10 hidden sm:block" />
-
-                                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                                            {plugin.tags.map((tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className="text-slate-300 bg-white/[0.03] border border-white/5 rounded-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-medium"
-                                                >
-                                                    {tag}
+                                        {/* Stats */}
+                                        <div className="flex items-center gap-3 text-xs text-slate-400">
+                                            <div className="flex items-center gap-1">
+                                                <Star
+                                                    size={13}
+                                                    className="text-yellow-400 fill-yellow-400"
+                                                />
+                                                <span className="text-white font-semibold">
+                                                    {plugin.averageRating
+                                                        ? plugin.averageRating.toFixed(1)
+                                                        : "4.8"}
                                                 </span>
-                                            ))}
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Download size={12} />
+                                                <span>{plugin.installCount}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Install Button & Price */}
+                                    <div className="flex items-center justify-between pt-1">
+                                        <span className="text-slate-300 text-xs font-semibold uppercase">
+                                            {plugin.tier}
+                                        </span>
+                                        <Link
+                                            href={`/marketplace/${plugin.slug}`}
+                                            className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs px-5 py-2 rounded-xl shadow-[0_0_15px_rgba(76,53,230,0.4)]"
+                                        >
+                                            View
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : (
+                /* LIST VIEW */
+                <div className="flex flex-col gap-4 mb-10">
+                    {plugins.map((plugin) => {
+                        const pluginTypeBadge =
+                            plugin.type === "verified" || plugin.isFeatured
+                                ? "Verified"
+                                : plugin.type === "official" ||
+                                    plugin.author?.toLowerCase() === "browsermesh"
+                                  ? "Official"
+                                  : "Community";
+
+                        const badgeStyle =
+                            pluginTypeBadge === "Verified"
+                                ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                                : pluginTypeBadge === "Official"
+                                  ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                                  : "bg-purple-500/10 text-purple-300 border-purple-500/20";
+
+                        return (
+                            <div
+                                key={plugin.id}
+                                className="glass-framer rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-5 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-[0_8px_35px_rgba(99,102,241,0.2)] transition-all duration-300 group"
+                            >
+                                {/* Left Main Content Block */}
+                                <div className="flex items-start gap-4 flex-1 min-w-0">
+                                    {/* Logo Box */}
+                                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
+                                        {plugin.iconUrl ? (
+                                            <img
+                                                src={plugin.iconUrl}
+                                                alt={plugin.name}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    (e.target as HTMLElement).style.display =
+                                                        "none";
+                                                }}
+                                            />
+                                        ) : (
+                                            getDynamicPluginIcon(
+                                                undefined,
+                                                [
+                                                    plugin.name.toLowerCase(),
+                                                    plugin.category?.toLowerCase() || "",
+                                                ],
+                                                "w-8 h-8"
+                                            )
+                                        )}
+                                    </div>
+
+                                    {/* Title, Description, Metadata */}
+                                    <div className="flex-1 flex flex-col min-w-0">
+                                        <div className="flex items-center gap-2.5 mb-1">
+                                            <h3 className="text-white font-bold text-base sm:text-[18px] tracking-tight group-hover:text-indigo-300 transition-colors line-clamp-1">
+                                                {plugin.name}
+                                            </h3>
+                                            <span
+                                                className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border shrink-0 ${badgeStyle}`}
+                                            >
+                                                {pluginTypeBadge}
+                                            </span>
+                                        </div>
+
+                                        <p className="text-slate-400 text-xs sm:text-[13px] leading-relaxed mb-3 max-w-[580px] line-clamp-2">
+                                            {plugin.description ||
+                                                "High-performance automated web scraper plugin for BrowserMesh."}
+                                        </p>
+
+                                        {/* Bottom Metadata Row */}
+                                        <div className="flex flex-wrap items-center gap-3">
+                                            <div className="flex items-center gap-2 text-slate-400 bg-white/[0.03] border border-white/5 rounded-md px-2.5 py-1 text-[11px]">
+                                                {isPlatformSupported(plugin, "windows") && (
+                                                    <FaWindows
+                                                        size={13}
+                                                        className="text-blue-400"
+                                                        title="Windows"
+                                                    />
+                                                )}
+                                                {isPlatformSupported(plugin, "macos") && (
+                                                    <FaApple
+                                                        size={13}
+                                                        className="text-slate-200"
+                                                        title="macOS"
+                                                    />
+                                                )}
+                                                {isPlatformSupported(plugin, "linux") && (
+                                                    <FaLinux
+                                                        size={13}
+                                                        className="text-yellow-400"
+                                                        title="Linux"
+                                                    />
+                                                )}
+                                                {isPlatformSupported(plugin, "android") && (
+                                                    <FaAndroid
+                                                        size={13}
+                                                        className="text-green-400"
+                                                        title="Android"
+                                                    />
+                                                )}
+                                                {isPlatformSupported(plugin, "web") && (
+                                                    <FaGlobe
+                                                        size={13}
+                                                        className="text-cyan-400"
+                                                        title="Web"
+                                                    />
+                                                )}
+                                            </div>
+
+                                            <div className="w-[1px] h-4 bg-white/10 hidden sm:block" />
+
+                                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                                                {plugin.category && (
+                                                    <span className="text-slate-300 bg-white/[0.03] border border-white/5 rounded-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-medium">
+                                                        #
+                                                        {plugin.category
+                                                            .toLowerCase()
+                                                            .replace(/\s+/g, "")}
+                                                    </span>
+                                                )}
+                                                <span className="text-slate-300 bg-white/[0.03] border border-white/5 rounded-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-medium">
+                                                    #{plugin.tier}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Right Metric & Action Block */}
-                            <div className="flex items-center gap-6 shrink-0 border-t lg:border-t-0 lg:border-l border-white/5 pt-3 lg:pt-0 lg:pl-6 justify-between lg:justify-end w-full lg:w-auto">
-                                <div className="flex flex-col gap-1 text-[12px]">
-                                    <div className="flex items-center gap-1.5">
-                                        <Star
-                                            size={14}
-                                            className="text-yellow-400 fill-yellow-400"
-                                        />
-                                        <span className="text-white font-bold">
-                                            {plugin.rating}
+                                {/* Right Metric & Action Block */}
+                                <div className="flex items-center gap-6 shrink-0 border-t lg:border-t-0 lg:border-l border-white/5 pt-3 lg:pt-0 lg:pl-6 justify-between lg:justify-end w-full lg:w-auto">
+                                    <div className="flex flex-col gap-1 text-[12px]">
+                                        <div className="flex items-center gap-1.5">
+                                            <Star
+                                                size={14}
+                                                className="text-yellow-400 fill-yellow-400"
+                                            />
+                                            <span className="text-white font-bold">
+                                                {plugin.averageRating
+                                                    ? plugin.averageRating.toFixed(1)
+                                                    : "4.8"}
+                                            </span>
+                                            <span className="text-slate-500">
+                                                ({plugin.reviewCount || 0})
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-slate-400">
+                                            <Download size={13} />
+                                            <span>{plugin.installCount} installs</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col items-center gap-1 shrink-0">
+                                        <Link
+                                            href={`/marketplace/${plugin.slug}`}
+                                            className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs sm:text-[13px] px-6 sm:px-7 py-2 sm:py-2.5 rounded-xl shadow-[0_0_20px_rgba(76,53,230,0.4)]"
+                                        >
+                                            View
+                                        </Link>
+                                        <span className="text-slate-400 text-[11px] font-medium uppercase">
+                                            {plugin.tier}
                                         </span>
-                                        <span className="text-slate-500">({plugin.reviews})</span>
                                     </div>
-                                    <div className="flex items-center gap-1.5 text-slate-400">
-                                        <Download size={13} />
-                                        <span>{plugin.installs}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-slate-400">
-                                        <Clock size={13} />
-                                        <span>{plugin.updatedAt}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col items-center gap-1 shrink-0">
-                                    <Link
-                                        href={`/marketplace/${plugin.id}`}
-                                        className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors text-white font-semibold text-xs sm:text-[13px] px-6 sm:px-7 py-2 sm:py-2.5 rounded-xl shadow-[0_0_20px_rgba(76,53,230,0.4)]"
-                                    >
-                                        View
-                                    </Link>
-                                    <span className="text-slate-400 text-[11px] font-medium">
-                                        {plugin.price}
-                                    </span>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
 
             {/* Centralized Pagination */}
-            <div className="mb-16 mt-4">
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={13}
-                    onPageChange={setCurrentPage}
-                />
-            </div>
+            {!loading && totalPages > 1 && (
+                <div className="mb-16 mt-4">
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={onPageChange}
+                    />
+                </div>
+            )}
         </div>
     );
 }

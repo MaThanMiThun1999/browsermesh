@@ -1,11 +1,74 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, Sparkles } from "lucide-react";
 import { pricingAssets1, pricingAssets2 } from "@/assets/images";
+import { siteInfo } from "@/data/siteInfo";
+import { getPublicPricing, PricingPlan } from "@/lib/api";
+
+function formatPlanFeatures(plan: PricingPlan | undefined, fallbackFeatures: string[]): string[] {
+    if (!plan) return fallbackFeatures;
+
+    const list: string[] = [];
+
+    if (plan.limits) {
+        list.push(`${plan.limits.monthlyResultLimit.toLocaleString()} Scraped Results / Mo`);
+        list.push(
+            `${plan.limits.maxDevices} Registered Device${plan.limits.maxDevices > 1 ? "s" : ""}`
+        );
+        const storageStr =
+            plan.limits.maxStorageMb >= 1024
+                ? `${(plan.limits.maxStorageMb / 1024).toFixed(0)} GB`
+                : `${plan.limits.maxStorageMb} MB`;
+        list.push(`${storageStr} Cloud Storage`);
+
+        const tiers = plan.limits.allowedPluginTiers.map((t) => t.toUpperCase()).join(" & ");
+        list.push(`${tiers} Plugins Access`);
+    }
+
+    const featureLabels: Record<string, string> = {
+        json_export: "JSON Data Export",
+        csv_export: "CSV & TSV Export",
+        xlsx_export: "Excel (.xlsx) Export",
+        proxy_support: "Stealth Proxy Support",
+        scheduled_jobs: "Automated Cron / Scheduled Jobs",
+    };
+
+    if (Array.isArray(plan.features) && plan.features.length > 0) {
+        plan.features.forEach((feat) => {
+            const label = featureLabels[feat] || feat;
+            if (!list.includes(label)) {
+                list.push(label);
+            }
+        });
+    }
+
+    return list.length > 0 ? list : fallbackFeatures;
+}
 
 export default function PricingCards() {
+    const [plans, setPlans] = useState<PricingPlan[]>([]);
+    const { free: staticFree, pro: staticPro } = siteInfo.pricing;
+
+    useEffect(() => {
+        getPublicPricing().then((data) => {
+            if (Array.isArray(data) && data.length > 0) {
+                setPlans(data);
+            }
+        });
+    }, []);
+
+    const freeApi = plans.find((p) => p.plan.toLowerCase() === "free");
+    const proApi = plans.find((p) => p.plan.toLowerCase() === "pro");
+
+    const freePrice = freeApi ? `$${freeApi.priceMonthly}` : staticFree.price;
+    const freeHighlights = formatPlanFeatures(freeApi, staticFree.highlights);
+
+    const proPrice = proApi ? `$${proApi.priceMonthly}` : staticPro.price;
+    const proHighlights = formatPlanFeatures(proApi, staticPro.highlights);
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-16 sm:mb-20 items-stretch relative z-10">
             {/* CARD 1: FREE PLAN */}
@@ -14,7 +77,9 @@ export default function PricingCards() {
                     {/* Header Row */}
                     <div className="flex items-start justify-between mb-4">
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-1">Free</h3>
+                            <h3 className="text-2xl font-bold text-white mb-1">
+                                {staticFree.name}
+                            </h3>
                             <p className="text-slate-400 text-xs sm:text-sm max-w-[220px] leading-snug">
                                 Perfect for trying out the platform and basic automation.
                             </p>
@@ -22,7 +87,7 @@ export default function PricingCards() {
                         <div className="w-16 h-16 shrink-0 relative mix-blend-plus-lighter opacity-90 group-hover:scale-105 transition-transform duration-500">
                             <Image
                                 src={pricingAssets1}
-                                alt="Free Plan Asset"
+                                alt={`${staticFree.name} Plan Asset`}
                                 fill
                                 className="object-contain"
                             />
@@ -32,51 +97,31 @@ export default function PricingCards() {
                     {/* Price */}
                     <div className="flex items-baseline gap-1 mb-6">
                         <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-                            $0
+                            {freePrice}
                         </span>
-                        <span className="text-slate-400 text-sm font-normal">/forever</span>
+                        <span className="text-slate-400 text-sm font-normal">
+                            /{staticFree.period}
+                        </span>
                     </div>
 
                     {/* CTA Button */}
                     <Link
-                        href="/download"
-                        className="w-full bg-white/5 border border-white/15 hover:bg-white/10 hover:border-white/25 text-white font-semibold text-sm py-3.5 rounded-2xl flex items-center justify-center transition-all mb-8 shadow-inner"
+                        href={siteInfo.links.docs}
+                        className="w-full bg-white/5 border border-white/15 hover:bg-white/10 hover:border-white/25 text-white font-semibold text-sm py-3.5 rounded-2xl flex items-center justify-center transition-all mb-8 shadow-inner cursor-pointer"
                     >
                         Get Started for Free
                     </Link>
 
                     {/* Feature List */}
                     <ul className="flex flex-col gap-3.5 text-xs sm:text-sm text-slate-300">
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>500 Monthly Results Limit</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>1 Active Device</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Access to Free Plugins only</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Export to JSON format</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>100 MB Cloud Storage limit</span>
-                        </li>
+                        {freeHighlights.map((item, idx) => (
+                            <li key={idx} className="flex items-center gap-3">
+                                <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
+                                    <Check size={12} strokeWidth={3} />
+                                </div>
+                                <span>{item}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -94,7 +139,7 @@ export default function PricingCards() {
                     {/* Header Row */}
                     <div className="flex items-start justify-between mb-4">
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-1">Pro</h3>
+                            <h3 className="text-2xl font-bold text-white mb-1">{staticPro.name}</h3>
                             <p className="text-slate-300/90 text-xs sm:text-sm max-w-[220px] leading-snug">
                                 For power users and teams who need heavy data extraction.
                             </p>
@@ -102,7 +147,7 @@ export default function PricingCards() {
                         <div className="w-20 h-20 shrink-0 relative mix-blend-plus-lighter opacity-95 group-hover:scale-105 transition-transform duration-500">
                             <Image
                                 src={pricingAssets2}
-                                alt="Pro Plan Asset"
+                                alt={`${staticPro.name} Plan Asset`}
                                 fill
                                 className="object-contain"
                             />
@@ -112,60 +157,33 @@ export default function PricingCards() {
                     {/* Price */}
                     <div className="flex items-baseline gap-1 mb-6">
                         <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-                            $15
+                            {proPrice}
                         </span>
-                        <span className="text-slate-400 text-sm font-normal">/month</span>
+                        <span className="text-slate-400 text-sm font-normal">
+                            /{staticPro.period}
+                        </span>
                     </div>
 
                     {/* CTA Button */}
-                    <button className="w-full bg-gradient-to-r from-[#4c35e6] via-[#5b43f0] to-[#3b82f6] hover:from-[#5841f5] hover:to-[#60a5fa] text-white font-bold text-sm py-3.5 rounded-2xl flex items-center justify-center transition-all mb-8 shadow-[0_0_30px_rgba(76,53,230,0.6)] hover:scale-[1.01] active:scale-[0.99]">
+                    <Link
+                        href={siteInfo.links.console}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full bg-gradient-to-r from-[#4c35e6] via-[#5b43f0] to-[#3b82f6] hover:from-[#5841f5] hover:to-[#60a5fa] text-white font-bold text-sm py-3.5 rounded-2xl flex items-center justify-center transition-all mb-8 shadow-[0_0_30px_rgba(76,53,230,0.6)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                    >
                         Upgrade to Pro
-                    </button>
+                    </Link>
 
                     {/* Feature List */}
                     <ul className="flex flex-col gap-3.5 text-xs sm:text-sm text-slate-200 font-medium">
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>10,000 Monthly Results Limit</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Up to 3 Active Devices</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Access to Premium (Pro) Plugins</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Export to JSON, CSV, & XLSX formats</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Proxy Support included</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>Scheduled Jobs automation</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                <Check size={12} strokeWidth={3} />
-                            </div>
-                            <span>2 GB (2048 MB) Cloud Storage</span>
-                        </li>
+                        {proHighlights.map((item, idx) => (
+                            <li key={idx} className="flex items-center gap-3">
+                                <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
+                                    <Check size={12} strokeWidth={3} />
+                                </div>
+                                <span>{item}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

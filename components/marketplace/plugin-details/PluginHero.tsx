@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Star, Download, CheckCircle, Heart, ChevronRight } from "lucide-react";
+import { Star, Download, CheckCircle, ChevronRight } from "lucide-react";
 import { getDynamicPluginIcon } from "@/utils/icon-utils";
+import { siteInfo } from "@/data/siteInfo";
 
 export interface PluginHeroProps {
+    id?: string;
+    slug?: string;
     name?: string;
     author?: string | null;
     category?: string | null;
@@ -19,19 +21,19 @@ export interface PluginHeroProps {
 }
 
 export default function PluginHero({
+    id,
+    slug,
     name = "Amazon Product Scraper",
     author = "DataMiner Labs",
     category = "E-commerce",
     tier = "Premium",
     isVerified = true,
     averageRating = 4.8,
-    reviewCount = 1812,
+    reviewCount = 0,
     installCount = 1800000,
     iconUrl = null,
     bannerUrl = "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1600",
 }: PluginHeroProps) {
-    const [isWishlisted, setIsWishlisted] = useState(false);
-
     const formattedInstalls =
         installCount >= 1000000
             ? `${(installCount / 1000000).toFixed(1)}M+`
@@ -41,6 +43,11 @@ export default function PluginHero({
 
     const formattedReviews =
         reviewCount >= 1000 ? `${(reviewCount / 1000).toFixed(1)}K` : `${reviewCount}`;
+
+    const handleInstallClick = () => {
+        const consoleTargetUrl = `${siteInfo.consoleUrl}/marketplace/${slug || id || ""}`;
+        window.open(consoleTargetUrl, "_blank", "noopener,noreferrer");
+    };
 
     return (
         <>
@@ -56,10 +63,10 @@ export default function PluginHero({
             </nav>
 
             {/* 2. Ultra-Premium Glassmorphism Hero Card with Background Banner */}
-            <div className="bg-[#080517]/80 border border-white/15 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl mb-8 relative overflow-hidden group">
+            <div className="bg-[#080517]/80 border border-white/15 rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 min-h-[220px] sm:min-h-[240px] md:min-h-[250px] flex flex-col justify-center shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl mb-8 relative overflow-hidden group">
                 {/* Background Banner Image Layer */}
                 <div
-                    className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
+                    className="absolute inset-0 bg-cover bg-center opacity-90 mix-blend-luminosity scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
                     style={{ backgroundImage: `url('${bannerUrl}')` }}
                 />
 
@@ -166,21 +173,13 @@ export default function PluginHero({
                         </div>
                     </div>
 
-                    {/* Right CTA Action Buttons (Full-width grid on Mobile, Vertical Stack on Desktop) */}
-                    <div className="w-full lg:w-auto grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col items-stretch gap-3 shrink-0 pt-2 lg:pt-0">
-                        <button className="w-full bg-gradient-to-r from-[#4c35e6] to-[#5b43f0] hover:from-[#5841f5] hover:to-[#674ff9] transition-all text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-[0_0_25px_rgba(76,53,230,0.5)] flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
-                            <Download size={16} /> Install Plugin
-                        </button>
+                    {/* Right CTA Action Buttons */}
+                    <div className="w-full lg:w-auto flex flex-col items-stretch gap-3 shrink-0 pt-2 lg:pt-0">
                         <button
-                            onClick={() => setIsWishlisted(!isWishlisted)}
-                            className={`w-full px-5 py-3.5 rounded-xl border text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all backdrop-blur-md whitespace-nowrap ${
-                                isWishlisted
-                                    ? "bg-rose-500/15 border-rose-500/35 text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.3)]"
-                                    : "bg-white/5 border-white/15 text-slate-200 hover:text-white hover:bg-white/10 hover:border-white/25"
-                            }`}
+                            onClick={handleInstallClick}
+                            className="w-full bg-gradient-to-r from-[#4c35e6] to-[#5b43f0] hover:from-[#5841f5] hover:to-[#674ff9] transition-all text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-[0_0_25px_rgba(76,53,230,0.5)] flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap cursor-pointer"
                         >
-                            <Heart size={14} className={isWishlisted ? "fill-rose-400" : ""} />
-                            {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
+                            <Download size={16} /> Install Plugin
                         </button>
                     </div>
                 </div>

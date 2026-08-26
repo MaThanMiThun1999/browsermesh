@@ -4,15 +4,17 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { AlertTriangle, Menu, X } from "lucide-react";
 import { logoWithText } from "@/assets/images";
 
 import { navigationLinks } from "@/data/navigationLinks";
 import { siteInfo } from "@/data/siteInfo";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Header() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
+    const { appName, maintenanceMode } = useSettings();
 
     const isActive = (path: string) => {
         if (path === "/") {
@@ -22,13 +24,19 @@ export default function Header() {
     };
 
     return (
-        <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6">
+        <div className="fixed top-6 left-0 right-0 z-50 flex flex-col items-center px-6 gap-2">
+            {maintenanceMode.enabled && (
+                <div className="bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                    <AlertTriangle size={14} className="shrink-0 text-amber-400" />
+                    <span>{maintenanceMode.message}</span>
+                </div>
+            )}
             <nav className="glass-nav flex items-center justify-between h-[60px] px-6 w-full max-w-5xl rounded-full relative z-20">
                 <Link href="/" className="flex items-center">
                     <Image
                         src={logoWithText}
-                        alt={siteInfo.name}
-                        title={siteInfo.name}
+                        alt={appName || siteInfo.name}
+                        title={appName || siteInfo.name}
                         className="h-12 w-auto object-contain"
                         priority
                         loading="eager"
@@ -59,7 +67,9 @@ export default function Header() {
 
                 <div className="hidden md:flex items-center gap-3">
                     <Link
-                        href="/docs/getting-started"
+                        href={siteInfo.links.console}
+                        target="_blank"
+                        rel="noreferrer"
                         className="btn-primary inline-flex text-sm font-semibold text-white px-6 py-2 rounded-full cursor-pointer"
                     >
                         Get Started
@@ -120,7 +130,9 @@ export default function Header() {
                 })}
                 <div className="flex pt-2">
                     <Link
-                        href="/docs/getting-started"
+                        href={siteInfo.links.console}
+                        target="_blank"
+                        rel="noreferrer"
                         className="btn-primary text-center text-sm font-semibold text-white px-6 py-3 rounded-xl flex-1 cursor-pointer shadow-[0_0_20px_rgba(99,102,241,0.4)]"
                         onClick={() => setOpen(false)}
                     >

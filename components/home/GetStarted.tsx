@@ -1,14 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Globe, Monitor, Terminal, Download, Copy } from "lucide-react";
-import { FaAndroid } from "react-icons/fa6";
+import Link from "next/link";
+import { Globe, Monitor, Terminal, Download, Copy, Check } from "lucide-react";
+import { FaAndroid, FaLinux } from "react-icons/fa6";
 import { logoOnly } from "@/assets/images";
 import { siteInfo } from "@/data/siteInfo";
+import { getLatestReleases, LatestReleases } from "@/lib/api";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function GetStarted() {
+    const { bashCommand } = useSettings();
     const [active, setActive] = useState("Web Installation");
+    const [releases, setReleases] = useState<LatestReleases | null>(null);
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        getLatestReleases().then((res) => {
+            if (res) {
+                setReleases(res);
+            }
+        });
+    }, []);
+
     const tabs = [
         { label: "Web Installation", icon: <Globe size={14} /> },
         { label: "Windows App", icon: <Monitor size={14} /> },
@@ -16,15 +31,45 @@ export default function GetStarted() {
         { label: "Android App", icon: <FaAndroid size={14} /> },
     ];
 
+    const cliCommand = releases?.headlessCmd?.bash || bashCommand;
+
+    const handleCopy = () => {
+        if (typeof window !== "undefined" && navigator.clipboard) {
+            navigator.clipboard.writeText(cliCommand);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
+    const windowsUrl =
+        releases?.downloads?.windows ||
+        "https://s3.browsermesh.in/releases/BrowserMesh-Setup-1.0.0.exe";
+    const linuxAppImageUrl =
+        releases?.downloads?.linuxAppImage ||
+        "https://s3.browsermesh.in/releases/BrowserMesh-1.0.0.AppImage";
+    const linuxDebUrl =
+        releases?.downloads?.linuxDeb ||
+        "https://s3.browsermesh.in/releases/browsermesh_1.0.0_amd64.deb";
+    const androidUrl =
+        releases?.downloads?.androidApk ||
+        "https://s3.browsermesh.in/releases/BrowserMesh-v1.0.apk";
+
     return (
         <section className="max-w-7xl mx-auto px-6 py-16">
-            <div className="mb-10">
-                <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
-                    Get Started in <span className="text-gradient">Minutes</span>
-                </h2>
-                <p className="text-slate-400 text-sm">
-                    Install BrowserMesh on your platform of choice.
-                </p>
+            <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
+                        Get Started in <span className="text-gradient">Minutes</span>
+                    </h2>
+                    <p className="text-slate-400 text-sm">
+                        Install BrowserMesh on your platform of choice.
+                    </p>
+                </div>
+                {releases?.version && (
+                    <span className="bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono px-3 py-1.5 rounded-full font-semibold">
+                        Latest Release v{releases.version}
+                    </span>
+                )}
             </div>
 
             <div className="grid grid-cols-2 md:flex gap-2 md:gap-2 mb-8">
@@ -32,7 +77,7 @@ export default function GetStarted() {
                     <button
                         key={t.label}
                         onClick={() => setActive(t.label)}
-                        className={`w-full md:w-auto justify-center md:justify-start relative text-[12px] sm:text-[13px] font-semibold px-2 sm:px-5 py-2.5 rounded-xl flex items-center gap-1.5 sm:gap-2 transition-all ${
+                        className={`w-full md:w-auto justify-center md:justify-start relative text-[12px] sm:text-[13px] font-semibold px-2 sm:px-5 py-2.5 rounded-xl flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                             active === t.label
                                 ? "bg-gradient-to-b from-white/[0.05] to-indigo-500/10 border border-white/10 text-white overflow-hidden shadow-[0_4px_20px_rgba(99,102,241,0.15)]"
                                 : "border border-transparent text-slate-400 hover:text-white hover:bg-white/[0.02]"
@@ -60,7 +105,7 @@ export default function GetStarted() {
                                         <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                                     </div>
                                     <span className="text-[10px] text-slate-400 font-mono">
-                                        https://www.browsermesh.com
+                                        {siteInfo.consoleUrl}
                                     </span>
                                     <div className="w-3 h-3" />
                                 </div>
@@ -71,9 +116,14 @@ export default function GetStarted() {
                                         title={siteInfo.name}
                                         className="w-16 h-16 object-contain drop-shadow-[0_0_25px_rgba(99,102,241,0.8)]"
                                     />
-                                    <button className="bg-[#4c1d95] hover:bg-[#5b21b6] border border-indigo-400/30 transition-all w-full flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold text-white shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-                                        <Download size={14} /> Install for Web
-                                    </button>
+                                    <Link
+                                        href={siteInfo.links.console}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-[#4c1d95] hover:bg-[#5b21b6] border border-indigo-400/30 transition-all w-full flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold text-white shadow-[0_0_15px_rgba(99,102,241,0.2)]"
+                                    >
+                                        <Globe size={14} /> Open Browser Console
+                                    </Link>
                                 </div>
                             </div>
 
@@ -81,10 +131,10 @@ export default function GetStarted() {
                             <div className="flex flex-col justify-center">
                                 <ol className="space-y-6">
                                     {[
-                                        "Open your browser and go to browsermesh.com",
-                                        'Click "Install for Web"',
-                                        "Add BrowserMesh to your browser",
-                                        "Start scraping instantly",
+                                        `Open browser console at ${siteInfo.consoleUrl}`,
+                                        'Click "Connect Browser Node"',
+                                        "Authenticate with your BrowserMesh account",
+                                        "Start web stealth scraping instantly",
                                     ].map((step, i) => (
                                         <li key={i} className="flex items-center gap-4">
                                             <div className="w-7 h-7 rounded-full bg-[#0a0a1a] border border-indigo-500/30 text-indigo-300 text-[11px] font-bold flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.15)]">
@@ -115,16 +165,21 @@ export default function GetStarted() {
                                         size={48}
                                         className="text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]"
                                     />
-                                    <button className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]">
+                                    <a
+                                        href={windowsUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]"
+                                    >
                                         <Download size={14} /> Download Windows App
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center">
                                 <ol className="space-y-6">
                                     {[
-                                        "Download the installer for Windows",
-                                        "Run the setup wizard",
+                                        "Download BrowserMesh-Setup.exe installer",
+                                        "Run the setup wizard & launch App",
                                         "Login to your BrowserMesh account",
                                         "Start desktop stealth scraping",
                                     ].map((step, i) => (
@@ -152,23 +207,38 @@ export default function GetStarted() {
                                         <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
                                     </div>
                                 </div>
-                                <div className="p-6 flex flex-col items-center justify-center gap-6 flex-1 relative z-10">
+                                <div className="p-6 flex flex-col items-center justify-center gap-4 flex-1 relative z-10">
                                     <Terminal
-                                        size={48}
-                                        className="text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]"
+                                        size={44}
+                                        className="text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)] mb-2"
                                     />
-                                    <button className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]">
-                                        <Download size={14} /> Download Linux App
-                                    </button>
+                                    <div className="flex flex-col gap-2.5 w-full">
+                                        <a
+                                            href={linuxAppImageUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white shadow-[0_0_15px_rgba(79,70,229,0.3)]"
+                                        >
+                                            <Download size={13} /> Download .AppImage
+                                        </a>
+                                        <a
+                                            href={linuxDebUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="bg-white/10 hover:bg-white/20 transition-all border border-white/10 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-slate-200"
+                                        >
+                                            <FaLinux size={13} /> Download .deb Package
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center">
                                 <ol className="space-y-6">
                                     {[
-                                        "Download the Linux .AppImage or .deb",
-                                        "Make the downloaded file executable",
-                                        "Run the BrowserMesh application",
-                                        "Start desktop stealth scraping",
+                                        "Download .AppImage or .deb package",
+                                        "Run `chmod +x BrowserMesh-1.0.0.AppImage`",
+                                        "Execute the app or install via dpkg",
+                                        "Start Linux stealth scraping",
                                     ].map((step, i) => (
                                         <li key={i} className="flex items-center gap-4">
                                             <div className="w-7 h-7 rounded-full bg-[#0a0a1a] border border-indigo-500/30 text-indigo-300 text-[11px] font-bold flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.15)]">
@@ -201,9 +271,14 @@ export default function GetStarted() {
                                         size={48}
                                         className="text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]"
                                     />
-                                    <button className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-[11px] font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]">
+                                    <a
+                                        href={androidUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-[11px] font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]"
+                                    >
                                         <Download size={12} /> Download APK
-                                    </button>
+                                    </a>
                                 </div>
                                 {/* Home Indicator */}
                                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/20 rounded-full" />
@@ -211,10 +286,10 @@ export default function GetStarted() {
                             <div className="flex flex-col justify-center">
                                 <ol className="space-y-6">
                                     {[
-                                        "Download the official Android APK",
-                                        "Allow 'Unknown Sources' in settings",
-                                        "Install the BrowserMesh app",
-                                        "Contribute idle mobile bandwidth",
+                                        "Download official BrowserMesh APK",
+                                        "Allow 'Install from Unknown Sources'",
+                                        "Install BrowserMesh App on Android",
+                                        "Run node & contribute mobile proxies",
                                     ].map((step, i) => (
                                         <li key={i} className="flex items-center gap-4">
                                             <div className="w-7 h-7 rounded-full bg-[#0a0a1a] border border-indigo-500/30 text-indigo-300 text-[11px] font-bold flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.15)]">
@@ -232,34 +307,48 @@ export default function GetStarted() {
                 </div>
 
                 {/* CLI block */}
-                <div className="glass-framer rounded-2xl p-5 flex flex-col h-full">
-                    <h4 className="text-white font-semibold mb-4 text-[15px] px-1">
-                        CLI Installation
-                    </h4>
-                    <div className="rounded-xl overflow-hidden border border-white/5 bg-[#0a0a1a] flex-1 flex flex-col mb-4">
-                        <div className="bg-white/[0.02] px-4 py-3 flex items-center gap-1.5 border-b border-white/5">
-                            <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                        </div>
-                        <div className="p-4 font-mono text-[11px] leading-[1.8] flex gap-4">
-                            {/* Line numbers */}
-                            <div className="flex flex-col text-slate-700 select-none text-right font-medium">
-                                <span>1</span>
-                                <span>2</span>
-                                <span>3</span>
-                                <span>4</span>
+                <div className="glass-framer rounded-2xl p-5 flex flex-col h-full justify-between">
+                    <div>
+                        <h4 className="text-white font-semibold mb-3 text-[15px] px-1 flex items-center justify-between">
+                            <span>Headless CLI Install</span>
+                            <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
+                                Auto-Script
+                            </span>
+                        </h4>
+                        <div className="rounded-xl overflow-hidden border border-white/5 bg-[#0a0a1a] flex flex-col mb-4">
+                            <div className="bg-white/[0.02] px-4 py-2.5 flex items-center justify-between border-b border-white/5">
+                                <div className="flex gap-1.5">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono">
+                                    bash / powershell
+                                </span>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-emerald-400"># Install via npm</span>
-                                <span className="text-slate-300">npm install -g browsermesh</span>
-                                <span className="text-emerald-400 mt-2"># Run BrowserMesh</span>
-                                <span className="text-slate-300">browsermesh</span>
+                            <div className="p-4 font-mono text-[11px] leading-relaxed break-all bg-black/40 text-slate-300 select-all min-h-[110px]">
+                                <span className="text-cyan-400">$ </span>
+                                {cliCommand}
                             </div>
                         </div>
                     </div>
-                    <button className="bg-indigo-600 hover:bg-indigo-500 transition-all border border-indigo-400/40 w-full py-2.5 rounded-lg text-[13px] text-white font-semibold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
-                        <Copy size={14} /> Copy Command
+                    <button
+                        onClick={handleCopy}
+                        className={`transition-all border w-full py-2.5 rounded-lg text-[13px] font-semibold flex items-center justify-center gap-2 cursor-pointer ${
+                            copied
+                                ? "bg-emerald-600 border-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+                                : "bg-indigo-600 hover:bg-indigo-500 border-indigo-400/40 text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]"
+                        }`}
+                    >
+                        {copied ? (
+                            <>
+                                <Check size={14} /> Copied to Clipboard!
+                            </>
+                        ) : (
+                            <>
+                                <Copy size={14} /> Copy Installation Script
+                            </>
+                        )}
                     </button>
                 </div>
             </div>

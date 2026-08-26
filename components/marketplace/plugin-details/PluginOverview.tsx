@@ -8,150 +8,245 @@ import {
     Globe,
     Zap,
     FileText,
-    CheckCircle,
     ChevronLeft,
     ChevronRight,
+    ScanSearch,
+    Monitor,
+    MousePointer2,
+    PlaySquare,
+    CopyCheck,
+    Code2,
+    Share2,
+    Wrench,
+    Heading,
+    Image as ImageIcon,
 } from "lucide-react";
+import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 
-export default function PluginOverview() {
+export interface PluginFeatureItem {
+    title: string;
+    description: string;
+    icon?: string;
+}
+
+export interface PluginExampleItem {
+    title: string;
+    code: string;
+    description?: string;
+}
+
+export interface PluginOverviewProps {
+    description?: string | null;
+    readme?: string | null;
+    features?: PluginFeatureItem[] | string | unknown;
+    examples?: PluginExampleItem[] | string | unknown;
+}
+
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+    ScanSearch,
+    Zap,
+    Monitor,
+    MousePointer2,
+    PlaySquare,
+    CopyCheck,
+    ShieldCheck: Shield,
+    Heading,
+    Image: ImageIcon,
+    Share2,
+    Code2,
+    Wrench,
+    Target,
+    Layers,
+    Shield,
+    Globe,
+    FileText,
+};
+
+const FEATURE_COLOR_PALETTES = [
+    {
+        text: "text-blue-400",
+        bg: "bg-blue-500/10 border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.2)]",
+    },
+    {
+        text: "text-emerald-400",
+        bg: "bg-emerald-500/10 border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.2)]",
+    },
+    {
+        text: "text-purple-400",
+        bg: "bg-purple-500/10 border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.2)]",
+    },
+    {
+        text: "text-amber-400",
+        bg: "bg-amber-500/10 border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.2)]",
+    },
+    {
+        text: "text-cyan-400",
+        bg: "bg-cyan-500/10 border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.2)]",
+    },
+    {
+        text: "text-rose-400",
+        bg: "bg-rose-500/10 border-rose-500/30 shadow-[0_0_20px_rgba(244,63,94,0.2)]",
+    },
+];
+
+const DEFAULT_FEATURES = [
+    {
+        icon: Target,
+        title: "Accurate Data",
+        desc: "Get accurate and up-to-date structured information.",
+    },
+    {
+        icon: Layers,
+        title: "Pagination Support",
+        desc: "Automatically handles pagination for all results.",
+    },
+    {
+        icon: Shield,
+        title: "Stealth Bypass",
+        desc: "Built-in stealth mode to bypass anti-bot protections.",
+    },
+    {
+        icon: Globe,
+        title: "Global Reach",
+        desc: "Supports multi-region & localized data extraction.",
+    },
+    {
+        icon: Zap,
+        title: "Ultra Fast Engine",
+        desc: "Optimized for speed and high execution success rates.",
+    },
+    {
+        icon: FileText,
+        title: "Export Ready",
+        desc: "Returns clean JSON data, easy to integrate.",
+    },
+];
+
+export default function PluginOverview({ description, readme, features }: PluginOverviewProps) {
     const [testimonialIdx, setTestimonialIdx] = useState(0);
 
     const testimonials = [
         {
-            quote: "The Amazon scraper from DataMiner Labs is incredibly reliable and easy to integrate. Saved us weeks of development!",
+            quote: "The BrowserMesh plugin ecosystem is incredibly reliable and easy to integrate. Saved us weeks of custom scraper development!",
             author: "Alex Johnson",
             role: "Data Engineer at MarketLens",
         },
         {
-            quote: "Built-in stealth and anti-bot bypass works like magic. We extract 50,000+ daily product prices seamlessly.",
+            quote: "Built-in stealth engine and SPA JSON extraction work like magic. We pull 50,000+ daily listings seamlessly.",
             author: "Sophia Martinez",
             role: "Head of Analytics at CommercePulse",
         },
         {
-            quote: "Clean JSON schema output and fast pagination support make this plugin worth every single penny.",
+            quote: "Clean structured data output and resumable checkpoint support make this plugin worth every single penny.",
             author: "David Chen",
             role: "Lead Developer at ScrapingHub",
         },
     ];
 
+    const parsedFeatures = Array.isArray(features) && features.length > 0 ? features : null;
+
+    const featureCount = parsedFeatures ? parsedFeatures.length : DEFAULT_FEATURES.length;
+
+    // Responsive grid and item span logic
+    const getGridConfig = (count: number) => {
+        if (count === 1) {
+            return { gridClass: "grid-cols-1", getItemSpan: () => "col-span-full" };
+        }
+        if (count === 2) {
+            return { gridClass: "grid-cols-1 sm:grid-cols-2", getItemSpan: () => "" };
+        }
+        if (count === 4) {
+            return {
+                gridClass: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
+                getItemSpan: (index: number) => (index === 3 ? "sm:col-span-2 md:col-span-3" : ""),
+            };
+        }
+        return {
+            gridClass: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
+            getItemSpan: (index: number) =>
+                count % 3 === 1 && index === count - 1 ? "sm:col-span-2 md:col-span-3" : "",
+        };
+    };
+
+    const { gridClass, getItemSpan } = getGridConfig(featureCount);
+
     return (
         <div className="flex flex-col gap-10">
-            {/* About Section */}
-            <div>
-                <h3 className="text-white font-bold text-lg mb-3">About this plugin</h3>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                    The Amazon Product Scraper allows you to extract product details from Amazon
-                    listings, including title, price, ratings, reviews, seller information,
-                    availability, images, and more. Data is returned in clean JSON format, ready to
-                    use.
-                </p>
-            </div>
+            {/* About / Description Section */}
+            {description && (
+                <div>
+                    <h3 className="text-white font-bold text-lg mb-3">About this plugin</h3>
+                    <p className="text-slate-300 text-sm leading-relaxed">{description}</p>
+                </div>
+            )}
 
-            {/* Key Features Grid */}
+            {/* Key Features Grid (Dynamic columns & spans for 2, 4, or N features) */}
             <div>
                 <h3 className="text-white font-bold text-lg mb-4">Key Features</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {[
-                        {
-                            icon: <Target size={20} className="text-blue-400" />,
-                            bg: "bg-blue-500/10 border-blue-500/20",
-                            title: "Accurate Data",
-                            desc: "Get accurate and up-to-date product information.",
-                        },
-                        {
-                            icon: <Layers size={20} className="text-emerald-400" />,
-                            bg: "bg-emerald-500/10 border-emerald-500/20",
-                            title: "Pagination Support",
-                            desc: "Automatically handles pagination for all results.",
-                        },
-                        {
-                            icon: <Shield size={20} className="text-purple-400" />,
-                            bg: "bg-purple-500/10 border-purple-500/20",
-                            title: "Anti-Bot Bypass",
-                            desc: "Built-in stealth mode to bypass Amazon protections.",
-                        },
-                        {
-                            icon: <Globe size={20} className="text-orange-400" />,
-                            bg: "bg-orange-500/10 border-orange-500/20",
-                            title: "Multiple Markets",
-                            desc: "Supports multiple Amazon marketplaces worldwide.",
-                        },
-                        {
-                            icon: <Zap size={20} className="text-yellow-400" />,
-                            bg: "bg-yellow-500/10 border-yellow-500/20",
-                            title: "Fast & Reliable",
-                            desc: "Optimized for speed and high success rate.",
-                        },
-                        {
-                            icon: <FileText size={20} className="text-cyan-400" />,
-                            bg: "bg-cyan-500/10 border-cyan-500/20",
-                            title: "Export Ready",
-                            desc: "Returns clean JSON data, easy to integrate.",
-                        },
-                    ].map((feature, i) => (
-                        <div
-                            key={i}
-                            className="bg-[#080517] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:border-indigo-500/30 transition-all group"
-                        >
-                            <div
-                                className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${feature.bg}`}
-                            >
-                                {feature.icon}
-                            </div>
-                            <h4 className="text-white font-bold text-sm group-hover:text-indigo-300 transition-colors">
-                                {feature.title}
-                            </h4>
-                            <p className="text-slate-400 text-xs leading-relaxed">{feature.desc}</p>
-                        </div>
-                    ))}
+                <div className={`grid ${gridClass} gap-4`}>
+                    {parsedFeatures
+                        ? parsedFeatures.map((feat: PluginFeatureItem, i: number) => {
+                              const IconComponent = (feat.icon && ICON_MAP[feat.icon]) || Zap;
+                              const palette =
+                                  FEATURE_COLOR_PALETTES[i % FEATURE_COLOR_PALETTES.length];
+                              const spanClass = getItemSpan(i);
+
+                              return (
+                                  <div
+                                      key={i}
+                                      className={`bg-[#080517] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:border-indigo-500/40 transition-all group ${spanClass}`}
+                                  >
+                                      <div
+                                          className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${palette.bg}`}
+                                      >
+                                          <IconComponent size={20} className={palette.text} />
+                                      </div>
+                                      <h4 className="text-white font-bold text-sm group-hover:text-indigo-300 transition-colors">
+                                          {feat.title || feat.name}
+                                      </h4>
+                                      <p className="text-slate-400 text-xs leading-relaxed">
+                                          {feat.description || feat.desc}
+                                      </p>
+                                  </div>
+                              );
+                          })
+                        : DEFAULT_FEATURES.map((feature, i) => {
+                              const IconComp = feature.icon;
+                              const palette =
+                                  FEATURE_COLOR_PALETTES[i % FEATURE_COLOR_PALETTES.length];
+                              const spanClass = getItemSpan(i);
+
+                              return (
+                                  <div
+                                      key={i}
+                                      className={`bg-[#080517] border border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:border-indigo-500/40 transition-all group ${spanClass}`}
+                                  >
+                                      <div
+                                          className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${palette.bg}`}
+                                      >
+                                          <IconComp size={20} className={palette.text} />
+                                      </div>
+                                      <h4 className="text-white font-bold text-sm group-hover:text-indigo-300 transition-colors">
+                                          {feature.title}
+                                      </h4>
+                                      <p className="text-slate-400 text-xs leading-relaxed">
+                                          {feature.desc}
+                                      </p>
+                                  </div>
+                              );
+                          })}
                 </div>
             </div>
 
-            {/* Detailed Description */}
-            <div>
-                <h3 className="text-white font-bold text-lg mb-3">Detailed Description</h3>
-                <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                    This scraper is designed for developers, analysts, and businesses who need to
-                    collect Amazon product data at scale. It handles dynamic content, pagination,
-                    and anti-bot mechanisms so you can focus on your data.
-                </p>
-                <ul className="flex flex-col gap-2 text-xs sm:text-sm text-slate-300">
-                    {[
-                        "Extract product details, pricing, ratings, reviews, seller info and more.",
-                        "Supports search results, product pages & category listings.",
-                        "Built with BrowserMesh stealth engine for maximum reliability.",
-                        "Easy to integrate and customize for your needs.",
-                    ].map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5">
-                            <CheckCircle size={16} className="text-emerald-400 shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* Use Cases */}
-            <div>
-                <h3 className="text-white font-bold text-sm mb-3 uppercase tracking-wider text-slate-400">
-                    Use Cases
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                    {[
-                        "Market Research",
-                        "Price Monitoring",
-                        "Product Analysis",
-                        "Competitor Tracking",
-                        "E-commerce Intelligence",
-                    ].map((useCase) => (
-                        <span
-                            key={useCase}
-                            className="bg-white/5 border border-white/10 text-slate-300 text-xs font-medium px-3.5 py-1.5 rounded-xl hover:border-indigo-500/40 transition-colors"
-                        >
-                            {useCase}
-                        </span>
-                    ))}
+            {/* Readme Markdown Renderer (From API) */}
+            {readme && (
+                <div className="bg-[#080517]/80 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
+                    <h3 className="text-white font-bold text-xl mb-6 pb-4 border-b border-white/10">
+                        README
+                    </h3>
+                    <MarkdownRenderer content={readme} />
                 </div>
-            </div>
+            )}
 
             {/* Testimonials Carousel Box */}
             <div className="bg-gradient-to-br from-[#0c0724] to-[#060314] border border-white/10 rounded-2xl p-6 sm:p-7 relative overflow-hidden">
@@ -159,53 +254,44 @@ export default function PluginOverview() {
                     Why developers love this plugin
                 </h4>
 
-                <div className="flex items-center justify-between gap-4">
-                    <button
-                        onClick={() =>
-                            setTestimonialIdx((prev) =>
-                                prev === 0 ? testimonials.length - 1 : prev - 1
-                            )
-                        }
-                        className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-                    >
-                        <ChevronLeft size={16} />
-                    </button>
+                <div className="relative min-h-[90px] flex flex-col justify-between">
+                    <p className="text-slate-300 text-xs sm:text-sm italic leading-relaxed mb-4">
+                        &quot;{testimonials[testimonialIdx].quote}&quot;
+                    </p>
 
-                    <div className="flex-1 text-center px-4">
-                        <p className="text-slate-200 text-sm sm:text-base italic leading-relaxed mb-3">
-                            "{testimonials[testimonialIdx].quote}"
-                        </p>
-                        <p className="text-xs font-semibold text-indigo-300">
-                            – {testimonials[testimonialIdx].author},{" "}
-                            <span className="text-slate-400 font-normal">
+                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div className="flex flex-col">
+                            <span className="text-white font-bold text-xs">
+                                {testimonials[testimonialIdx].author}
+                            </span>
+                            <span className="text-slate-500 text-[11px]">
                                 {testimonials[testimonialIdx].role}
                             </span>
-                        </p>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                            <button
+                                onClick={() =>
+                                    setTestimonialIdx((prev) =>
+                                        prev === 0 ? testimonials.length - 1 : prev - 1
+                                    )
+                                }
+                                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            >
+                                <ChevronLeft size={14} />
+                            </button>
+                            <button
+                                onClick={() =>
+                                    setTestimonialIdx((prev) =>
+                                        prev === testimonials.length - 1 ? 0 : prev + 1
+                                    )
+                                }
+                                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            >
+                                <ChevronRight size={14} />
+                            </button>
+                        </div>
                     </div>
-
-                    <button
-                        onClick={() =>
-                            setTestimonialIdx((prev) =>
-                                prev === testimonials.length - 1 ? 0 : prev + 1
-                            )
-                        }
-                        className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-                    >
-                        <ChevronRight size={16} />
-                    </button>
-                </div>
-
-                {/* Dots */}
-                <div className="flex justify-center items-center gap-1.5 mt-5">
-                    {testimonials.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setTestimonialIdx(idx)}
-                            className={`h-1.5 rounded-full transition-all ${
-                                testimonialIdx === idx ? "w-5 bg-indigo-500" : "w-1.5 bg-white/20"
-                            }`}
-                        />
-                    ))}
                 </div>
             </div>
         </div>

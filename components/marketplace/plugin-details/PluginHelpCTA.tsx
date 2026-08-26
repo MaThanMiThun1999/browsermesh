@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { BookOpen, LifeBuoy, ArrowUpRight, HelpCircle, Sparkles } from "lucide-react";
 
 export default function PluginHelpCTA() {
@@ -44,9 +45,9 @@ export default function PluginHelpCTA() {
             {/* Bottom 2 Interactive Action Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10 pt-1">
                 {/* Card 1: Documentation */}
-                <a
-                    href="#documentation"
-                    className="bg-[#050312]/80 hover:bg-white/[0.07] border border-white/10 hover:border-indigo-500/40 rounded-xl sm:rounded-2xl p-3.5 flex flex-col justify-between gap-2.5 group/doc transition-all duration-300 hover:shadow-[0_0_20px_rgba(76,53,230,0.3)]"
+                <Link
+                    href="/docs"
+                    className="bg-[#050312]/80 hover:bg-white/[0.07] border border-white/10 hover:border-indigo-500/40 rounded-xl sm:rounded-2xl p-3.5 flex flex-col justify-between gap-2.5 group/doc transition-all duration-300 hover:shadow-[0_0_20px_rgba(76,53,230,0.3)] cursor-pointer"
                 >
                     <div className="flex items-center justify-between">
                         <div className="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover/doc:scale-110 transition-transform">
@@ -65,12 +66,12 @@ export default function PluginHelpCTA() {
                             Guides & API reference
                         </span>
                     </div>
-                </a>
+                </Link>
 
                 {/* Card 2: Technical Support */}
-                <a
-                    href="#support"
-                    className="bg-[#050312]/80 hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 rounded-xl sm:rounded-2xl p-3.5 flex flex-col justify-between gap-2.5 group/sup transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                <Link
+                    href="/about"
+                    className="bg-[#050312]/80 hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 rounded-xl sm:rounded-2xl p-3.5 flex flex-col justify-between gap-2.5 group/sup transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
                 >
                     <div className="flex items-center justify-between">
                         <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover/sup:scale-110 transition-transform">
@@ -89,7 +90,7 @@ export default function PluginHelpCTA() {
                             24/7 Engineer help
                         </span>
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
     );

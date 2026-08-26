@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
     Gauge,
     MonitorSmartphone,
@@ -10,22 +11,58 @@ import {
     Cloud,
     Headphones,
 } from "lucide-react";
+import { getPublicPricing, PricingPlan } from "@/lib/api";
 
 export default function PricingCompareTable() {
+    const [plans, setPlans] = useState<PricingPlan[]>([]);
+
+    useEffect(() => {
+        getPublicPricing().then((data) => {
+            if (Array.isArray(data) && data.length > 0) {
+                setPlans(data);
+            }
+        });
+    }, []);
+
+    const freeApi = plans.find((p) => p.plan.toLowerCase() === "free");
+    const proApi = plans.find((p) => p.plan.toLowerCase() === "pro");
+
+    const proPriceStr = proApi ? `$${proApi.priceMonthly}/month` : "$29/month";
+    const freePriceStr = freeApi ? `$${freeApi.priceMonthly}/forever` : "$0/forever";
+
+    const freeResultLimit = freeApi?.limits?.monthlyResultLimit
+        ? `${freeApi.limits.monthlyResultLimit.toLocaleString()} / mo`
+        : "500 / mo";
+    const proResultLimit = proApi?.limits?.monthlyResultLimit
+        ? `${proApi.limits.monthlyResultLimit.toLocaleString()} / mo`
+        : "10,000 / mo";
+
+    const freeDevices = freeApi?.limits?.maxDevices ? `${freeApi.limits.maxDevices}` : "1";
+    const proDevices = proApi?.limits?.maxDevices ? `Up to ${proApi.limits.maxDevices}` : "Up to 3";
+
+    const freeStorage = freeApi?.limits?.maxStorageMb
+        ? `${freeApi.limits.maxStorageMb} MB`
+        : "100 MB";
+    const proStorage = proApi?.limits?.maxStorageMb
+        ? proApi.limits.maxStorageMb >= 1024
+            ? `${(proApi.limits.maxStorageMb / 1024).toFixed(0)} GB (${proApi.limits.maxStorageMb} MB)`
+            : `${proApi.limits.maxStorageMb} MB`
+        : "2 GB (2048 MB)";
+
     const compareFeatures = [
         {
             title: "Extraction Limits",
             subtitle: "Monthly Results Limit",
             icon: <Gauge className="w-5 h-5 text-indigo-400" />,
-            free: "500 / mo",
-            pro: "10,000 / mo",
+            free: freeResultLimit,
+            pro: proResultLimit,
         },
         {
             title: "Connected Devices",
             subtitle: "Active Devices",
             icon: <MonitorSmartphone className="w-5 h-5 text-indigo-400" />,
-            free: "1",
-            pro: "Up to 3",
+            free: freeDevices,
+            pro: proDevices,
         },
         {
             title: "Export Formats",
@@ -38,7 +75,7 @@ export default function PricingCompareTable() {
             title: "Plugins Access",
             subtitle: "Marketplace Access",
             icon: <Blocks className="w-5 h-5 text-indigo-400" />,
-            free: "Basic only",
+            free: "Free Tier Only",
             pro: "Entire Marketplace (Free + Pro)",
         },
         {
@@ -59,8 +96,8 @@ export default function PricingCompareTable() {
             title: "Cloud Storage",
             subtitle: "Secure data backup",
             icon: <Cloud className="w-5 h-5 text-indigo-400" />,
-            free: "100 MB",
-            pro: "2 GB (2048 MB)",
+            free: freeStorage,
+            pro: proStorage,
         },
         {
             title: "Support",
@@ -81,13 +118,13 @@ export default function PricingCompareTable() {
                             <th className="pb-6 text-center w-1/4">
                                 <div className="text-lg font-bold text-white">Free</div>
                                 <div className="text-xs text-slate-400 font-mono font-normal">
-                                    $0/forever
+                                    {freePriceStr}
                                 </div>
                             </th>
                             <th className="pb-6 text-center w-1/4">
                                 <div className="text-lg font-bold text-indigo-300">Pro</div>
                                 <div className="text-xs text-slate-400 font-mono font-normal">
-                                    $15/month
+                                    {proPriceStr}
                                 </div>
                             </th>
                         </tr>

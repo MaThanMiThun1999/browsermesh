@@ -1,70 +1,128 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
     Star,
     TrendingUp,
     Sparkles,
     CheckCircle,
-    X,
     Download,
     Code2,
     ChevronRight,
+    RefreshCw,
+    Eye,
 } from "lucide-react";
 import { getDynamicPluginIcon } from "@/utils/icon-utils";
+import { getPublicMarketplacePlugins, getPublicStats, PublicPlugin } from "@/lib/api";
+
+type TabLabel = "Top Rated" | "Trending" | "New" | "Verified";
+
+interface TabItem {
+    label: TabLabel;
+    key: string;
+    icon: React.ReactNode;
+}
 
 export default function MarketplacePreview() {
-    const [activeTab, setActiveTab] = useState("Top Rated");
-    const tabs = [
-        { label: "Top Rated", icon: <Star size={13} /> },
-        { label: "Trending", icon: <TrendingUp size={13} /> },
-        { label: "New", icon: <Sparkles size={13} /> },
-        { label: "Verified", icon: <CheckCircle size={13} /> },
+    const [activeTab, setActiveTab] = useState<TabLabel>("Top Rated");
+    const [plugins, setPlugins] = useState<PublicPlugin[]>([]);
+    const [globalTotalPlugins, setGlobalTotalPlugins] = useState<number | null>(null);
+    const [statsLoading, setStatsLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const tabs: TabItem[] = [
+        { label: "Top Rated", key: "top_rated", icon: <Star size={13} /> },
+        { label: "Trending", key: "trending", icon: <TrendingUp size={13} /> },
+        { label: "New", key: "new", icon: <Sparkles size={13} /> },
+        { label: "Verified", key: "featured", icon: <CheckCircle size={13} /> },
     ];
 
-    const plugins = [
-        {
-            name: "Google Maps Scraper",
-            rating: "4.9",
-            reviews: "1.2k",
-            badge: "Verified",
-            bColor: "text-green-400",
-            desc: "Extract business listings, reviews and more.",
-            tags: ["#maps", "#business"],
-            grad: "from-green-500/15 to-blue-500/15",
-        },
-        {
-            name: "Amazon Product Scraper",
-            rating: "4.6",
-            reviews: "982",
-            badge: "Verified",
-            bColor: "text-green-400",
-            desc: "Get product data, prices, reviews and availability.",
-            tags: ["#ecommerce", "#data"],
-            grad: "from-orange-500/15 to-yellow-500/15",
-        },
-        {
-            name: "Instagram Scraper",
-            rating: "4.7",
-            reviews: "756",
-            badge: "Community",
-            bColor: "text-blue-400",
-            desc: "Scrape profiles, posts, hashtags and followers.",
-            tags: ["#social", "#media"],
-            grad: "from-pink-500/15 to-purple-500/15",
-        },
-        {
-            name: "LinkedIn Scraper",
-            rating: "4.8",
-            reviews: "1.1k",
-            badge: "Verified",
-            bColor: "text-green-400",
-            desc: "Extract company data, employees and insights.",
-            tags: ["#b2b", "#leads"],
-            grad: "from-blue-500/15 to-cyan-500/15",
-        },
-    ];
+    // Fetch overall platform telemetry stats for the header badge with loading state
+    useEffect(() => {
+        let isMounted = true;
+        getPublicStats()
+            .then((stats) => {
+                if (isMounted && stats && typeof stats.totalPlugins === "number") {
+                    setGlobalTotalPlugins(stats.totalPlugins);
+                }
+            })
+            .finally(() => {
+                if (isMounted) {
+                    setStatsLoading(false);
+                }
+            });
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    // Fetch tab-filtered preview plugins with limit: 5
+    useEffect(() => {
+        let isMounted = true;
+
+        async function loadPlugins() {
+            setLoading(true);
+            setError(null);
+
+            const tab = tabs.find((t) => t.label === activeTab);
+            const filterKey = tab?.key || "top_rated";
+
+            try {
+                const res = await getPublicMarketplacePlugins({
+                    filter: filterKey,
+                    limit: 5,
+                });
+
+                if (isMounted) {
+                    if (res && Array.isArray(res.plugins)) {
+                        setPlugins(res.plugins);
+                    } else {
+                        setPlugins([]);
+                    }
+                }
+            } catch (err: unknown) {
+                if (isMounted) {
+                    console.error("Error fetching marketplace preview plugins:", err);
+                    setError("Failed to load plugins. Please check your connection.");
+                    setPlugins([]);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        loadPlugins();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [activeTab]);
+
+    const handleRetry = () => {
+        setLoading(true);
+        setError(null);
+        const tab = tabs.find((t) => t.label === activeTab);
+        const filterKey = tab?.key || "top_rated";
+        getPublicMarketplacePlugins({ filter: filterKey, limit: 5 })
+            .then((res) => {
+                if (res && Array.isArray(res.plugins)) {
+                    setPlugins(res.plugins);
+                } else {
+                    setPlugins([]);
+                }
+            })
+            .catch(() => {
+                setError("Failed to load plugins. Please check your connection.");
+                setPlugins([]);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
     return (
         <section className="max-w-7xl mx-auto px-6 py-8">
@@ -83,9 +141,19 @@ export default function MarketplacePreview() {
                                     Marketplace
                                 </h2>
                                 <div className="w-fit">
-                                    <span className="text-[11px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full px-2.5 py-0.5 font-semibold tracking-wide whitespace-nowrap">
-                                        200+ Active Plugins
-                                    </span>
+                                    {statsLoading ? (
+                                        <span className="text-[11px] bg-indigo-500/10 text-indigo-300/70 border border-indigo-500/20 rounded-full px-2.5 py-0.5 font-semibold tracking-wide whitespace-nowrap animate-pulse flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
+                                            Loading Stats...
+                                        </span>
+                                    ) : (
+                                        <span className="text-[11px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full px-2.5 py-0.5 font-semibold tracking-wide whitespace-nowrap">
+                                            {globalTotalPlugins !== null && globalTotalPlugins > 0
+                                                ? `${globalTotalPlugins}+`
+                                                : "200+"}{" "}
+                                            Active Plugins
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm leading-snug">
@@ -114,57 +182,149 @@ export default function MarketplacePreview() {
                     ))}
                 </div>
 
-                {/* Plugin cards */}
+                {/* Plugin Cards List */}
                 <div className="flex gap-4 mb-6 overflow-x-auto pb-6 snap-x snap-mandatory [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-indigo-500/50 hover:[&::-webkit-scrollbar-thumb]:bg-indigo-500 [&::-webkit-scrollbar-thumb]:rounded-full transition-all">
-                    {plugins.map((p) => (
-                        <div
-                            key={p.name}
-                            className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 card-hover flex flex-col transition-all duration-300 hover:bg-white/[0.03]"
-                        >
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400">
-                                    {getDynamicPluginIcon(
-                                        undefined,
-                                        [p.name.toLowerCase(), ...p.tags],
-                                        "w-5 h-5"
-                                    )}
+                    {loading ? (
+                        /* Skeleton Loading Cards */
+                        Array.from({ length: 5 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 flex flex-col animate-pulse"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="w-10 h-10 rounded-xl bg-white/10" />
+                                    <div className="w-12 h-4 rounded bg-white/10" />
                                 </div>
-                                <button className="w-6 h-6 rounded-md glass-framer flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all">
-                                    <X size={12} />
-                                </button>
+                                <div className="w-3/4 h-5 rounded bg-white/10 mb-2" />
+                                <div className="w-1/2 h-3 rounded bg-white/10 mb-4" />
+                                <div className="w-full h-12 rounded bg-white/10 mb-4" />
+                                <div className="w-full h-9 rounded-xl bg-white/10 mt-auto" />
                             </div>
-                            <h3 className="text-white font-semibold text-[15px] mb-1.5 tracking-tight">
-                                {p.name}
-                            </h3>
-                            <div className="flex items-center gap-2 mb-3 flex-wrap">
-                                <span className="flex items-center gap-1 text-yellow-400 text-xs font-medium">
-                                    <Star size={11} fill="currentColor" /> {p.rating}
-                                </span>
-                                <span className="text-slate-500 text-xs">({p.reviews})</span>
-                                <span
-                                    className={`text-xs font-medium ${p.bColor} flex items-center gap-0.5`}
-                                >
-                                    <CheckCircle size={10} /> {p.badge}
-                                </span>
-                            </div>
-                            <p className="text-slate-400 text-[13px] leading-relaxed flex-1 mb-4">
-                                {p.desc}
-                            </p>
-                            <div className="flex gap-2 mb-4 flex-wrap">
-                                {p.tags.map((t) => (
-                                    <span key={t} className="text-xs font-medium text-slate-500">
-                                        {t}
-                                    </span>
-                                ))}
-                            </div>
-                            <button className="btn-primary w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5">
-                                <Download size={14} /> Install Plugin
+                        ))
+                    ) : error ? (
+                        /* Error State Card */
+                        <div className="w-full glass-framer rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
+                            <p className="text-slate-400 text-sm">{error}</p>
+                            <button
+                                onClick={handleRetry}
+                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"
+                            >
+                                <RefreshCw size={14} /> Retry
                             </button>
                         </div>
-                    ))}
+                    ) : plugins.length === 0 ? (
+                        /* Empty State Card */
+                        <div className="w-full glass-framer rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
+                            <p className="text-slate-400 text-sm">
+                                No plugins found for this filter.
+                            </p>
+                            <Link
+                                href="/marketplace"
+                                className="text-indigo-400 hover:text-indigo-300 text-xs font-semibold flex items-center gap-1"
+                            >
+                                Explore Marketplace <ChevronRight size={12} />
+                            </Link>
+                        </div>
+                    ) : (
+                        /* Loaded Plugin Cards */
+                        plugins.map((p) => {
+                            const tags = [
+                                p.category
+                                    ? `#${p.category.toLowerCase().replace(/\s+/g, "")}`
+                                    : "#scraper",
+                                `#${p.tier}`,
+                            ];
+
+                            return (
+                                <div
+                                    key={p.id}
+                                    className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 card-hover flex flex-col transition-all duration-300 hover:bg-white/[0.03]"
+                                >
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400 overflow-hidden">
+                                            {p.iconUrl ? (
+                                                <img
+                                                    src={p.iconUrl}
+                                                    alt={p.name}
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => {
+                                                        (e.target as HTMLElement).style.display =
+                                                            "none";
+                                                    }}
+                                                />
+                                            ) : (
+                                                getDynamicPluginIcon(
+                                                    undefined,
+                                                    [
+                                                        p.name.toLowerCase(),
+                                                        p.category?.toLowerCase() || "",
+                                                    ],
+                                                    "w-5 h-5"
+                                                )
+                                            )}
+                                        </div>
+
+                                        {/* Tier Badge */}
+                                        <span
+                                            className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${
+                                                p.tier === "free"
+                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                                    : p.tier === "pro"
+                                                      ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                                                      : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                            }`}
+                                        >
+                                            {p.tier.toUpperCase()}
+                                        </span>
+                                    </div>
+
+                                    <h3 className="text-white font-semibold text-[15px] mb-1.5 tracking-tight line-clamp-1">
+                                        {p.name}
+                                    </h3>
+
+                                    <div className="flex items-center gap-3 mb-3 flex-wrap text-slate-400 text-xs">
+                                        <span className="flex items-center gap-1 text-emerald-400 font-medium">
+                                            <Download size={11} /> {p.installCount}
+                                        </span>
+                                        <span className="flex items-center gap-1 text-slate-400">
+                                            <Eye size={11} /> {p.viewCount}
+                                        </span>
+                                        {p.isFeatured && (
+                                            <span className="text-xs font-medium text-indigo-400 flex items-center gap-0.5">
+                                                <CheckCircle size={10} /> Verified
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <p className="text-slate-400 text-[13px] leading-relaxed flex-1 mb-4 line-clamp-2">
+                                        {p.description ||
+                                            "High performance automated web scraping plugin for BrowserMesh."}
+                                    </p>
+
+                                    <div className="flex gap-2 mb-4 flex-wrap">
+                                        {tags.map((t) => (
+                                            <span
+                                                key={t}
+                                                className="text-xs font-medium text-slate-500"
+                                            >
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    <Link
+                                        href={`/marketplace/${p.slug}`}
+                                        className="btn-primary w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 transition-all"
+                                    >
+                                        <Download size={14} /> View Plugin
+                                    </Link>
+                                </div>
+                            );
+                        })
+                    )}
                 </div>
 
-                {/* Build your own */}
+                {/* Build your own banner */}
                 <div className="glass-framer rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 mt-2">
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
@@ -179,9 +339,12 @@ export default function MarketplacePreview() {
                             </p>
                         </div>
                     </div>
-                    <button className="glass-framer hover:bg-white/5 border border-indigo-500/30 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] text-indigo-300 font-semibold transition-all">
+                    <Link
+                        href="/docs"
+                        className="glass-framer hover:bg-white/5 border border-indigo-500/30 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] text-indigo-300 font-semibold transition-all"
+                    >
                         <Code2 size={16} /> View Developer Docs
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

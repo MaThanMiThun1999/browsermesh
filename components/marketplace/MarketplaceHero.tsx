@@ -1,8 +1,76 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Search, ShieldCheck, Download, Star, Target } from "lucide-react";
 import { marketplaceHeroImg } from "@/assets/images";
+import { PublicStats, getPublicPopularSearches } from "@/lib/api";
 
-export default function MarketplaceHero() {
+interface MarketplaceHeroProps {
+    search: string;
+    onSearchChange: (value: string) => void;
+    onSearchSubmit: () => void;
+    stats: PublicStats | null;
+    onTagClick?: (tag: string) => void;
+    tags?: string[];
+}
+
+/**
+ * Formats long plugin names into concise chip labels for UI display
+ */
+function formatTagLabel(tag: string): string {
+    if (!tag) return "";
+    const cleaned = tag.split("&")[0].split("–")[0].split("-")[0].trim();
+    if (cleaned.length > 20) {
+        return `${cleaned.slice(0, 18)}...`;
+    }
+    return cleaned;
+}
+
+export default function MarketplaceHero({
+    search,
+    onSearchChange,
+    onSearchSubmit,
+    stats,
+    onTagClick,
+    tags: propTags,
+}: MarketplaceHeroProps) {
+    const [fetchedPopularSearches, setFetchedPopularSearches] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (!propTags || propTags.length === 0) {
+            let isMounted = true;
+            getPublicPopularSearches().then((data) => {
+                if (isMounted && Array.isArray(data) && data.length > 0) {
+                    setFetchedPopularSearches(data);
+                }
+            });
+            return () => {
+                isMounted = false;
+            };
+        }
+    }, [propTags]);
+
+    const activeTags =
+        propTags && propTags.length > 0
+            ? propTags
+            : fetchedPopularSearches.length > 0
+              ? fetchedPopularSearches
+              : ["Google Maps", "Instagram", "Amazon", "LinkedIn", "Twitter/X"];
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onSearchSubmit();
+        }
+    };
+
+    const formatNumber = (num?: number, fallback = "250+") => {
+        if (num === undefined || num === null) return fallback;
+        if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M+`;
+        if (num >= 1000) return `${(num / 1000).toFixed(1)}k+`;
+        return `${num}`;
+    };
+
     return (
         <div className="w-full relative overflow-hidden">
             {/* Full-Screen Ambient Background Glows */}
@@ -37,7 +105,7 @@ export default function MarketplaceHero() {
                                 <ShieldCheck className="text-blue-400 shrink-0" size={22} />
                                 <div className="flex flex-col items-start">
                                     <span className="text-white font-bold text-base sm:text-lg leading-tight">
-                                        250+
+                                        {formatNumber(stats?.totalPlugins, "250+")}
                                     </span>
                                     <span className="text-slate-500 text-[10px] sm:text-[11px] font-medium">
                                         Plugins
@@ -48,7 +116,7 @@ export default function MarketplaceHero() {
                                 <Download className="text-cyan-400 shrink-0" size={22} />
                                 <div className="flex flex-col items-start">
                                     <span className="text-white font-bold text-base sm:text-lg leading-tight">
-                                        1.2M+
+                                        {formatNumber(stats?.totalInstallations, "1.2M+")}
                                     </span>
                                     <span className="text-slate-500 text-[10px] sm:text-[11px] font-medium">
                                         Installations
@@ -74,7 +142,9 @@ export default function MarketplaceHero() {
                                 <Target className="text-purple-400 shrink-0" size={22} />
                                 <div className="flex flex-col items-start">
                                     <span className="text-white font-bold text-base sm:text-lg leading-tight">
-                                        99.99%
+                                        {stats?.uptimePercentage
+                                            ? `${stats.uptimePercentage}%`
+                                            : "99.99%"}
                                     </span>
                                     <span className="text-slate-500 text-[10px] sm:text-[11px] font-medium">
                                         Success Rate
@@ -90,31 +160,37 @@ export default function MarketplaceHero() {
                             </div>
                             <input
                                 type="text"
+                                value={search}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                onKeyDown={handleKeyDown}
                                 placeholder='Search plugins, e.g. "Google Maps"'
                                 className="w-full bg-[#0a0515]/90 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-10 sm:pl-12 pr-24 sm:pr-32 text-xs sm:text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 focus:bg-[#0e0720] transition-colors shadow-inner"
                             />
                             <div className="absolute inset-y-1.5 right-1.5 sm:inset-y-2 sm:right-2">
-                                <button className="h-full bg-indigo-600 hover:bg-indigo-500 transition-colors text-white font-semibold text-xs sm:text-sm px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-[0_0_20px_rgba(79,70,229,0.6)]">
+                                <button
+                                    onClick={onSearchSubmit}
+                                    className="h-full bg-indigo-600 hover:bg-indigo-500 transition-colors text-white font-semibold text-xs sm:text-sm px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-[0_0_20px_rgba(79,70,229,0.6)] cursor-pointer"
+                                >
                                     Search
                                 </button>
                             </div>
                         </div>
 
-                        {/* Popular Tags */}
-                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center lg:justify-start">
+                        {/* Popular Tags (Strict 5 items limit, concise UI label) */}
+                        <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-center lg:justify-start">
                             <span className="text-slate-500 text-xs font-medium mr-1">
                                 Popular:
                             </span>
-                            {["Google Maps", "Instagram", "Amazon", "LinkedIn", "Twitter/X"].map(
-                                (tag) => (
-                                    <button
-                                        key={tag}
-                                        className="text-[10px] sm:text-[11px] font-medium text-slate-400 bg-white/5 border border-white/5 rounded-full px-2.5 sm:px-3 py-1 hover:bg-white/10 hover:text-white transition-colors"
-                                    >
-                                        {tag}
-                                    </button>
-                                )
-                            )}
+                            {activeTags.slice(0, 4).map((tag) => (
+                                <button
+                                    key={tag}
+                                    onClick={() => onTagClick && onTagClick(tag)}
+                                    title={tag}
+                                    className="text-[10px] sm:text-[11px] font-medium text-slate-400 bg-white/5 border border-white/5 rounded-full px-2.5 sm:px-3 py-1 hover:bg-white/10 hover:text-white transition-colors cursor-pointer max-w-[180px] truncate"
+                                >
+                                    {formatTagLabel(tag)}
+                                </button>
+                            ))}
                         </div>
                     </div>
 

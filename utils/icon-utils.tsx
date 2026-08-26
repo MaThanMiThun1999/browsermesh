@@ -280,3 +280,11 @@ export function getDynamicPluginIcon(
     // Ultimate default
     return <Lucide.Box className={className} />;
 }
+
+/**
+ * Dynamically selects an appropriate icon based on a category name.
+ */
+export function getCategoryIcon(name: string, className: string = "w-[18px] h-[18px]") {
+    if (name.toLowerCase() === "all") return <Lucide.Globe className={className} />;
+    return getDynamicPluginIcon(name, undefined, className);
+}

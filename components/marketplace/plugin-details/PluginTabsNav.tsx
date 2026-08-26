@@ -1,17 +1,28 @@
 "use client";
 
-export type PluginTabType = "overview" | "schema" | "reviews" | "changelog";
+export type PluginTabType = "overview" | "readme" | "schema" | "reviews" | "changelog";
 
 interface PluginTabsNavProps {
     activeTab: PluginTabType;
     onTabChange: (tab: PluginTabType) => void;
+    reviewCount?: number;
 }
 
-export default function PluginTabsNav({ activeTab, onTabChange }: PluginTabsNavProps) {
+const formatCountBadge = (count?: number) => {
+    if (count === undefined || count === null) return undefined;
+    if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+    if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
+    return `${count}`;
+};
+
+export default function PluginTabsNav({ activeTab, onTabChange, reviewCount }: PluginTabsNavProps) {
+    const badgeText = formatCountBadge(reviewCount);
+
     const tabs = [
         { id: "overview", label: "Overview" },
+        { id: "readme", label: "README" },
         { id: "schema", label: "Data & Schema" },
-        { id: "reviews", label: "Reviews", badge: "1.8K" },
+        { id: "reviews", label: "Reviews", badge: badgeText },
         { id: "changelog", label: "Changelog" },
     ];
 
@@ -24,12 +35,12 @@ export default function PluginTabsNav({ activeTab, onTabChange }: PluginTabsNavP
                         <button
                             key={tab.id}
                             onClick={() => onTabChange(tab.id as PluginTabType)}
-                            className={`py-3.5 text-sm font-semibold transition-all relative flex items-center gap-2 ${
+                            className={`py-3.5 text-sm font-semibold transition-all relative flex items-center gap-2 cursor-pointer ${
                                 isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
                             }`}
                         >
                             <span>{tab.label}</span>
-                            {tab.badge && (
+                            {tab.badge !== undefined && (
                                 <span className="bg-white/10 text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-bold">
                                     {tab.badge}
                                 </span>
