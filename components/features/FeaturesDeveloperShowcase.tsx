@@ -57,12 +57,15 @@ export default function FeaturesDeveloperShowcase() {
 
                 {/* Right Image Code Showcase (Clean native image inside glass card) */}
                 <div className="lg:col-span-7 relative flex items-center justify-center order-1 lg:order-2">
-                    <div className="relative w-full aspect-[4/3] group">
+                    <div className="relative w-full group flex justify-center">
                         <Image
                             src={featureAssets2}
                             alt="BrowserMesh TypeScript SDK Code Editor"
-                            fill
-                            className="object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:scale-102 transition-transform duration-500"
+                            title="BrowserMesh TypeScript SDK Code Editor"
+                            width={1254}
+                            height={1254}
+                            loading="lazy"
+                            className="w-full h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:scale-102 transition-transform duration-500"
                         />
                     </div>
                 </div>

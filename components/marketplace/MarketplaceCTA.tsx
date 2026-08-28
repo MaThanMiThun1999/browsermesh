@@ -32,6 +32,8 @@ export default function MarketplaceCTA() {
                     <Image
                         src={marketplaceCtaImg}
                         alt="Build once, run everywhere"
+                        title="Build once, run everywhere"
+                        loading="lazy"
                         className="w-full h-auto object-contain drop-shadow-[0_0_40px_rgba(99,102,241,0.3)]"
                     />
                 </div>

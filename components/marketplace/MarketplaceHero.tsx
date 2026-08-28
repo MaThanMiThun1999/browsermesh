@@ -203,8 +203,10 @@ export default function MarketplaceHero({
                         <Image
                             src={marketplaceHeroImg}
                             alt="Marketplace"
-                            className="w-full max-w-[360px] sm:max-w-[520px] lg:max-w-[650px] xl:max-w-[700px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
+                            title="Marketplace"
+                            loading="eager"
                             priority
+                            className="w-full max-w-[360px] sm:max-w-[520px] lg:max-w-[650px] xl:max-w-[700px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
                         />
                     </div>
                 </div>

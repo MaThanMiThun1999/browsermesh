@@ -88,12 +88,15 @@ export default function AboutFounderStory() {
                 <div className="lg:col-span-6 relative flex items-center justify-center">
                     <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
                         {/* Background Developer Workstation Art */}
-                        <div className="absolute inset-0 bg-[#060412]">
+                        <div className="absolute inset-0 bg-[#060412] flex items-center justify-center">
                             <Image
                                 src={heroImg}
                                 alt={`${siteInfo.author.name} Developer Workstation`}
-                                fill
-                                className="object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
+                                title={`${siteInfo.author.name} Developer Workstation`}
+                                width={1536}
+                                height={1024}
+                                loading="lazy"
+                                className="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#060412] via-transparent to-transparent" />
                         </div>

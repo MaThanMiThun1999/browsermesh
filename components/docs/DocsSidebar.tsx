@@ -40,9 +40,9 @@ export function DocsSidebar({ docs }: { docs: DocData[] }) {
                     <div key={category} className="space-y-3">
                         <div className="flex items-center gap-2 text-white/50 px-2">
                             {getCategoryIcon(category)}
-                            <h4 className="text-xs font-bold uppercase tracking-widest mt-0.5">
+                            <span className="text-xs font-bold uppercase tracking-widest mt-0.5">
                                 {category}
-                            </h4>
+                            </span>
                         </div>
                         <ul className="space-y-0.5 border-l border-white/10 ml-4 pl-1">
                             {items.map((doc) => {
