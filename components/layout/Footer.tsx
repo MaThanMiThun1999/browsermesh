@@ -1,36 +1,56 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { FaXTwitter, FaGithub, FaYoutube, FaDiscord } from "react-icons/fa6";
+import { FaXTwitter, FaGithub, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { logoWithText } from "@/assets/images";
 
 import { footerLinks } from "@/data/navigationLinks";
 import { siteInfo } from "@/data/siteInfo";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Footer() {
+    const { appName, tagline, getSettingValue } = useSettings();
+
+    const twitterUrl = getSettingValue<string>(
+        "twitter_url",
+        getSettingValue<string>("x_url", siteInfo.links.twitter)
+    );
+    const facebookUrl = getSettingValue<string>("facebook_url", siteInfo.links.facebook);
+    const instagramUrl = getSettingValue<string>("instagram_url", siteInfo.links.instagram);
+    const linkedinUrl = getSettingValue<string>("linkedin_url", siteInfo.links.linkedin);
+    const githubUrl = getSettingValue<string>("github_url", siteInfo.links.github);
+
     const socials = [
-        {
-            icon: <FaDiscord size={20} />,
-            label: "Discord",
-            href: siteInfo.links.discord,
-            color: "text-[#8b5cf6] drop-shadow-[0_0_10px_rgba(139,92,246,0.4)]",
-        },
         {
             icon: <FaXTwitter size={20} />,
             label: "X",
-            href: siteInfo.links.twitter,
+            href: twitterUrl,
             color: "text-white",
+        },
+        {
+            icon: <FaFacebook size={20} />,
+            label: "Facebook",
+            href: facebookUrl,
+            color: "text-[#1877f2]",
+        },
+        {
+            icon: <FaInstagram size={20} />,
+            label: "Instagram",
+            href: instagramUrl,
+            color: "text-[#e4405f]",
+        },
+        {
+            icon: <FaLinkedin size={20} />,
+            label: "LinkedIn",
+            href: linkedinUrl,
+            color: "text-[#0a66c2]",
         },
         {
             icon: <FaGithub size={20} />,
             label: "GitHub",
-            href: siteInfo.links.github,
-            color: "text-white",
-        },
-        {
-            icon: <FaYoutube size={20} />,
-            label: "YouTube",
-            href: siteInfo.links.youtube,
+            href: githubUrl,
             color: "text-white",
         },
     ];
@@ -47,13 +67,13 @@ export default function Footer() {
                         <Link href="/">
                             <Image
                                 src={logoWithText}
-                                alt={siteInfo.name}
-                                title={siteInfo.name}
+                                alt={appName || siteInfo.name}
+                                title={appName || siteInfo.name}
                                 className="h-12 md:h-12 w-auto object-contain mb-5 drop-shadow-[0_0_15px_rgba(0,210,255,0.4)]"
                             />
                         </Link>
                         <p className="text-slate-400 text-[13px] leading-relaxed mb-6 max-w-[200px]">
-                            {siteInfo.tagline}
+                            {tagline || siteInfo.tagline}
                         </p>
                         <div className="flex gap-5">
                             {socials.map((s) => (

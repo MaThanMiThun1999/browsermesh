@@ -12,11 +12,13 @@ export interface AuthorInfo {
 
 export interface SiteLinks {
     twitter: string;
+    facebook: string;
+    instagram: string;
+    linkedin: string;
     github: string;
     githubRepo: string;
     discord: string;
     youtube: string;
-    linkedin: string;
     console: string;
     docs: string;
     marketplace: string;
@@ -120,12 +122,15 @@ export const siteInfo: SiteInfo = {
     },
 
     links: {
-        twitter: "https://twitter.com/browsermesh",
+        twitter: "https://x.com/mathan_mithun",
+        facebook:
+            "https://www.facebook.com/people/M%C3%A3Th%C3%A2%C3%B1-M%C4%ABTh%C3%BC%C3%B1/100011065608887/",
+        instagram: "https://www.instagram.com/its.me_mathan_mithun",
+        linkedin: "https://www.linkedin.com/in/mathanraj-murugesan",
         github: "https://github.com/MaThanMiThun1999",
         githubRepo: "https://github.com/MaThanMiThun1999/browsermesh",
         discord: "https://discord.gg/browsermesh",
         youtube: "https://youtube.com/@browsermesh",
-        linkedin: "http://linkedin.com/in/mathanraj-murugesan",
         console: envConfig.consoleUrl,
         docs: "/docs/getting-started",
         marketplace: "/marketplace",
