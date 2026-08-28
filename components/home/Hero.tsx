@@ -135,9 +135,9 @@ export default function Hero() {
                             </span>
                         </div>
                         <h1 className="text-[42px] leading-[1.1] md:text-5xl lg:text-6xl font-black lg:leading-[1.05] tracking-tight mb-6">
-                            <span className="text-white">Extract Anything.</span>
+                            <span className="text-white">Extract Anything. </span>
                             <br />
-                            <span className="text-white">Run Anywhere.</span>
+                            <span className="text-white">Run Anywhere. </span>
                             <br />
                             <span className="text-gradient">Undetected.</span>
                         </h1>

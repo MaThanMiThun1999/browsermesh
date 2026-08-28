@@ -309,12 +309,12 @@ export default function GetStarted() {
                 {/* CLI block */}
                 <div className="glass-framer rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col h-full justify-between">
                     <div>
-                        <h4 className="text-white font-semibold mb-2 sm:mb-3 text-sm sm:text-[15px] px-1 flex items-center justify-between">
+                        <h3 className="text-white font-semibold mb-2 sm:mb-3 text-sm sm:text-[15px] px-1 flex items-center justify-between">
                             <span>Headless CLI Install</span>
                             <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
                                 Auto-Script
                             </span>
-                        </h4>
+                        </h3>
                         <div className="rounded-xl overflow-hidden border border-white/5 bg-[#0a0a1a] flex flex-col mb-3 sm:mb-4">
                             <div className="bg-white/[0.02] px-3.5 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between border-b border-white/5">
                                 <div className="flex gap-1.5">

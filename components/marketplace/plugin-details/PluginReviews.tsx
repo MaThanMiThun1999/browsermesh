@@ -289,7 +289,11 @@ export default function PluginReviews({
                                                 <img
                                                     src={rev.avatar}
                                                     alt={rev.name}
-                                                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-white/10 shadow-md shrink-0"
+                                                    title={rev.name}
+                                                    width={40}
+                                                    height={40}
+                                                    loading="lazy"
+                                                    className="w-full h-full object-cover"
                                                     onError={(e) => {
                                                         e.currentTarget.style.display = "none";
                                                         e.currentTarget.nextElementSibling?.classList.remove(
