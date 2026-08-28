@@ -1,0 +1,206 @@
+================================================================================
+BROWSERMESH — SEO & AEO (ANSWER ENGINE OPTIMIZATION) MASTER EXECUTION STEPS
+================================================================================
+
+OVERVIEW
+--------
+This document details the exact, sequential step-by-step roadmap to achieve 100% 
+SEO & AEO optimization for BrowserMesh.
+
+================================================================================
+PHASE 1: CRAWLABILITY & INDEXING FOUNDATION (IMMEDIATE)
+================================================================================
+
+1.1 CREATE PUBLIC ROBOTS.TXT
+----------------------------
+File Path: d:\PERSONAL\PRODUCTION\scraper-main\browsermesh\public\robots.txt
+
+Content:
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /demo/
+
+# AI Search Engine Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://browsermesh-one.vercel.app/sitemap.xml
+
+
+1.2 CREATE DYNAMIC NEXT.JS SITEMAP
+----------------------------------
+File Path: d:\PERSONAL\PRODUCTION\scraper-main\browsermesh\app\sitemap.ts
+
+Content:
+import { MetadataRoute } from "next";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = "https://browsermesh-one.vercel.app";
+
+  const staticRoutes = [
+    "",
+    "/features",
+    "/pricing",
+    "/about",
+    "/docs",
+    "/marketplace",
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "daily" as const,
+    priority: route === "" ? 1.0 : 0.8,
+  }));
+
+  return [...staticRoutes];
+}
+
+
+1.3 CREATE PUBLIC LLMS.TXT (AI DISCOVERY STANDARD)
+--------------------------------------------------
+File Path: d:\PERSONAL\PRODUCTION\scraper-main\browsermesh\public\llms.txt
+
+Content:
+# BrowserMesh — Stealth Web Scraping & Peer-to-Peer Browser Node Network
+
+> BrowserMesh is a decentralized stealth web scraping platform that orchestrates real-browser residential node networks to extract data with a 99.99% success rate without IP bans or CAPTCHA blocks.
+
+## Core Capabilities
+- Stealth Extraction: Bypasses anti-bot mechanisms using real browser fingerprinted nodes.
+- Node Mesh Network: Distributed network of desktop, server, and mobile nodes.
+- Plugin Marketplace: Pre-built web scrapers for Amazon, Google Maps, LinkedIn, and social media.
+- Headless Node Scripts: Supports CLI and GUI node deployment on Windows, macOS, Linux, and Android.
+
+## Key Links
+- Main Site: https://browsermesh-one.vercel.app
+- Documentation: https://browsermesh-one.vercel.app/docs
+- Marketplace: https://browsermesh-one.vercel.app/marketplace
+
+
+================================================================================
+PHASE 2: PAGE METADATA & HEADING HIERARCHY
+================================================================================
+
+2.1 METADATA EXPORTS PER ROUTE
+------------------------------
+Ensure every Next.js page component (`app/*/page.tsx`) exports a unique metadata object:
+
+Rules:
+- Title Tag: 50–60 characters (Include Primary Keyword + Brand)
+- Meta Description: 140–155 characters (Clear value proposition + Call to action)
+- Canonical URL: Set `alternates: { canonical: "https://browsermesh-one.vercel.app/..." }`
+- OpenGraph & Twitter Cards: `url`, `title`, `description`, `images: ["/opengraph-img.png"]`
+
+
+2.2 HEADING HIERARCHY COMPLIANCE (W3C STANDARDS)
+-----------------------------------------------
+- Rule 1: Exactly ONE <h1> per page.
+- Rule 2: Top-level section headings below <h1> MUST be <h2>.
+- Rule 3: Sub-sections under <h2> MUST be <h3>.
+- Rule 4: Never skip heading levels (e.g. going directly from <h1> to <h3>).
+
+
+================================================================================
+PHASE 3: ANSWER ENGINE OPTIMIZATION (AEO LAYER)
+================================================================================
+
+3.1 DIRECT ANSWER DEFINITION SENTENCES
+--------------------------------------
+Near the top of key pages (Hero or Intro section), place a clear 1-2 sentence 
+direct definition using recognizable patterns:
+
+Pattern Example:
+"BrowserMesh is a peer-to-peer stealth web scraping network that enables high-scale data extraction using real residential browser nodes."
+
+
+3.2 5-QUESTION FAQ SECTIONS
+---------------------------
+Add an FAQ section to major landing pages (/features, /pricing, /docs, /marketplace).
+Each FAQ section must contain 5 concise Q&A pairs with direct answers.
+
+
+================================================================================
+PHASE 4: STRUCTURED DATA (JSON-LD SCHEMAS)
+================================================================================
+
+4.1 ORGANIZATION & WEBSITE SCHEMA (IN APP/LAYOUT.TSX)
+-----------------------------------------------------
+Inject global JSON-LD in <head>:
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "BrowserMesh",
+  "url": "https://browsermesh-one.vercel.app",
+  "logo": "https://browsermesh-one.vercel.app/images/logo-with-text.webp",
+  "description": "Stealth web scraping platform and peer-to-peer browser node network."
+}
+</script>
+
+
+4.2 FAQPAGE & PRODUCT SCHEMAS
+-----------------------------
+Generate page-specific JSON-LD schemas using the installed schema-generator:
+
+Command:
+antigravity skill run schema-generator --schema-types "FAQPage"
+
+
+================================================================================
+PHASE 5: CONTENT ENGINE SCALING (USING SEO-AEO-ENGINE)
+================================================================================
+
+5.1 KEYWORD RESEARCH
+--------------------
+Run keyword research for core topics:
+antigravity skill run keyword-research \
+  --topic "stealth web scraping software" \
+  --audience "data engineers, web developers, scrapers" \
+  --goal "convert"
+
+5.2 TOPIC CLUSTER MAPPING
+-------------------------
+Build topic cluster maps:
+antigravity skill run content-cluster \
+  --topic "stealth web scraping" \
+  --business "BrowserMesh browser node network"
+
+5.3 GENERATE BLOG POSTS & ARTICLES
+----------------------------------
+Generate long-form blog posts:
+antigravity skill run blog-writer \
+  --title "How to Bypass Anti-Bot Scraping Protections in 2026" \
+  --keyword "bypass anti bot scraping" \
+  --tone "authoritative"
+
+
+================================================================================
+PHASE 6: AUDIT, VERIFICATION & MAINTENANCE
+================================================================================
+
+6.1 LIGHTHOUSE AUDIT
+--------------------
+Run Lighthouse tests to ensure:
+- Performance >= 90+
+- Accessibility = 100/100
+- Best Practices = 100/100
+- SEO = 100/100
+
+6.2 GOOGLE RICH RESULTS TEST
+----------------------------
+Test all URLs at https://search.google.com/test/rich-results to confirm 
+valid JSON-LD syntax.
+
+6.3 SEARCH CONSOLE SUBMISSION
+-----------------------------
+Submit https://browsermesh-one.vercel.app/sitemap.xml to Google Search Console 
+and Bing Webmaster Tools.
+
+================================================================================

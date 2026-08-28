@@ -1,0 +1,60 @@
+# BrowserMesh — Stealth Web Scraping & Peer-to-Peer Browser Node Network
+
+> BrowserMesh is an enterprise-grade, decentralized stealth web scraping ecosystem and peer-to-peer residential browser node network. It allows developers and data teams to extract web data at scale with a 99.99% success rate without facing IP bans, rate limits, or CAPTCHA blocks.
+
+## Founder & Developer Information
+- **Founder & Lead Developer**: Mathanraj Murugesan (@mathanmithun)
+- **Role**: Architect, lead developer, and maintainer of BrowserMesh.
+- **Mission**: Empower data extraction for everyone through high-performance, stealthy, cross-platform web automation tools.
+- **GitHub Profile**: https://github.com/MaThanMiThun1999
+- **LinkedIn Profile**: https://www.linkedin.com/in/mathanraj-murugesan
+- **Contact Email**: mathanmithun8838@gmail.in / browsermesh@gmail.com
+- **Support Email**: support@browsermesh.in
+
+## Platform Statistics & Benchmarks
+- **Active Node Installations**: 1.2M+ residential & server nodes globally
+- **Developers & Teams**: 10,000+ registered data engineers and teams
+- **Jobs Executed**: 500,000+ daily scraping jobs processed
+- **Stealth Success Rate**: 99.99% block-free execution
+- **Platform Uptime**: 99.99% network availability
+- **Pre-Built Plugins**: 250+ low-code scrapers in the Marketplace
+- **Proxy Coverage**: 100+ global geographic locations
+
+## Multi-Platform Applications & Node Deployments
+BrowserMesh provides native applications and automated headless scripts across all major operating systems:
+- **Windows GUI App**: Native desktop application with visual job manager and proxy controls.
+- **Windows Headless CLI**: One-command PowerShell setup for VPS and background services (`install-headless.ps1`).
+- **Linux App & Headless CLI**: AppImage and Debian/Ubuntu packages, plus one-command Bash installer (`install-headless.sh`) for VPS/cloud servers (Ubuntu, Debian, CentOS, AWS, DigitalOcean, Hetzner).
+- **Android Mobile Node**: Background mobile APK converting Android devices into residential proxy nodes.
+- **Web Console**: Cloud control panel for managing nodes, viewing scraping telemetry, and scheduling jobs.
+
+## Core Stealth Architecture & Security
+- **Stealth Anti-Detect Engine**: Evades Cloudflare, Akamai, Datadome, PerimeterX, and Imperva.
+- **Real TLS Fingerprinting**: Mimics authentic browser TLS client hello signatures (JA3 / JA4).
+- **Browser Fingerprint Spoofing**: Dynamic Canvas, WebGL, AudioContext noise, and Navigator property masks.
+- **Custom Proxy Support**: Seamless HTTP/SOCKS5 proxy integration and custom residential proxy routing.
+- **CAPTCHA Bypass Engine**: Automated solving for reCAPTCHA, hCaptcha, Turnstile, and Geetest.
+
+## Plugin Marketplace Categories
+The BrowserMesh Marketplace offers 250+ pre-configured scraping plugins with instant data export:
+1. **Search Engines**: Google Search, Bing, DuckDuckGo, Baidu.
+2. **E-Commerce & Retail**: Amazon, eBay, Walmart, Target, Shopify stores.
+3. **Social Media**: Instagram, LinkedIn Company & Profiles, Twitter/X, TikTok, YouTube, Reddit.
+4. **Real Estate**: Zillow, Redfin, Realtor.com, Airbnb listings.
+5. **Maps & Travel**: Google Maps Places & Reviews, Tripadvisor, Booking.com.
+6. **Jobs & Recruitment**: Indeed, Glassdoor, LinkedIn Jobs.
+7. **Finance & Crypto**: Yahoo Finance, CoinMarketCap, Google Finance.
+8. **News & Media**: Google News, Bloomberg, Reuters.
+
+## Subscription Tiers & Pricing
+- **Free Plan ($0/forever)**: 500 monthly results, 1 active device, free marketplace plugins, 100 MB cloud storage, JSON exports.
+- **Pro Plan ($15/month)**: 10,000 monthly results, up to 3 active devices, Pro & Premium plugins, proxy support, scheduled jobs, 2 GB cloud storage, JSON/CSV/XLSX exports.
+
+## Core Links & Documentation
+- Homepage: https://browsermesh-one.vercel.app
+- Marketplace: https://browsermesh-one.vercel.app/marketplace
+- Features: https://browsermesh-one.vercel.app/features
+- Pricing: https://browsermesh-one.vercel.app/pricing
+- About Us: https://browsermesh-one.vercel.app/about
+- Documentation: https://browsermesh-one.vercel.app/docs
+- Web Console: https://console.browsermesh.in

@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { getDocBySlug, getAllDocs } from "@/utils/markdown";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 import { notFound } from "next/navigation";
+import { constructMetadata, generateTechArticleSchema } from "@/lib/seo";
 
 export async function generateStaticParams() {
     const docs = getAllDocs();
@@ -9,9 +11,40 @@ export async function generateStaticParams() {
     }));
 }
 
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug?: string[] }>;
+}): Promise<Metadata> {
+    const slugArray = (await params).slug;
+    const slug = slugArray ? slugArray.join("/") : "getting-started";
+    const doc = getDocBySlug(slug);
+
+    if (!doc) {
+        return constructMetadata({
+            title: "Documentation - BrowserMesh",
+            description:
+                "BrowserMesh documentation, API references, installation guides, and browser pool setup.",
+            path: "/docs",
+        });
+    }
+
+    const title = `${doc.frontmatter.title} - BrowserMesh Docs`;
+    const description =
+        doc.frontmatter.description ||
+        `Read the ${doc.frontmatter.title} guide in the official BrowserMesh documentation.`;
+    const path = `/docs/${doc.slug}`;
+
+    return constructMetadata({
+        title,
+        description,
+        path,
+        type: "article",
+    });
+}
+
 export default async function DocPage({ params }: { params: Promise<{ slug?: string[] }> }) {
     const slugArray = (await params).slug;
-    // Default to 'getting-started' if no slug is provided
     const slug = slugArray ? slugArray.join("/") : "getting-started";
 
     const doc = getDocBySlug(slug);
@@ -21,13 +54,24 @@ export default async function DocPage({ params }: { params: Promise<{ slug?: str
         notFound();
     }
 
-    // Find previous and next docs based on order
     const currentIndex = allDocs.findIndex((d) => d.slug === doc.slug);
     const prevDoc = currentIndex > 0 ? allDocs[currentIndex - 1] : null;
     const nextDoc = currentIndex < allDocs.length - 1 ? allDocs[currentIndex + 1] : null;
 
+    const techArticleSchemaData = generateTechArticleSchema({
+        headline: doc.frontmatter.title,
+        description: doc.frontmatter.description || `${doc.frontmatter.title} documentation guide for BrowserMesh.`,
+        url: `https://browsermesh-one.vercel.app/docs/${doc.slug}`,
+        category: doc.frontmatter.category || "Documentation",
+    });
+
     return (
         <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-10 sm:pb-20">
+            {/* Embedded TechArticle JSON-LD Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchemaData) }}
+            />
             {/* Breadcrumbs */}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-400 mb-3 sm:mb-6 font-medium">
                 <span>Docs</span>

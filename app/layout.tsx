@@ -8,6 +8,11 @@ import GlobalCursor from "@/components/ui/global-cursor";
 
 import { siteInfo } from "@/data/siteInfo";
 import { envConfig } from "@/data/envConfig";
+import {
+    generateOrganizationSchema,
+    generateWebSiteSchema,
+    generateSoftwareApplicationSchema,
+} from "@/lib/seo";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -80,6 +85,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <head>
                 <link rel="preconnect" href="https://dzaw5b2mobklq.cloudfront.net" />
                 <link rel="dns-prefetch" href="https://dzaw5b2mobklq.cloudfront.net" />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify([
+                            generateOrganizationSchema(),
+                            generateWebSiteSchema(),
+                            generateSoftwareApplicationSchema(),
+                        ]),
+                    }}
+                />
             </head>
             <body
                 className="min-h-full flex flex-col bg-mesh overflow-x-hidden"
