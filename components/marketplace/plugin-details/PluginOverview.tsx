@@ -24,8 +24,10 @@ import {
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 
 export interface PluginFeatureItem {
-    title: string;
-    description: string;
+    title?: string;
+    name?: string;
+    description?: string;
+    desc?: string;
     icon?: string;
 }
 
