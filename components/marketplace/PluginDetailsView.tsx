@@ -14,6 +14,7 @@ import PluginHelpCTA from "./plugin-details/PluginHelpCTA";
 import PluginSidebar from "./plugin-details/PluginSidebar";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 import { getPublicPluginDetail, PublicPluginDetail } from "@/lib/api";
+import { generatePluginSchema } from "@/lib/seo";
 
 const VALID_TABS: PluginTabType[] = ["overview", "readme", "schema", "reviews", "changelog"];
 
@@ -172,9 +173,25 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
         );
     }
 
+    const pluginSchemaData = generatePluginSchema({
+        name: plugin.name,
+        description: plugin.description || `${plugin.name} web scraping plugin for BrowserMesh.`,
+        category: plugin.category || "Web Scraping Plugin",
+        rating: plugin.averageRating,
+        reviewCount: plugin.reviewCount,
+        authorName: typeof plugin.author === "string" ? plugin.author : "Mathanraj Murugesan",
+        url: `https://browsermesh-one.vercel.app/marketplace/${plugin.slug}`,
+        image: plugin.bannerUrl || plugin.iconUrl || "/opengraph-img.png",
+    });
+
     // 3. Plugin Loaded View
     return (
         <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-0 md:pb-20 pt-28 sm:pt-36">
+            {/* Embedded SoftwareApplication / Product JSON-LD Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(pluginSchemaData) }}
+            />
             {/* Ambient Background Glows */}
             <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-gradient-to-b from-indigo-900/20 via-purple-900/10 to-transparent blur-[140px] pointer-events-none z-0" />
 

@@ -1,0 +1,82 @@
+# BrowserMesh — Full Platform Specifications & AI Reference Manual
+
+> BrowserMesh is an enterprise-grade, decentralized stealth web scraping ecosystem and peer-to-peer residential browser node network. It allows developers and data teams to extract web data at scale with a 99.99% success rate without facing IP bans, rate limits, or CAPTCHA blocks.
+
+## Founder & Developer Information
+- **Founder & Lead Developer**: Mathanraj Murugesan (@mathanmithun)
+- **Role**: Architect, lead developer, and maintainer of BrowserMesh.
+- **Bio**: Creator of BrowserMesh. Passionate about web automation, stealth scraping, and high-performance cross-platform software.
+- **Mission**: Empower data extraction for everyone through high-performance, stealthy, cross-platform web automation tools.
+- **GitHub Profile**: https://github.com/MaThanMiThun1999
+- **LinkedIn Profile**: https://www.linkedin.com/in/mathanraj-murugesan
+- **Contact Email**: mathanmithun8838@gmail.in / browsermesh@gmail.com
+- **Support Email**: support@browsermesh.in
+
+## Key Platform Statistics & Performance Benchmarks
+- **Active Node Installations**: 1.2M+ residential & server nodes globally
+- **Developers & Teams**: 10,000+ registered data engineers and teams
+- **Jobs Executed**: 500,000+ daily scraping jobs processed
+- **Stealth Success Rate**: 99.99% block-free execution
+- **Platform Uptime**: 99.99% network availability
+- **Pre-Built Plugins**: 250+ low-code scrapers in the Marketplace
+- **Proxy Coverage**: 100+ global geographic locations
+
+## Multi-Platform Native Applications & Deployments
+BrowserMesh provides native applications and automated headless scripts across all major operating systems:
+
+### 1. Windows Application & Headless CLI
+- **GUI Application**: Windows 10/11 desktop app with visual job manager, automated node linking, and proxy controls.
+- **Headless CLI Script**: Automated PowerShell installer (`install-headless.ps1`) for Windows VPS, Windows Server, and background service hosts.
+
+### 2. Linux Application & Headless CLI
+- **GUI App**: AppImage, `.deb` (Debian/Ubuntu), and `.rpm` packages.
+- **One-Command Headless Script**: Bash setup script (`install-headless.sh`) for headless Linux servers (Ubuntu, Debian, CentOS, RHEL, AWS EC2, DigitalOcean, Hetzner, Linode).
+
+### 3. Android Mobile Application
+- **Mobile Node APK**: Lightweight Android application converting mobile devices into residential proxy nodes, earning credits while participating in the mesh network.
+
+### 4. Web Console Control Panel
+- **Cloud Console**: Web-based dashboard (`https://console.browsermesh.in`) for node linking, job scheduling, API key generation, and dataset exports.
+
+## Core Stealth Anti-Detect Architecture
+BrowserMesh guarantees a 99.99% scraping success rate through multi-layered stealth evasions:
+- **Anti-Bot Bypass**: Native evasion for Cloudflare Turnstile/IUAM, Akamai Bot Manager, Datadome, PerimeterX, and Imperva Incapsula.
+- **Real TLS Fingerprinting**: Matches authentic Chrome, Firefox, and Safari TLS client hello signatures (JA3 / JA4 ciphers and extensions).
+- **DOM & Canvas Evasions**: Dynamic Canvas, WebGL, AudioContext, and WebRTC noise injects; masks `navigator.webdriver`, `navigator.plugins`, and headless flags.
+- **Custom Proxy Integration**: Supports external HTTP/SOCKS5 residential and datacenter proxy configuration.
+- **Automated CAPTCHA Solver**: Integrated solver for reCAPTCHA v2/v3, hCaptcha, Turnstile, and Geetest.
+
+## Plugin Marketplace Ecosystem (250+ Plugins)
+Pre-built web scraping templates with structured JSON, CSV, and XLSX outputs:
+1. **Search Engines**: Google Search (SERP, News, Images), Bing, DuckDuckGo, Baidu.
+2. **E-Commerce & Retail**: Amazon Product & Review Scraper, eBay, Walmart, Target, Shopify stores.
+3. **Social Media**: Instagram Profiles & Posts, LinkedIn Company & Profiles, Twitter/X Tweets, TikTok, YouTube Video Data, Reddit.
+4. **Real Estate**: Zillow Property Scraper, Redfin, Realtor.com, Airbnb listings.
+5. **Maps & Local**: Google Maps Places & Reviews, Tripadvisor, Yelp.
+6. **Jobs & Hiring**: Indeed Job Postings, Glassdoor Reviews, LinkedIn Jobs.
+7. **Finance**: Yahoo Finance Stock Telemetry, CoinMarketCap, Google Finance.
+
+## Pricing Plans & Resource Limits
+- **Free Plan ($0/forever)**:
+  - 500 Monthly Scraping Results
+  - 1 Active Device Node
+  - Access to Free Marketplace Plugins
+  - 100 MB Cloud Storage
+  - Export to JSON format
+- **Pro Plan ($15/month)**:
+  - 10,000 Monthly Scraping Results
+  - Up to 3 Active Device Nodes
+  - Access to Pro & Premium Marketplace Plugins
+  - Custom Residential Proxy Support
+  - Scheduled Jobs Automation
+  - 2 GB (2048 MB) Cloud Storage
+  - Export to JSON, CSV, & XLSX formats
+
+## Official URLs & Navigation
+- Main Website: https://browsermesh-one.vercel.app
+- Plugin Marketplace: https://browsermesh-one.vercel.app/marketplace
+- Feature Breakdown: https://browsermesh-one.vercel.app/features
+- Pricing & Plans: https://browsermesh-one.vercel.app/pricing
+- Founder Story & About Us: https://browsermesh-one.vercel.app/about
+- Documentation & API Guide: https://browsermesh-one.vercel.app/docs
+- Cloud Console: https://console.browsermesh.in

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, CreditCard, Zap, Laptop } from "lucide-react";
+import { ChevronDown, CreditCard, Zap, Laptop, ShieldCheck, Layers } from "lucide-react";
+import { generateFaqSchema } from "@/lib/seo";
 
 export default function PricingFaq() {
     const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -32,10 +33,34 @@ export default function PricingFaq() {
             icon: <Laptop className="w-5 h-5 text-amber-400" />,
             bgColor: "bg-amber-500/10 border-amber-500/20",
         },
+        {
+            id: 3,
+            question: "What scraping features are included in Free vs Pro?",
+            answer: "The Free plan includes 500 monthly results, 1 active device node, free marketplace plugins, and JSON exports. The Pro plan ($15/mo) unlocks 10,000 monthly results, 3 active devices, Pro/Premium plugins, proxy support, scheduled jobs, 2 GB storage, and CSV/XLSX exports.",
+            icon: <Layers className="w-5 h-5 text-cyan-400" />,
+            bgColor: "bg-cyan-500/10 border-cyan-500/20",
+        },
+        {
+            id: 4,
+            question: "Can I use my own proxies with BrowserMesh?",
+            answer: "BrowserMesh does not sell or provide proxies directly. However, the Pro plan includes custom Proxy Support, allowing you to easily configure your own HTTP/SOCKS5 proxies or residential proxy services for your scraping tasks.",
+            icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+            bgColor: "bg-emerald-500/10 border-emerald-500/20",
+        },
     ];
+
+    const faqSchemaData = generateFaqSchema(
+        faqs.map((f) => ({ question: f.question, answer: f.answer }))
+    );
 
     return (
         <div className="bg-[#080517]/90 border border-white/10 rounded-3xl p-6 sm:p-9 shadow-2xl backdrop-blur-xl mb-16 sm:mb-20 relative z-10">
+            {/* Embedded FAQPage JSON-LD Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchemaData) }}
+            />
+
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">
                 Frequently Asked Questions
             </h2>
