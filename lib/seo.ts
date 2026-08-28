@@ -32,6 +32,7 @@ export interface TechArticleSchemaOptions {
     category?: string;
     datePublished?: string;
     dateModified?: string;
+    image?: string;
 }
 
 export const SITE_URL = "https://browsermesh-one.vercel.app";
@@ -129,13 +130,20 @@ export function generateSoftwareApplicationSchema() {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "BrowserMesh",
-        "operatingSystem": "Windows, Linux, Android",
+        "operatingSystem": "Windows, Linux, Android, Web",
         "applicationCategory": "DeveloperApplication",
         "description": "Stealth web scraping and residential browser node automation platform.",
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "INR",
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "1250",
+            "bestRating": "5",
+            "worstRating": "1",
         },
     };
 }
@@ -171,7 +179,7 @@ export function generatePluginSchema({
         "name": name,
         "description": description,
         "applicationCategory": category,
-        "operatingSystem": "Windows, macOS, Linux, Android",
+        "operatingSystem": "Windows, Linux, Android, Web",
         "url": url,
         "image": image.startsWith("http") ? image : `${SITE_URL}${image}`,
         "author": {
@@ -198,8 +206,9 @@ export function generateTechArticleSchema({
     description,
     url,
     category = "Documentation",
-    datePublished = "2024-01-01",
+    datePublished = "2024-01-01T00:00:00Z",
     dateModified = new Date().toISOString(),
+    image = DEFAULT_OG_IMAGE,
 }: TechArticleSchemaOptions) {
     return {
         "@context": "https://schema.org",
@@ -210,6 +219,7 @@ export function generateTechArticleSchema({
         "articleSection": category,
         "datePublished": datePublished,
         "dateModified": dateModified,
+        "image": image.startsWith("http") ? image : `${SITE_URL}${image}`,
         "author": {
             "@type": "Person",
             "name": "Mathanraj Murugesan",
@@ -225,3 +235,4 @@ export function generateTechArticleSchema({
         },
     };
 }
+

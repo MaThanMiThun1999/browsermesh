@@ -1,7 +1,7 @@
 "use client";
 
 import { Download, BookOpen, Globe, ExternalLink, Eye, Layers } from "lucide-react";
-import { FaWindows, FaApple, FaAndroid, FaLinux } from "react-icons/fa";
+import { FaWindows, FaAndroid, FaLinux } from "react-icons/fa";
 import Link from "next/link";
 import { formatRelativeTime } from "@/utils/date";
 
@@ -29,7 +29,7 @@ export default function PluginSidebar({
     installCount = 1500,
     viewCount = 4500,
     totalJobs = 12000,
-    compatibility = ["windows", "macos", "linux", "android", "web"],
+    compatibility = ["windows", "linux", "android", "web"],
     websiteUrl,
     documentationUrl,
     createdAt,
@@ -135,13 +135,13 @@ export default function PluginSidebar({
 
                     <div
                         className={`border rounded-xl p-3 flex flex-col items-center gap-2 ${
-                            activePlatforms.includes("macos") || activePlatforms.includes("mac")
-                                ? "bg-purple-500/10 border-purple-500/30 text-purple-400"
+                            activePlatforms.includes("web")
+                                ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
                                 : "bg-white/[0.02] border-white/5 text-slate-500"
                         }`}
                     >
-                        <FaApple size={20} />
-                        <span className="text-[11px] font-medium">macOS</span>
+                        <Globe size={20} />
+                        <span className="text-[11px] font-medium">Web</span>
                     </div>
 
                     <div

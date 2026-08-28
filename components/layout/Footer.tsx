@@ -12,7 +12,7 @@ import { siteInfo } from "@/data/siteInfo";
 import { useSettings } from "@/context/SettingsContext";
 import { getLatestReleases, LatestReleases } from "@/lib/api";
 
-type PlatformType = "windows" | "macos" | "linux" | "android" | "web" | "unknown";
+type PlatformType = "windows" | "linux" | "android" | "web" | "unknown";
 
 export default function Footer() {
     const { appName, tagline, getSettingValue } = useSettings();
@@ -29,9 +29,7 @@ export default function Footer() {
         if (typeof window !== "undefined") {
             const userAgent = navigator.userAgent.toLowerCase();
             let currentOS: PlatformType = "windows";
-            if (userAgent.includes("mac") || userAgent.includes("darwin")) {
-                currentOS = "macos";
-            } else if (userAgent.includes("android")) {
+            if (userAgent.includes("android")) {
                 currentOS = "android";
             } else if (userAgent.includes("linux")) {
                 currentOS = "linux";
@@ -53,8 +51,7 @@ export default function Footer() {
                     releases?.downloads?.windows ||
                     "https://s3.browsermesh.in/releases/BrowserMesh-Setup-1.0.0.exe"
                 );
-            case "macos":
-                return siteInfo.links.docs;
+
             case "linux":
                 return (
                     releases?.downloads?.linuxAppImage ||

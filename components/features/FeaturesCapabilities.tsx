@@ -38,7 +38,7 @@ export default function FeaturesCapabilities() {
         {
             title: "Cross-Platform",
             description:
-                "Run on Web, Desktop (Windows, macOS, Linux) or even Android with identical power.",
+                "Run on Web, Desktop (Windows, Linux) or even Android with identical power.",
             icon: <MonitorSmartphone className="w-6 h-6 text-pink-400" />,
             bgColor: "bg-pink-500/10 border-pink-500/25 text-pink-400",
             checkColor: "bg-pink-500/20 text-pink-400 border-pink-500/30",

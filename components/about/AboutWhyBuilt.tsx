@@ -28,7 +28,7 @@ export default function AboutWhyBuilt() {
         {
             title: "Cross-Platform",
             description:
-                "Run on Web, Desktop (Windows, macOS, Linux), and Android — same power everywhere.",
+                "Run on Web, Desktop (Windows, Linux), and Android — same power everywhere.",
             icon: <MonitorSmartphone className="w-6 h-6 text-pink-400" />,
             bgColor: "bg-pink-500/10 border-pink-500/25",
         },

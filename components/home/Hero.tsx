@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import KineticGrid from "@/components/ui/kinetic-grid";
 import { Download, TerminalSquare, Target } from "lucide-react";
-import { FaGlobe, FaWindows, FaAndroid, FaLinux, FaApple } from "react-icons/fa6";
+import { FaGlobe, FaWindows, FaAndroid, FaLinux } from "react-icons/fa6";
 import { siteInfo } from "@/data/siteInfo";
 import { heroImg } from "@/assets/images";
 import { getLatestReleases, LatestReleases } from "@/lib/api";
 import { useSettings } from "@/context/SettingsContext";
 
-type PlatformType = "windows" | "macos" | "linux" | "android" | "web" | "unknown";
+type PlatformType = "windows" | "linux" | "android" | "web" | "unknown";
 
 interface DownloadInfo {
     label: string;
@@ -37,9 +37,7 @@ export default function Hero() {
         if (typeof window !== "undefined") {
             const userAgent = navigator.userAgent.toLowerCase();
             let currentOS: PlatformType = "windows";
-            if (userAgent.includes("mac") || userAgent.includes("darwin")) {
-                currentOS = "macos";
-            } else if (userAgent.includes("android")) {
+            if (userAgent.includes("android")) {
                 currentOS = "android";
             } else if (userAgent.includes("linux")) {
                 currentOS = "linux";
@@ -63,13 +61,7 @@ export default function Hero() {
                     icon: <FaWindows size={16} className="text-[#00a4ef]" />,
                     platformName: "Windows",
                 };
-            case "macos":
-                return {
-                    label: `Download for macOS`,
-                    url: siteInfo.links.docs,
-                    icon: <FaApple size={16} className="text-slate-200" />,
-                    platformName: "macOS",
-                };
+
             case "linux":
                 return {
                     label: `Download for Linux`,

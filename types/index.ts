@@ -30,7 +30,7 @@ export interface User {
 // ==========================================
 
 export type PluginStatus = "draft" | "review" | "approved" | "published" | "archived";
-export type DevicePlatform = "android" | "ios" | "windows" | "linux" | "macos" | "web";
+export type DevicePlatform = "android" | "windows" | "linux" | "web";
 export type PluginTier = "free" | "starter" | "pro" | "enterprise";
 
 export interface Category {

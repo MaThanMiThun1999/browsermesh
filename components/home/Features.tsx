@@ -24,7 +24,7 @@ export default function Features() {
         {
             img: assetsImg4,
             title: "Multi-Platform",
-            desc: "Web • Desktop • Mobile (Android + iOS) • CLI",
+            desc: "Web • Desktop (Windows/Linux) • Mobile (Android) • CLI",
             grad: "from-indigo-500/15 to-purple-600/15",
         },
     ];
