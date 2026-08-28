@@ -108,7 +108,7 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
     // 1. Loading Skeleton View
     if (loading) {
         return (
-            <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-20 pt-28 sm:pt-36">
+            <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-0 md:pb-20 pt-28 sm:pt-36">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col gap-8">
                     {/* Hero Skeleton */}
                     <div className="w-full bg-[#080517]/80 border border-white/10 rounded-3xl p-6 sm:p-10 h-72 animate-pulse flex flex-col justify-between">
@@ -142,7 +142,7 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
     // 2. Error / 404 View
     if (error || !plugin) {
         return (
-            <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-20 pt-28 sm:pt-36 flex items-center justify-center">
+            <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-0 md:pb-20 pt-28 sm:pt-36 flex items-center justify-center">
                 <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-5 bg-[#0a0518] border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl">
                     <div className="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
                         <AlertCircle size={28} />
@@ -174,7 +174,7 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
 
     // 3. Plugin Loaded View
     return (
-        <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-20 pt-28 sm:pt-36">
+        <div className="w-full min-h-screen bg-[#07071a] text-slate-200 pb-0 md:pb-20 pt-28 sm:pt-36">
             {/* Ambient Background Glows */}
             <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-gradient-to-b from-indigo-900/20 via-purple-900/10 to-transparent blur-[140px] pointer-events-none z-0" />
 
@@ -218,8 +218,8 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
                 {/* TAB 2: README TAB */}
                 {activeTab === "readme" && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10 items-start">
-                        <div className="lg:col-span-8 bg-[#080517]/80 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
-                            <h3 className="text-white font-bold text-xl mb-6 pb-4 border-b border-white/10">
+                        <div className="lg:col-span-8 bg-[#080517]/80 border border-white/10 rounded-2xl p-4 sm:p-8 shadow-xl">
+                            <h3 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
                                 Plugin README & Documentation
                             </h3>
                             {plugin.readme ? (

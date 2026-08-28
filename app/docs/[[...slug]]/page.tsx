@@ -27,30 +27,30 @@ export default async function DocPage({ params }: { params: Promise<{ slug?: str
     const nextDoc = currentIndex < allDocs.length - 1 ? allDocs[currentIndex + 1] : null;
 
     return (
-        <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-20">
+        <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-10 sm:pb-20">
             {/* Breadcrumbs */}
-            <div className="flex items-center gap-2 text-sm text-slate-400 mb-6 font-medium">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-400 mb-3 sm:mb-6 font-medium">
                 <span>Docs</span>
                 <span>/</span>
                 <span className="text-indigo-400">{doc.frontmatter.category || "General"}</span>
             </div>
 
             {/* Header */}
-            <div className="mb-10 p-8 rounded-3xl glass-strong glow-blue relative overflow-hidden">
+            <div className="mb-5 sm:mb-10 p-4 sm:p-8 rounded-2xl sm:rounded-3xl glass-strong glow-blue relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none" />
-                <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 relative z-10">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2 sm:mb-4 relative z-10">
                     {doc.frontmatter.title}
                 </h1>
                 {doc.frontmatter.description && (
-                    <p className="text-lg text-slate-300 leading-relaxed max-w-2xl relative z-10">
+                    <p className="text-xs sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl relative z-10">
                         {doc.frontmatter.description}
                     </p>
                 )}
             </div>
 
-            <div className="w-full h-px bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-transparent mb-10" />
+            <div className="w-full h-px bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-transparent mb-5 sm:mb-10" />
 
-            <div className="glass p-6 sm:p-10 rounded-3xl">
+            <div className="glass p-4 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl">
                 <MarkdownRenderer content={doc.content} />
             </div>
 

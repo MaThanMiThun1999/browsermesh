@@ -48,7 +48,7 @@ export default function MarketplaceStats({ stats }: MarketplaceStatsProps) {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 {/* Outer Dark Glass Box Container */}
                 <div className="bg-[#050312]/90 border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl">
-                    <h3 className="text-white font-bold text-base sm:text-lg mb-5 sm:mb-6">
+                    <h3 className="text-white font-bold text-base sm:text-lg mb-5 sm:mb-6 text-center sm:text-left">
                         Marketplace by the numbers
                     </h3>
 
@@ -57,18 +57,18 @@ export default function MarketplaceStats({ stats }: MarketplaceStatsProps) {
                         {statItems.map((stat, i) => (
                             <div
                                 key={i}
-                                className="bg-[#080517] border border-white/5 hover:border-white/15 transition-all rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 group"
+                                className="bg-[#080517] border border-white/5 hover:border-white/15 transition-all rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-3 sm:gap-4 group"
                             >
                                 <div
                                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl border flex items-center justify-center shrink-0 ${stat.color} group-hover:scale-105 transition-transform`}
                                 >
                                     {stat.icon}
                                 </div>
-                                <div className="flex flex-col min-w-0">
+                                <div className="flex flex-col items-center sm:items-start min-w-0 w-full sm:w-auto text-center sm:text-left">
                                     <span className="text-white font-extrabold text-lg sm:text-2xl leading-tight tracking-tight">
                                         {stat.value}
                                     </span>
-                                    <span className="text-slate-400 text-[10px] sm:text-[12px] font-medium truncate">
+                                    <span className="text-slate-400 text-[10px] sm:text-[12px] font-medium truncate w-full">
                                         {stat.label}
                                     </span>
                                 </div>

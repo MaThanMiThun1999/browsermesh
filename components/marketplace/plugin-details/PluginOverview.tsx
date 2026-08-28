@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
     Target,
     Layers,
@@ -8,8 +7,6 @@ import {
     Globe,
     Zap,
     FileText,
-    ChevronLeft,
-    ChevronRight,
     ScanSearch,
     Monitor,
     MousePointer2,
@@ -125,26 +122,6 @@ const DEFAULT_FEATURES = [
 ];
 
 export default function PluginOverview({ description, readme, features }: PluginOverviewProps) {
-    const [testimonialIdx, setTestimonialIdx] = useState(0);
-
-    const testimonials = [
-        {
-            quote: "The BrowserMesh plugin ecosystem is incredibly reliable and easy to integrate. Saved us weeks of custom scraper development!",
-            author: "Alex Johnson",
-            role: "Data Engineer at MarketLens",
-        },
-        {
-            quote: "Built-in stealth engine and SPA JSON extraction work like magic. We pull 50,000+ daily listings seamlessly.",
-            author: "Sophia Martinez",
-            role: "Head of Analytics at CommercePulse",
-        },
-        {
-            quote: "Clean structured data output and resumable checkpoint support make this plugin worth every single penny.",
-            author: "David Chen",
-            role: "Lead Developer at ScrapingHub",
-        },
-    ];
-
     const parsedFeatures = Array.isArray(features) && features.length > 0 ? features : null;
 
     const featureCount = parsedFeatures ? parsedFeatures.length : DEFAULT_FEATURES.length;
@@ -242,60 +219,13 @@ export default function PluginOverview({ description, readme, features }: Plugin
 
             {/* Readme Markdown Renderer (From API) */}
             {readme && (
-                <div className="bg-[#080517]/80 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
-                    <h3 className="text-white font-bold text-xl mb-6 pb-4 border-b border-white/10">
+                <div className="bg-[#080517]/80 border border-white/10 rounded-2xl p-4 sm:p-8 shadow-xl">
+                    <h3 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
                         README
                     </h3>
                     <MarkdownRenderer content={readme} />
                 </div>
             )}
-
-            {/* Testimonials Carousel Box */}
-            <div className="bg-gradient-to-br from-[#0c0724] to-[#060314] border border-white/10 rounded-2xl p-6 sm:p-7 relative overflow-hidden">
-                <h4 className="text-white font-bold text-sm mb-4">
-                    Why developers love this plugin
-                </h4>
-
-                <div className="relative min-h-[90px] flex flex-col justify-between">
-                    <p className="text-slate-300 text-xs sm:text-sm italic leading-relaxed mb-4">
-                        &quot;{testimonials[testimonialIdx].quote}&quot;
-                    </p>
-
-                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                        <div className="flex flex-col">
-                            <span className="text-white font-bold text-xs">
-                                {testimonials[testimonialIdx].author}
-                            </span>
-                            <span className="text-slate-500 text-[11px]">
-                                {testimonials[testimonialIdx].role}
-                            </span>
-                        </div>
-
-                        <div className="flex items-center gap-1.5">
-                            <button
-                                onClick={() =>
-                                    setTestimonialIdx((prev) =>
-                                        prev === 0 ? testimonials.length - 1 : prev - 1
-                                    )
-                                }
-                                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
-                            >
-                                <ChevronLeft size={14} />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    setTestimonialIdx((prev) =>
-                                        prev === testimonials.length - 1 ? 0 : prev + 1
-                                    )
-                                }
-                                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
-                            >
-                                <ChevronRight size={14} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }

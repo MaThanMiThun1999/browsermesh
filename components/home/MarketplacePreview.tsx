@@ -125,29 +125,29 @@ export default function MarketplacePreview() {
     };
 
     return (
-        <section className="max-w-7xl mx-auto px-6 py-8">
-            <div className="bg-white/[0.02] border border-white/5 shadow-2xl rounded-3xl p-8">
+        <section className="max-w-7xl mx-auto px-3 sm:px-6 py-4 md:py-8">
+            <div className="bg-white/[0.02] border border-white/5 shadow-2xl rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-5 md:gap-4">
-                    <div className="flex items-start md:items-center gap-4">
-                        <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 mt-1 md:mt-0 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center shadow-inner">
-                            <span className="text-2xl md:text-3xl drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 md:mb-8 gap-3 md:gap-4">
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-10 h-10 md:w-14 md:h-14 shrink-0 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center shadow-inner">
+                            <span className="text-xl md:text-3xl drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">
                                 🔥
                             </span>
                         </div>
-                        <div className="flex flex-col gap-2 md:gap-1">
-                            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
-                                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight leading-none">
+                        <div className="flex flex-col gap-1">
+                            <div className="flex flex-row items-center gap-2 md:gap-3 flex-wrap">
+                                <h2 className="text-xl md:text-3xl font-bold text-white tracking-tight leading-none">
                                     Marketplace
                                 </h2>
                                 <div className="w-fit">
                                     {statsLoading ? (
-                                        <span className="text-[11px] bg-indigo-500/10 text-indigo-300/70 border border-indigo-500/20 rounded-full px-2.5 py-0.5 font-semibold tracking-wide whitespace-nowrap animate-pulse flex items-center gap-1.5">
+                                        <span className="text-[10px] md:text-[11px] bg-indigo-500/10 text-indigo-300/70 border border-indigo-500/20 rounded-full px-2 py-0.5 font-semibold tracking-wide whitespace-nowrap animate-pulse flex items-center gap-1.5">
                                             <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
                                             Loading Stats...
                                         </span>
                                     ) : (
-                                        <span className="text-[11px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full px-2.5 py-0.5 font-semibold tracking-wide whitespace-nowrap">
+                                        <span className="text-[10px] md:text-[11px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full px-2 py-0.5 font-semibold tracking-wide whitespace-nowrap">
                                             {globalTotalPlugins !== null && globalTotalPlugins > 0
                                                 ? `${globalTotalPlugins}+`
                                                 : "200+"}{" "}
@@ -156,26 +156,26 @@ export default function MarketplacePreview() {
                                     )}
                                 </div>
                             </div>
-                            <p className="text-slate-400 text-sm leading-snug">
+                            <p className="text-slate-400 text-xs md:text-sm leading-snug">
                                 Discover, install and run powerful scraping plugins.
                             </p>
                         </div>
                     </div>
                     <Link
                         href="/marketplace"
-                        className="text-sm text-[#7c3aed] hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors pl-16 md:pl-0"
+                        className="text-xs md:text-sm text-[#7c3aed] hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors"
                     >
                         View All Plugins <ChevronRight size={14} />
                     </Link>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex gap-2 mb-8 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex gap-1.5 md:gap-2 mb-4 md:mb-8 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                     {tabs.map((t) => (
                         <button
                             key={t.label}
                             onClick={() => setActiveTab(t.label)}
-                            className={`shrink-0 text-xs font-medium px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all ${activeTab === t.label ? "bg-[#7c3aed] text-white shadow-[0_0_15px_rgba(124,58,237,0.4)]" : "glass-framer text-slate-400 hover:text-white"}`}
+                            className={`shrink-0 text-[11px] md:text-xs font-medium px-3 py-2 md:px-4 md:py-2.5 rounded-lg md:rounded-xl flex items-center gap-1.5 md:gap-2 transition-all ${activeTab === t.label ? "bg-[#7c3aed] text-white shadow-[0_0_15px_rgba(124,58,237,0.4)]" : "glass-framer text-slate-400 hover:text-white"}`}
                         >
                             {t.icon} {t.label}
                         </button>
@@ -183,39 +183,39 @@ export default function MarketplacePreview() {
                 </div>
 
                 {/* Plugin Cards List */}
-                <div className="flex gap-4 mb-6 overflow-x-auto pb-6 snap-x snap-mandatory [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-indigo-500/50 hover:[&::-webkit-scrollbar-thumb]:bg-indigo-500 [&::-webkit-scrollbar-thumb]:rounded-full transition-all">
+                <div className="flex gap-3 md:gap-4 mb-4 md:mb-6 overflow-x-auto pb-4 md:pb-6 snap-x snap-mandatory [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-indigo-500/50 hover:[&::-webkit-scrollbar-thumb]:bg-indigo-500 [&::-webkit-scrollbar-thumb]:rounded-full transition-all">
                     {loading ? (
                         /* Skeleton Loading Cards */
                         Array.from({ length: 5 }).map((_, i) => (
                             <div
                                 key={i}
-                                className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 flex flex-col animate-pulse"
+                                className="snap-start w-[250px] md:w-[320px] shrink-0 glass-framer rounded-xl md:rounded-2xl p-4 md:p-5 flex flex-col animate-pulse"
                             >
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="w-10 h-10 rounded-xl bg-white/10" />
-                                    <div className="w-12 h-4 rounded bg-white/10" />
+                                <div className="flex items-start justify-between mb-3">
+                                    <div className="w-9 h-9 rounded-xl bg-white/10" />
+                                    <div className="w-10 h-4 rounded bg-white/10" />
                                 </div>
-                                <div className="w-3/4 h-5 rounded bg-white/10 mb-2" />
-                                <div className="w-1/2 h-3 rounded bg-white/10 mb-4" />
-                                <div className="w-full h-12 rounded bg-white/10 mb-4" />
-                                <div className="w-full h-9 rounded-xl bg-white/10 mt-auto" />
+                                <div className="w-3/4 h-4 rounded bg-white/10 mb-2" />
+                                <div className="w-1/2 h-3 rounded bg-white/10 mb-3" />
+                                <div className="w-full h-10 rounded bg-white/10 mb-3" />
+                                <div className="w-full h-8 rounded-lg bg-white/10 mt-auto" />
                             </div>
                         ))
                     ) : error ? (
                         /* Error State Card */
-                        <div className="w-full glass-framer rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
-                            <p className="text-slate-400 text-sm">{error}</p>
+                        <div className="w-full glass-framer rounded-xl md:rounded-2xl p-6 md:p-8 text-center flex flex-col items-center justify-center gap-3">
+                            <p className="text-slate-400 text-xs md:text-sm">{error}</p>
                             <button
                                 onClick={handleRetry}
-                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"
+                                className="px-3.5 py-1.5 md:px-4 md:py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg md:rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"
                             >
                                 <RefreshCw size={14} /> Retry
                             </button>
                         </div>
                     ) : plugins.length === 0 ? (
                         /* Empty State Card */
-                        <div className="w-full glass-framer rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
-                            <p className="text-slate-400 text-sm">
+                        <div className="w-full glass-framer rounded-xl md:rounded-2xl p-6 md:p-8 text-center flex flex-col items-center justify-center gap-3">
+                            <p className="text-slate-400 text-xs md:text-sm">
                                 No plugins found for this filter.
                             </p>
                             <Link
@@ -238,10 +238,10 @@ export default function MarketplacePreview() {
                             return (
                                 <div
                                     key={p.id}
-                                    className="snap-start w-[280px] md:w-[320px] shrink-0 glass-framer rounded-2xl p-5 card-hover flex flex-col transition-all duration-300 hover:bg-white/[0.03]"
+                                    className="snap-start w-[250px] md:w-[320px] shrink-0 glass-framer rounded-xl md:rounded-2xl p-4 md:p-5 card-hover flex flex-col transition-all duration-300 hover:bg-white/[0.03]"
                                 >
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400 overflow-hidden">
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400 overflow-hidden">
                                             {p.iconUrl ? (
                                                 <img
                                                     src={p.iconUrl}
@@ -259,14 +259,14 @@ export default function MarketplacePreview() {
                                                         p.name.toLowerCase(),
                                                         p.category?.toLowerCase() || "",
                                                     ],
-                                                    "w-5 h-5"
+                                                    "w-4 h-4 md:w-5 md:h-5"
                                                 )
                                             )}
                                         </div>
 
                                         {/* Tier Badge */}
                                         <span
-                                            className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${
+                                            className={`text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full border ${
                                                 p.tier === "free"
                                                     ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                                                     : p.tier === "pro"
@@ -278,11 +278,11 @@ export default function MarketplacePreview() {
                                         </span>
                                     </div>
 
-                                    <h3 className="text-white font-semibold text-[15px] mb-1.5 tracking-tight line-clamp-1">
+                                    <h3 className="text-white font-semibold text-sm md:text-[15px] mb-1 tracking-tight line-clamp-1">
                                         {p.name}
                                     </h3>
 
-                                    <div className="flex items-center gap-3 mb-3 flex-wrap text-slate-400 text-xs">
+                                    <div className="flex items-center gap-2.5 md:gap-3 mb-2.5 flex-wrap text-slate-400 text-[11px] md:text-xs">
                                         <span className="flex items-center gap-1 text-emerald-400 font-medium">
                                             <Download size={11} /> {p.installCount}
                                         </span>
@@ -290,22 +290,22 @@ export default function MarketplacePreview() {
                                             <Eye size={11} /> {p.viewCount}
                                         </span>
                                         {p.isFeatured && (
-                                            <span className="text-xs font-medium text-indigo-400 flex items-center gap-0.5">
+                                            <span className="text-[11px] font-medium text-indigo-400 flex items-center gap-0.5">
                                                 <CheckCircle size={10} /> Verified
                                             </span>
                                         )}
                                     </div>
 
-                                    <p className="text-slate-400 text-[13px] leading-relaxed flex-1 mb-4 line-clamp-2">
+                                    <p className="text-slate-400 text-xs md:text-[13px] leading-relaxed flex-1 mb-3 line-clamp-2">
                                         {p.description ||
                                             "High performance automated web scraping plugin for BrowserMesh."}
                                     </p>
 
-                                    <div className="flex gap-2 mb-4 flex-wrap">
+                                    <div className="flex gap-1.5 mb-3 flex-wrap">
                                         {tags.map((t) => (
                                             <span
                                                 key={t}
-                                                className="text-xs font-medium text-slate-500"
+                                                className="text-[11px] md:text-xs font-medium text-slate-500"
                                             >
                                                 {t}
                                             </span>
@@ -314,9 +314,9 @@ export default function MarketplacePreview() {
 
                                     <Link
                                         href={`/marketplace/${p.slug}`}
-                                        className="btn-primary w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 transition-all"
+                                        className="btn-primary w-full py-2 md:py-2.5 rounded-lg md:rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 transition-all"
                                     >
-                                        <Download size={14} /> View Plugin
+                                        <Download size={13} /> View Plugin
                                     </Link>
                                 </div>
                             );
@@ -325,25 +325,25 @@ export default function MarketplacePreview() {
                 </div>
 
                 {/* Build your own banner */}
-                <div className="glass-framer rounded-2xl p-5 flex items-center justify-between flex-wrap gap-4 mt-2">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-                            <Code2 size={20} className="text-indigo-400" />
+                <div className="glass-framer rounded-xl md:rounded-2xl p-3.5 sm:p-5 flex items-center justify-between flex-wrap gap-3 md:gap-4 mt-1 md:mt-2">
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 shrink-0">
+                            <Code2 size={18} className="text-indigo-400" />
                         </div>
                         <div>
-                            <p className="text-white text-[15px] font-semibold tracking-tight">
+                            <p className="text-white text-sm md:text-[15px] font-semibold tracking-tight">
                                 Build Your Own Plugins
                             </p>
-                            <p className="text-slate-400 text-[13px] mt-0.5">
+                            <p className="text-slate-400 text-xs md:text-[13px] mt-0.5">
                                 Use our TypeScript PluginContract to create powerful scrapers.
                             </p>
                         </div>
                     </div>
                     <Link
                         href="/docs"
-                        className="glass-framer hover:bg-white/5 border border-indigo-500/30 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] text-indigo-300 font-semibold transition-all"
+                        className="glass-framer hover:bg-white/5 border border-indigo-500/30 flex items-center gap-1.5 md:gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-[13px] text-indigo-300 font-semibold transition-all"
                     >
-                        <Code2 size={16} /> View Developer Docs
+                        <Code2 size={14} /> View Developer Docs
                     </Link>
                 </div>
             </div>

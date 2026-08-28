@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -9,18 +10,77 @@ import { logoWithText } from "@/assets/images";
 import { footerLinks } from "@/data/navigationLinks";
 import { siteInfo } from "@/data/siteInfo";
 import { useSettings } from "@/context/SettingsContext";
+import { getLatestReleases, LatestReleases } from "@/lib/api";
+
+type PlatformType = "windows" | "macos" | "linux" | "android" | "web" | "unknown";
 
 export default function Footer() {
     const { appName, tagline, getSettingValue } = useSettings();
+    const [releases, setReleases] = useState<LatestReleases | null>(null);
+    const [detectedPlatform, setDetectedPlatform] = useState<PlatformType>("windows");
+
+    useEffect(() => {
+        getLatestReleases().then((res) => {
+            if (res) {
+                setReleases(res);
+            }
+        });
+
+        if (typeof window !== "undefined") {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let currentOS: PlatformType = "windows";
+            if (userAgent.includes("mac") || userAgent.includes("darwin")) {
+                currentOS = "macos";
+            } else if (userAgent.includes("android")) {
+                currentOS = "android";
+            } else if (userAgent.includes("linux")) {
+                currentOS = "linux";
+            } else if (userAgent.includes("win")) {
+                currentOS = "windows";
+            }
+
+            const timer = setTimeout(() => {
+                setDetectedPlatform(currentOS);
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
+    const getDownloadUrl = (): string => {
+        switch (detectedPlatform) {
+            case "windows":
+                return (
+                    releases?.downloads?.windows ||
+                    "https://s3.browsermesh.in/releases/BrowserMesh-Setup-1.0.0.exe"
+                );
+            case "macos":
+                return siteInfo.links.docs;
+            case "linux":
+                return (
+                    releases?.downloads?.linuxAppImage ||
+                    releases?.downloads?.linuxDeb ||
+                    "/docs/install-linux"
+                );
+            case "android":
+                return releases?.downloads?.androidApk || "/docs/install-android";
+            default:
+                return (
+                    releases?.downloads?.windows ||
+                    "https://s3.browsermesh.in/releases/BrowserMesh-Setup-1.0.0.exe"
+                );
+        }
+    };
+
+    const downloadUrl = getDownloadUrl();
 
     const twitterUrl = getSettingValue<string>(
         "twitter_url",
-        getSettingValue<string>("x_url", siteInfo.links.twitter)
+        getSettingValue<string>("x_url", siteInfo.links.twitter || "")
     );
-    const facebookUrl = getSettingValue<string>("facebook_url", siteInfo.links.facebook);
-    const instagramUrl = getSettingValue<string>("instagram_url", siteInfo.links.instagram);
-    const linkedinUrl = getSettingValue<string>("linkedin_url", siteInfo.links.linkedin);
-    const githubUrl = getSettingValue<string>("github_url", siteInfo.links.github);
+    const facebookUrl = getSettingValue<string>("facebook_url", "");
+    const instagramUrl = getSettingValue<string>("instagram_url", "");
+    const linkedinUrl = getSettingValue<string>("linkedin_url", "");
+    const githubUrl = getSettingValue<string>("github_url", siteInfo.links.github || "");
 
     const socials = [
         {
@@ -53,7 +113,7 @@ export default function Footer() {
             href: githubUrl,
             color: "text-white",
         },
-    ];
+    ].filter((s) => Boolean(s.href && typeof s.href === "string" && s.href.trim() !== ""));
 
     return (
         <footer className="border-t border-white/5 mt-8 bg-transparent relative overflow-hidden">
@@ -96,16 +156,35 @@ export default function Footer() {
                         <div key={col.title}>
                             <h3 className="text-white font-bold text-[14px] mb-5">{col.title}</h3>
                             <ul className="space-y-3">
-                                {col.links.map((link) => (
-                                    <li key={link.label}>
-                                        <Link
-                                            href={link.path}
-                                            className="text-slate-400 hover:text-white text-[13px] transition-colors"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
+                                {col.links.map((link) => {
+                                    const isDownloadLink =
+                                        link.label.toLowerCase().includes("download") ||
+                                        link.path === "/download";
+                                    const targetUrl = isDownloadLink ? downloadUrl : link.path;
+                                    const isExternal = targetUrl.startsWith("http");
+
+                                    return (
+                                        <li key={link.label}>
+                                            {isExternal ? (
+                                                <a
+                                                    href={targetUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-slate-400 hover:text-white text-[13px] transition-colors"
+                                                >
+                                                    {link.label}
+                                                </a>
+                                            ) : (
+                                                <Link
+                                                    href={targetUrl}
+                                                    className="text-slate-400 hover:text-white text-[13px] transition-colors"
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            )}
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     ))}

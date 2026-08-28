@@ -4,7 +4,7 @@ import { DollarSign, TrendingUp, Shield } from "lucide-react";
 
 export default function PricingHero() {
     return (
-        <div className="flex flex-col items-center text-center mb-12 sm:mb-16 relative z-10">
+        <div className="flex flex-col items-center text-center mb-6 sm:mb-16 relative z-10">
             {/* FLOATING 3D BACKGROUND ORBS (Aligned with Reference UI) */}
             {/* Left Floating Dollar Glass Orb */}
             <div className="hidden md:flex absolute -left-6 lg:-left-20 top-4 items-center justify-center group pointer-events-none">
@@ -30,17 +30,17 @@ export default function PricingHero() {
             </div>
 
             {/* Badge */}
-            <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/25 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+            <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/25 text-[10px] sm:text-[11px] font-bold px-3 py-0.5 sm:px-3.5 sm:py-1 rounded-full uppercase tracking-widest mb-3 sm:mb-4 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                 PRICING
             </span>
 
             {/* Main Title */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-4 drop-shadow-md">
+            <h1 className="text-2xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-2 sm:mb-4 drop-shadow-md">
                 Simple, transparent pricing
             </h1>
 
             {/* Subtitle */}
-            <p className="text-slate-400 text-sm sm:text-lg max-w-xl leading-relaxed">
+            <p className="text-xs sm:text-lg text-slate-400 max-w-xl leading-relaxed mb-4 sm:mb-6">
                 Scale your web automation with BrowserMesh. <br className="hidden sm:inline" />
                 No hidden fees.
             </p>
