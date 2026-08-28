@@ -6,6 +6,7 @@ import SmoothScrolling from "@/components/layout/SmoothScrolling";
 import GlobalCursor from "@/components/ui/global-cursor";
 
 import { siteInfo } from "@/data/siteInfo";
+import { envConfig } from "@/data/envConfig";
 
 export const viewport: Viewport = {
     width: "device-width",
@@ -15,6 +16,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+    metadataBase: new URL(envConfig.siteUrl),
     title: `${siteInfo.name} - Stealth Scraping Platform`,
     description: siteInfo.tagline,
     manifest: "/site.webmanifest",
@@ -25,6 +27,27 @@ export const metadata: Metadata = {
             { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
         ],
         apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    },
+    openGraph: {
+        title: `${siteInfo.name} - Stealth Scraping Platform`,
+        description: siteInfo.tagline,
+        url: envConfig.siteUrl,
+        siteName: siteInfo.name,
+        images: [
+            {
+                url: "/opengraph-img.png",
+                width: 1200,
+                height: 630,
+                alt: `${siteInfo.name} Stealth Scraping Platform`,
+            },
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `${siteInfo.name} - Stealth Scraping Platform`,
+        description: siteInfo.tagline,
+        images: ["/opengraph-img.png"],
     },
 };
 

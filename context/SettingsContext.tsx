@@ -49,7 +49,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     };
 
     const appName = getSettingValue<string>("app_name", "BrowserMesh");
-    const tagline = getSettingValue<string>("tagline", "Secure. Extend. Scale.");
+    const tagline = getSettingValue<string>(
+        "tagline",
+        "The ultimate cross-platform stealth scraping ecosystem"
+    );
 
     const marketplaceSetting = settings.find((s) => s.key === "marketplace_enabled");
     const marketplaceEnabled = marketplaceSetting

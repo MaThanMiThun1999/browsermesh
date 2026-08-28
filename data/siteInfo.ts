@@ -102,7 +102,7 @@ export interface SiteInfo {
 
 export const siteInfo: SiteInfo = {
     name: envConfig.siteName,
-    tagline: "The ultimate cross-platform stealth scraping ecosystem.",
+    tagline: "The ultimate cross-platform stealth scraping ecosystem",
     description:
         "Enterprise-Grade Stealth Scraping Platform. Join thousands of professionals using BrowserMesh for unlimited, undetected data extraction.",
     version: "1.0.0-beta",

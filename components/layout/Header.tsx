@@ -40,6 +40,7 @@ export default function Header() {
                         className="h-12 w-auto object-contain"
                         priority
                         loading="eager"
+                        unoptimized
                     />
                 </Link>
 

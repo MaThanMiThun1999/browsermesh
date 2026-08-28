@@ -9,6 +9,7 @@ import { FaGlobe, FaWindows, FaAndroid, FaLinux, FaApple } from "react-icons/fa6
 import { siteInfo } from "@/data/siteInfo";
 import { heroImg } from "@/assets/images";
 import { getLatestReleases, LatestReleases } from "@/lib/api";
+import { useSettings } from "@/context/SettingsContext";
 
 type PlatformType = "windows" | "macos" | "linux" | "android" | "web" | "unknown";
 
@@ -20,6 +21,7 @@ interface DownloadInfo {
 }
 
 export default function Hero() {
+    const { tagline } = useSettings();
     const [releases, setReleases] = useState<LatestReleases | null>(null);
     const [detectedPlatform, setDetectedPlatform] = useState<PlatformType>("windows");
 
@@ -140,8 +142,9 @@ export default function Hero() {
                             <span className="text-gradient">Undetected.</span>
                         </h1>
                         <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg">
-                            {siteInfo.tagline} Powered by plugins, built for developers, and trusted
-                            by data professionals worldwide.
+                            {(tagline || siteInfo.tagline).trim().replace(/\.+$/, "")}. Powered by
+                            plugins, built for developers, and trusted by data professionals
+                            worldwide.
                         </p>
                         <div className="flex flex-wrap gap-4 mb-10">
                             {downloadInfo.url.startsWith("http") ? (

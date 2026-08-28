@@ -130,6 +130,7 @@ export default function Footer() {
                                 alt={appName || siteInfo.name}
                                 title={appName || siteInfo.name}
                                 className="h-12 md:h-12 w-auto object-contain mb-5 drop-shadow-[0_0_15px_rgba(0,210,255,0.4)]"
+                                unoptimized
                             />
                         </Link>
                         <p className="text-slate-400 text-[13px] leading-relaxed mb-6 max-w-[200px]">
