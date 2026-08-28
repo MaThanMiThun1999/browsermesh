@@ -77,6 +77,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             className={`h-full antialiased ${inter.variable} ${jetbrainsMono.variable}`}
             suppressHydrationWarning
         >
+            <head>
+                <link rel="preconnect" href="https://dzaw5b2mobklq.cloudfront.net" />
+                <link rel="dns-prefetch" href="https://dzaw5b2mobklq.cloudfront.net" />
+            </head>
             <body
                 className="min-h-full flex flex-col bg-mesh overflow-x-hidden"
                 suppressHydrationWarning

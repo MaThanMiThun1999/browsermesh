@@ -65,7 +65,7 @@ export default function PluginSidebar({
         <div className="flex flex-col gap-6">
             {/* 1. Install & Use Box */}
             <div className="bg-[#080517]/90 border border-white/10 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col gap-4">
-                <h3 className="text-white font-bold text-base">Install & Info</h3>
+                <h2 className="text-white font-bold text-base">Install & Info</h2>
 
                 <div className="flex flex-col gap-3 text-xs">
                     <div className="flex items-center justify-between py-1.5 border-b border-white/5">
@@ -119,7 +119,7 @@ export default function PluginSidebar({
 
             {/* 2. Compatibility Box */}
             <div className="bg-[#080517]/90 border border-white/10 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col gap-4">
-                <h3 className="text-white font-bold text-base">Compatibility</h3>
+                <h2 className="text-white font-bold text-base">Compatibility</h2>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-2 text-center">
                     <div
@@ -170,7 +170,7 @@ export default function PluginSidebar({
 
             {/* 3. Resources & Links Box */}
             <div className="bg-[#080517]/90 border border-white/10 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col gap-4">
-                <h3 className="text-white font-bold text-base">Resources & Links</h3>
+                <h2 className="text-white font-bold text-base">Resources & Links</h2>
 
                 <div className="flex flex-col gap-2">
                     {documentationUrl ? (

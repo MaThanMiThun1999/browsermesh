@@ -18,21 +18,83 @@ export default function AboutTechStack() {
     const techStack = [
         {
             name: "TypeScript",
-            icon: <SiTypescript className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />,
+            icon: (
+                <SiTypescript
+                    title="TypeScript"
+                    aria-label="TypeScript"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400"
+                />
+            ),
         },
-        { name: "Node.js", icon: <SiNodedotjs className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" /> },
-        { name: "Next.js", icon: <SiNextdotjs className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> },
-        { name: "React", icon: <SiReact className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-300" /> },
-        { name: "Playwright", icon: <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" /> },
+        {
+            name: "Node.js",
+            icon: (
+                <SiNodedotjs
+                    title="Node.js"
+                    aria-label="Node.js"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-green-400"
+                />
+            ),
+        },
+        {
+            name: "Next.js",
+            icon: (
+                <SiNextdotjs
+                    title="Next.js"
+                    aria-label="Next.js"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-white"
+                />
+            ),
+        },
+        {
+            name: "React",
+            icon: (
+                <SiReact
+                    title="React"
+                    aria-label="React"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-300"
+                />
+            ),
+        },
+        {
+            name: "Playwright",
+            icon: (
+                <Bot
+                    aria-label="Playwright"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400"
+                />
+            ),
+        },
         {
             name: "Tailwind",
-            icon: <SiTailwindcss className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400" />,
+            icon: (
+                <SiTailwindcss
+                    title="Tailwind"
+                    aria-label="Tailwind"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400"
+                />
+            ),
         },
         {
             name: "PostgreSQL",
-            icon: <SiPostgresql className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />,
+            icon: (
+                <SiPostgresql
+                    title="PostgreSQL"
+                    aria-label="PostgreSQL"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400"
+                />
+            ),
         },
-        { name: "SQLite", icon: <SiSqlite className="w-4 h-4 sm:w-5 sm:h-5 text-blue-300" /> },
+        {
+            name: "SQLite",
+            icon: (
+                <SiSqlite
+                    title="SQLite"
+                    aria-label="SQLite"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-blue-300"
+                />
+            ),
+        },
     ];
 
     return (

@@ -191,9 +191,9 @@ export default function PluginReviews({
             {/* Responsive Header Row */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4">
                 <div className="flex items-center gap-2">
-                    <h3 className="text-white font-bold text-base sm:text-lg whitespace-nowrap">
+                    <h2 className="text-white font-bold text-base sm:text-lg whitespace-nowrap">
                         Customer Reviews
-                    </h3>
+                    </h2>
                     {loading && <Loader2 size={16} className="animate-spin text-indigo-400" />}
                 </div>
                 <span className="text-[11px] sm:text-xs text-slate-400 font-mono whitespace-nowrap">
@@ -285,7 +285,11 @@ export default function PluginReviews({
                                 >
                                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                                         <div className="flex items-center gap-3">
-                                            {rev.avatar ? (
+                                            {rev.avatar &&
+                                            typeof rev.avatar === "string" &&
+                                            rev.avatar.trim() !== "" &&
+                                            rev.avatar !== "null" &&
+                                            rev.avatar !== "undefined" ? (
                                                 <img
                                                     src={rev.avatar}
                                                     alt={rev.name}

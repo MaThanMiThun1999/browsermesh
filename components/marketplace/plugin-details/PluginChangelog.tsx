@@ -39,7 +39,7 @@ export default function PluginChangelog({ createdAt, versions }: PluginChangelog
 
     return (
         <div className="w-full h-full bg-[#080517]/90 border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-7 shadow-2xl backdrop-blur-xl flex flex-col gap-6">
-            <h3 className="text-white font-bold text-lg">Changelog</h3>
+            <h2 className="text-white font-bold text-lg">Changelog</h2>
 
             <div className="flex flex-col gap-6 pl-4 border-l-2 border-indigo-500/30 my-auto">
                 {list.map((item, idx) => (
