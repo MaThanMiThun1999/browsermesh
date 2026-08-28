@@ -17,6 +17,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
     metadataBase: new URL(envConfig.siteUrl),
+    alternates: {
+        canonical: "./",
+    },
     title: `${siteInfo.name} - Stealth Scraping Platform`,
     description: siteInfo.tagline,
     manifest: "/site.webmanifest",
