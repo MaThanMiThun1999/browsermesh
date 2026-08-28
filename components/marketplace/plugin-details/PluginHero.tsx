@@ -44,6 +44,15 @@ export default function PluginHero({
     const formattedReviews =
         reviewCount >= 1000 ? `${(reviewCount / 1000).toFixed(1)}K` : `${reviewCount}`;
 
+    const safeBannerUrl =
+        bannerUrl &&
+        typeof bannerUrl === "string" &&
+        bannerUrl.trim() !== "" &&
+        bannerUrl !== "null" &&
+        bannerUrl !== "undefined"
+            ? bannerUrl
+            : "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1600";
+
     const handleInstallClick = () => {
         const consoleTargetUrl = `${siteInfo.consoleUrl}/marketplace/${slug || id || ""}`;
         window.open(consoleTargetUrl, "_blank", "noopener,noreferrer");
@@ -67,7 +76,7 @@ export default function PluginHero({
                 {/* Background Banner Image Layer */}
                 <div
                     className="absolute inset-0 bg-cover bg-center opacity-90 mix-blend-luminosity scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
-                    style={{ backgroundImage: `url('${bannerUrl}')` }}
+                    style={{ backgroundImage: `url('${safeBannerUrl}')` }}
                 />
 
                 {/* Multi-stage Dark Glass Overlay Masks */}

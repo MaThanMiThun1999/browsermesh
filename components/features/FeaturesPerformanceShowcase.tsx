@@ -29,12 +29,15 @@ export default function FeaturesPerformanceShowcase() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 {/* Left Image Graphic Showcase (Clean native image inside glass card) */}
                 <div className="lg:col-span-7 relative flex items-center justify-center">
-                    <div className="relative w-full aspect-[4/3] group">
+                    <div className="relative w-full group flex justify-center">
                         <Image
                             src={featureAssets1}
                             alt="Jobs Manager and 99.99% Success Rate Dashboard"
-                            fill
-                            className="object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:scale-102 transition-transform duration-500"
+                            title="Jobs Manager and 99.99% Success Rate Dashboard"
+                            width={1278}
+                            height={1230}
+                            loading="lazy"
+                            className="w-full h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:scale-102 transition-transform duration-500"
                         />
                     </div>
                 </div>

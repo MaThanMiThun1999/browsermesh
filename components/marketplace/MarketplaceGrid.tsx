@@ -157,6 +157,10 @@ export default function MarketplaceGrid({
                                                 <img
                                                     src={plugin.iconUrl}
                                                     alt={plugin.name}
+                                                    title={plugin.name}
+                                                    width={56}
+                                                    height={56}
+                                                    loading="lazy"
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.display =
@@ -302,6 +306,10 @@ export default function MarketplaceGrid({
                                             <img
                                                 src={plugin.iconUrl}
                                                 alt={plugin.name}
+                                                title={plugin.name}
+                                                width={64}
+                                                height={64}
+                                                loading="lazy"
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => {
                                                     (e.target as HTMLElement).style.display =

@@ -49,8 +49,10 @@ export default function FeaturesHero() {
                     <Image
                         src={featureHeroImg}
                         alt="BrowserMesh Features 3D Showcase"
-                        className="w-full max-w-[340px] sm:max-w-[480px] lg:max-w-[600px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
+                        title="BrowserMesh Features 3D Showcase"
+                        loading="eager"
                         priority
+                        className="w-full max-w-[340px] sm:max-w-[480px] lg:max-w-[600px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
                     />
                 </div>
             </div>

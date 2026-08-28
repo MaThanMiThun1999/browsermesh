@@ -84,12 +84,16 @@ export default function PricingCards() {
                                 Perfect for trying out the platform and basic automation.
                             </p>
                         </div>
-                        <div className="w-16 h-16 shrink-0 relative mix-blend-plus-lighter opacity-90 group-hover:scale-105 transition-transform duration-500">
+                        <div className="w-16 h-16 shrink-0 relative mix-blend-plus-lighter opacity-90 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
                             <Image
                                 src={pricingAssets1}
                                 alt={`${staticFree.name} Plan Asset`}
-                                fill
-                                className="object-contain"
+                                title={`${staticFree.name} Plan Asset`}
+                                width={1310}
+                                height={1200}
+                                loading="eager"
+                                priority
+                                className="w-full h-full object-contain"
                             />
                         </div>
                     </div>
@@ -144,12 +148,16 @@ export default function PricingCards() {
                                 For power users and teams who need heavy data extraction.
                             </p>
                         </div>
-                        <div className="w-20 h-20 shrink-0 relative mix-blend-plus-lighter opacity-95 group-hover:scale-105 transition-transform duration-500">
+                        <div className="w-20 h-20 shrink-0 relative mix-blend-plus-lighter opacity-95 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
                             <Image
                                 src={pricingAssets2}
                                 alt={`${staticPro.name} Plan Asset`}
-                                fill
-                                className="object-contain"
+                                title={`${staticPro.name} Plan Asset`}
+                                width={1312}
+                                height={1199}
+                                loading="eager"
+                                priority
+                                className="w-full h-full object-contain"
                             />
                         </div>
                     </div>

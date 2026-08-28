@@ -246,6 +246,10 @@ export default function MarketplacePreview() {
                                                 <img
                                                     src={p.iconUrl}
                                                     alt={p.name}
+                                                    title={p.name}
+                                                    width={40}
+                                                    height={40}
+                                                    loading="lazy"
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.display =

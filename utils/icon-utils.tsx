@@ -53,7 +53,13 @@ export function getDynamicPluginIcon(
     className: string = "h-7 w-7",
     iconUrl?: string | null
 ) {
-    if (iconUrl) {
+    if (
+        iconUrl &&
+        typeof iconUrl === "string" &&
+        iconUrl.trim() !== "" &&
+        iconUrl !== "null" &&
+        iconUrl !== "undefined"
+    ) {
         return (
             <img
                 src={iconUrl}

@@ -8,7 +8,7 @@ import { heroImg } from "@/assets/images";
 import { siteInfo } from "@/data/siteInfo";
 
 const LinkedinIcon = ({ size = 16 }: { size?: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.72a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
     </svg>
 );
@@ -71,7 +71,8 @@ export default function AboutFounderStory() {
                             rel="noreferrer"
                             className="bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 text-slate-200 hover:text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md"
                         >
-                            <SiGithub size={16} /> GitHub (@{siteInfo.author.alias})
+                            <SiGithub title="GitHub" aria-label="GitHub" size={16} /> GitHub (@
+                            {siteInfo.author.alias})
                         </Link>
                         <Link
                             href={siteInfo.author.linkedin}
@@ -88,12 +89,15 @@ export default function AboutFounderStory() {
                 <div className="lg:col-span-6 relative flex items-center justify-center">
                     <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
                         {/* Background Developer Workstation Art */}
-                        <div className="absolute inset-0 bg-[#060412]">
+                        <div className="absolute inset-0 bg-[#060412] flex items-center justify-center">
                             <Image
                                 src={heroImg}
                                 alt={`${siteInfo.author.name} Developer Workstation`}
-                                fill
-                                className="object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
+                                title={`${siteInfo.author.name} Developer Workstation`}
+                                width={1536}
+                                height={1024}
+                                loading="lazy"
+                                className="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#060412] via-transparent to-transparent" />
                         </div>

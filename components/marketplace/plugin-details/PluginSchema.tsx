@@ -443,9 +443,9 @@ export default function PluginSchema({
                             <div className="font-mono text-indigo-400 mb-0.5 text-[10px] tracking-widest uppercase font-semibold">
                                 Sample Output
                             </div>
-                            <h3 className="text-white text-lg leading-tight font-bold">
+                            <h2 className="text-white text-lg leading-tight font-bold">
                                 Live Execution Preview
-                            </h3>
+                            </h2>
                             <p className="text-slate-400 mt-0.5 text-[12px]">
                                 {sampleOutput.length} record{sampleOutput.length !== 1 ? "s" : ""} ·{" "}
                                 {columns.length} {viewMode === "flat" ? "flattened" : "nested"}{" "}
@@ -651,7 +651,7 @@ export default function PluginSchema({
 
             {/* 2. Input Parameters Table (Mapped dynamically from Backend PluginContract PluginSchema) */}
             <div>
-                <h3 className="text-white font-bold text-lg mb-3">Input Parameters</h3>
+                <h2 className="text-white font-bold text-lg mb-3">Input Parameters</h2>
                 <div className="bg-[#080517] border border-white/10 rounded-2xl overflow-x-auto shadow-xl w-full scrollbar-thin scrollbar-thumb-indigo-500/20">
                     <table className="w-full min-w-[540px] text-left text-xs sm:text-sm">
                         <thead className="bg-white/[0.03] border-b border-white/10 text-slate-400 font-semibold">

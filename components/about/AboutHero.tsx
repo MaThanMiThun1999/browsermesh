@@ -62,8 +62,10 @@ export default function AboutHero() {
                     <Image
                         src={aboutHeroImg}
                         alt="BrowserMesh About Us 3D Globe"
-                        className="w-full max-w-[340px] sm:max-w-[480px] lg:max-w-[600px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
+                        title="BrowserMesh About Us 3D Globe"
+                        loading="eager"
                         priority
+                        className="w-full max-w-[340px] sm:max-w-[480px] lg:max-w-[600px] h-auto object-contain relative z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
                     />
                 </div>
             </div>

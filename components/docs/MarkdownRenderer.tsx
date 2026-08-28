@@ -72,6 +72,12 @@ export function MarkdownRenderer({ content }: { content: string }) {
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 components={{
+                    h1: ({ ...props }) => (
+                        <h2
+                            className="text-xl sm:text-3xl font-bold text-indigo-50 my-3 sm:my-5 tracking-tight"
+                            {...props}
+                        />
+                    ),
                     pre: PreBlock,
                     table: ({ ...props }) => (
                         <div className="w-full overflow-x-auto my-4 rounded-xl border border-white/10 bg-[#0a0726]/70 shadow-lg [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-thumb]:bg-indigo-500/50 [&::-webkit-scrollbar-thumb]:rounded-full">

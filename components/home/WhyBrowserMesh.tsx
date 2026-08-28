@@ -13,7 +13,7 @@ export default function WhyBrowserMesh() {
                         src={effect}
                         alt={`${siteInfo.name} Effect`}
                         title={`${siteInfo.name} Effect`}
-                        priority
+                        loading="lazy"
                         className="w-full h-full object-contain object-left drop-shadow-[0_0_30px_rgba(99,102,241,0.5)]"
                     />
                 </div>

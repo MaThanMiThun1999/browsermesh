@@ -154,14 +154,14 @@ export default function PluginOverview({ description, readme, features }: Plugin
             {/* About / Description Section */}
             {description && (
                 <div>
-                    <h3 className="text-white font-bold text-lg mb-3">About this plugin</h3>
+                    <h2 className="text-white font-bold text-lg mb-3">About this plugin</h2>
                     <p className="text-slate-300 text-sm leading-relaxed">{description}</p>
                 </div>
             )}
 
             {/* Key Features Grid (Dynamic columns & spans for 2, 4, or N features) */}
             <div>
-                <h3 className="text-white font-bold text-lg mb-4">Key Features</h3>
+                <h2 className="text-white font-bold text-lg mb-4">Key Features</h2>
                 <div className={`grid ${gridClass} gap-4`}>
                     {parsedFeatures
                         ? parsedFeatures.map((feat: PluginFeatureItem, i: number) => {
@@ -220,9 +220,9 @@ export default function PluginOverview({ description, readme, features }: Plugin
             {/* Readme Markdown Renderer (From API) */}
             {readme && (
                 <div className="bg-[#080517]/80 border border-white/10 rounded-2xl p-4 sm:p-8 shadow-xl">
-                    <h3 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
+                    <h2 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
                         README
-                    </h3>
+                    </h2>
                     <MarkdownRenderer content={readme} />
                 </div>
             )}

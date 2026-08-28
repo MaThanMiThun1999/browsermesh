@@ -219,9 +219,9 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
                 {activeTab === "readme" && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10 items-start">
                         <div className="lg:col-span-8 bg-[#080517]/80 border border-white/10 rounded-2xl p-4 sm:p-8 shadow-xl">
-                            <h3 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
+                            <h2 className="text-white font-bold text-base sm:text-xl mb-4 sm:mb-6 pb-2.5 sm:pb-4 border-b border-white/10">
                                 Plugin README & Documentation
-                            </h3>
+                            </h2>
                             {plugin.readme ? (
                                 <MarkdownRenderer content={plugin.readme} />
                             ) : (
