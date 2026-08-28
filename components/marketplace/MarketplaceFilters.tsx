@@ -162,7 +162,7 @@ export default function MarketplaceFilters({
                                 Compatibility
                             </label>
                             <div className="grid grid-cols-3 gap-2">
-                                {["Windows", "macOS", "Linux", "Android", "iOS", "Web"].map(
+                                {["Windows", "Linux", "Android", "Web"].map(
                                     (os) => {
                                         const isChecked = compatibility.includes(os);
                                         return (
@@ -364,7 +364,7 @@ export default function MarketplaceFilters({
                     <div className="flex flex-col gap-2.5">
                         <label className="text-white text-sm font-semibold">Compatibility</label>
                         <div className="flex flex-col gap-2">
-                            {["Windows", "macOS", "Linux", "Android", "iOS", "Web"].map((os) => {
+                            {["Windows", "Linux", "Android", "Web"].map((os) => {
                                 const isChecked = compatibility.includes(os);
                                 return (
                                     <label

@@ -72,7 +72,7 @@ export default function DownloadPlatforms() {
 
                     <ul className="space-y-2.5 sm:space-y-4 mb-6 md:mb-12">
                         {[
-                            "Windows, macOS, Linux & Android",
+                            "Windows, Linux, Android & Web",
                             "Seamless device sync & license roaming",
                             "Headless daemons and PRoot support",
                             "Same UI. Same power.",

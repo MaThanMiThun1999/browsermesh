@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Grid, List, Star, Download, RefreshCw, ChevronRight } from "lucide-react";
-import { FaWindows, FaApple, FaLinux, FaAndroid, FaGlobe } from "react-icons/fa";
+import { FaWindows, FaLinux, FaAndroid, FaGlobe } from "react-icons/fa";
 import { getDynamicPluginIcon } from "@/utils/icon-utils";
 import { PublicPlugin } from "@/lib/api";
 import Pagination from "@/components/ui/pagination";
@@ -34,14 +34,9 @@ export default function MarketplaceGrid({
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
     const isPlatformSupported = (plugin: PublicPlugin, platform: string) => {
-        const list = plugin.compatibility || ["windows", "macos", "linux", "android", "web"];
+        const list = plugin.compatibility || ["windows", "linux", "android", "web"];
         const target = platform.toLowerCase();
-        return list.some((item) => {
-            const lower = item.toLowerCase();
-            if (target === "macos" || target === "mac")
-                return lower === "macos" || lower === "mac" || lower === "ios";
-            return lower === target;
-        });
+        return list.some((item) => item.toLowerCase() === target);
     };
 
     return (
@@ -207,13 +202,7 @@ export default function MarketplaceGrid({
                                                     title="Windows"
                                                 />
                                             )}
-                                            {isPlatformSupported(plugin, "macos") && (
-                                                <FaApple
-                                                    size={12}
-                                                    className="text-slate-200"
-                                                    title="macOS"
-                                                />
-                                            )}
+
                                             {isPlatformSupported(plugin, "linux") && (
                                                 <FaLinux
                                                     size={12}
@@ -356,13 +345,7 @@ export default function MarketplaceGrid({
                                                         title="Windows"
                                                     />
                                                 )}
-                                                {isPlatformSupported(plugin, "macos") && (
-                                                    <FaApple
-                                                        size={13}
-                                                        className="text-slate-200"
-                                                        title="macOS"
-                                                    />
-                                                )}
+
                                                 {isPlatformSupported(plugin, "linux") && (
                                                     <FaLinux
                                                         size={13}

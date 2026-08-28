@@ -235,7 +235,7 @@ export const siteInfo: SiteInfo = {
         { name: "SQLite", category: "Database" },
     ],
 
-    supportedPlatforms: ["Windows", "macOS", "Linux", "Android", "iOS", "Web"],
+    supportedPlatforms: ["Windows", "Linux", "Android", "Web"],
 
     journeyTimeline: [
         {

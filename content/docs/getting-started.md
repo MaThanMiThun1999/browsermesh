@@ -7,7 +7,7 @@ category: Introduction
 
 # Getting Started with BrowserMesh
 
-BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, macOS, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://console.browsermesh.in)**.
+BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://console.browsermesh.in)**.
 
 ---
 
@@ -38,7 +38,7 @@ If you prefer graphical user interfaces, download the dedicated native app for y
 
 For background servers, cloud VPS, or headless environments, use our automated one-line setup scripts:
 
-#### Linux / macOS / Cloud VPS (One-Command Setup)
+#### Linux / Cloud VPS (One-Command Setup)
 
 Open your terminal and execute:
 
