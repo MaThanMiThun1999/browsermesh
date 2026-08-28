@@ -94,24 +94,30 @@ export default function DownloadPlatforms() {
                     <div className="flex gap-2.5 sm:gap-3">
                         {[
                             {
+                                name: "Web",
                                 icon: <FaGlobe className="w-5 h-5 sm:w-6 sm:h-6" />,
                                 color: "text-indigo-400",
                             },
                             {
+                                name: "Windows",
                                 icon: <FaWindows className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5" />,
                                 color: "text-[#00a4ef]",
                             },
                             {
+                                name: "Linux",
                                 icon: <FaLinux className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5" />,
                                 color: "text-slate-300",
                             },
                             {
+                                name: "Android",
                                 icon: <FaAndroid className="w-5 h-5 sm:w-6 sm:h-6" />,
                                 color: "text-[#3ddc84]",
                             },
                         ].map((platform, i) => (
                             <button
                                 key={i}
+                                aria-label={`Supported Platform: ${platform.name}`}
+                                title={`Supported Platform: ${platform.name}`}
                                 className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-black/40 border border-white/5 hover:bg-white/[0.04] hover:border-white/20 transition-all flex items-center justify-center shadow-lg group relative overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />

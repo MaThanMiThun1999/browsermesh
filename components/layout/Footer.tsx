@@ -200,10 +200,17 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-2">
                             <input
+                                type="email"
+                                aria-label="Email address for newsletter"
                                 placeholder="Your email"
                                 className="flex-1 bg-[#0a0515] border border-white/10 rounded-lg px-4 py-2.5 text-[13px] text-white placeholder-slate-600 outline-none focus:border-indigo-500 focus:bg-[#0e0720] transition-colors min-w-0 shadow-inner"
                             />
-                            <button className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors px-3.5 rounded-lg flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(76,53,230,0.4)] cursor-pointer">
+                            <button
+                                type="submit"
+                                aria-label="Subscribe to newsletter"
+                                title="Subscribe to newsletter"
+                                className="bg-[#4c35e6] hover:bg-[#5a46e8] transition-colors px-3.5 rounded-lg flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(76,53,230,0.4)] cursor-pointer"
+                            >
                                 <ArrowRight size={16} className="text-white" />
                             </button>
                         </div>
