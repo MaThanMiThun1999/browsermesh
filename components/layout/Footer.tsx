@@ -126,10 +126,11 @@ export default function Footer() {
                                 src={logoWithText}
                                 alt={appName || siteInfo.name}
                                 title={appName || siteInfo.name}
-                                width={2172}
-                                height={724}
+                                width={180}
+                                height={60}
+                                sizes="180px"
                                 className="h-12 md:h-12 w-auto object-contain mb-5 drop-shadow-[0_0_15px_rgba(0,210,255,0.4)]"
-                                unoptimized
+                                loading="lazy"
                             />
                         </Link>
                         <p className="text-slate-400 text-[13px] leading-relaxed mb-6 max-w-[200px]">

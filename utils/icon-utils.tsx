@@ -65,6 +65,9 @@ export function getDynamicPluginIcon(
             <img
                 src={iconUrl}
                 alt="plugin icon"
+                width={64}
+                height={64}
+                loading="lazy"
                 className={`${className} rounded-md object-contain`}
             />
         );

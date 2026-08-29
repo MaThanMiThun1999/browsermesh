@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, Terminal, Check, Copy, ArrowRight, ExternalLink } from "lucide-react";
 import { FaWindows, FaLinux, FaAndroid, FaGlobe } from "react-icons/fa6";
 import { getLatestReleases, LatestReleases } from "@/lib/api";
+import { envConfig } from "@/data/envConfig";
 
 export default function DownloadPage() {
     const [releases, setReleases] = useState<LatestReleases | null>(null);
@@ -71,7 +72,7 @@ export default function DownloadPage() {
             icon: <FaGlobe className="text-cyan-400 text-3xl" />,
             badge: "INSTANT ACCESS",
             badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-            downloadUrl: "https://app.browsermesh.com",
+            downloadUrl: envConfig.consoleUrl,
             version: "Cloud Live",
             filename: "Web Dashboard",
             buttonLabel: "Open Web Console",
