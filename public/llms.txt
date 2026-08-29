@@ -51,11 +51,11 @@ The BrowserMesh Marketplace offers 250+ pre-configured scraping plugins with ins
 - **Pro Plan ($15/month)**: 10,000 monthly results, up to 3 active devices, Pro & Premium plugins, proxy support, scheduled jobs, 2 GB cloud storage, JSON/CSV/XLSX exports.
 
 ## Key Links & Documentation
-- [Homepage](https://browsermesh-one.vercel.app): Official BrowserMesh stealth scraping platform and residential node grid.
-- [Marketplace](https://browsermesh-one.vercel.app/marketplace): Directory of 250+ community-built no-code web scraper plugins.
-- [Features](https://browsermesh-one.vercel.app/features): Deep-dive into 4G/5G mobile nodes, anti-bot evasion, and P2P architecture.
-- [Pricing Plans](https://browsermesh-one.vercel.app/pricing): Transparent pricing tiers and plan comparison matrix.
-- [Blog & Tutorials](https://browsermesh-one.vercel.app/blog): Technical guides on bypassing Cloudflare Turnstile, mobile CGNAT proxies, and MCP AI agent scraping.
-- [API Documentation](https://browsermesh-one.vercel.app/docs): REST API endpoints, installation commands, and developer quickstart.
+- [Homepage](https://browsermesh.in): Official BrowserMesh stealth scraping platform and residential node grid.
+- [Marketplace](https://browsermesh.in/marketplace): Directory of 250+ community-built no-code web scraper plugins.
+- [Features](https://browsermesh.in/features): Deep-dive into 4G/5G mobile nodes, anti-bot evasion, and P2P architecture.
+- [Pricing Plans](https://browsermesh.in/pricing): Transparent pricing tiers and plan comparison matrix.
+- [Blog & Tutorials](https://browsermesh.in/blog): Technical guides on bypassing Cloudflare Turnstile, mobile CGNAT proxies, and MCP AI agent scraping.
+- [API Documentation](https://browsermesh.in/docs): REST API endpoints, installation commands, and developer quickstart.
 - [Web Console](https://console.browsermesh.in): Centralized web dashboard for node management and job dispatch.
-- [Full LLM Specification](https://browsermesh-one.vercel.app/llms-full.txt): Comprehensive plain-text documentation for LLMs and autonomous AI agents.
+- [Full LLM Specification](https://browsermesh.in/llms-full.txt): Comprehensive plain-text documentation for LLMs and autonomous AI agents.

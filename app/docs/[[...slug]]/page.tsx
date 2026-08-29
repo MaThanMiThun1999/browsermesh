@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDocBySlug, getAllDocs } from "@/utils/markdown";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 import { notFound } from "next/navigation";
-import { constructMetadata, generateTechArticleSchema, generateBreadcrumbSchema } from "@/lib/seo";
+import { constructMetadata, generateTechArticleSchema, generateBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
 export async function generateStaticParams() {
     const docs = getAllDocs();
@@ -61,7 +61,7 @@ export default async function DocPage({ params }: { params: Promise<{ slug?: str
     const techArticleSchemaData = generateTechArticleSchema({
         headline: doc.frontmatter.title,
         description: doc.frontmatter.description || `${doc.frontmatter.title} documentation guide for BrowserMesh.`,
-        url: `https://browsermesh-one.vercel.app/docs/${doc.slug}`,
+        url: `${SITE_URL}/docs/${doc.slug}`,
         category: doc.frontmatter.category || "Documentation",
     });
 

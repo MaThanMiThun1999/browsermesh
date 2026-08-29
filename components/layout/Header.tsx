@@ -37,12 +37,11 @@ export default function Header() {
                         src={logoWithText}
                         alt={appName || siteInfo.name}
                         title={appName || siteInfo.name}
-                        width={2172}
-                        height={724}
+                        width={180}
+                        height={60}
+                        sizes="180px"
                         className="h-12 w-auto object-contain"
                         priority
-                        loading="eager"
-                        unoptimized
                     />
                 </Link>
 

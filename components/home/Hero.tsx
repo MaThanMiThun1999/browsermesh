@@ -9,7 +9,6 @@ import { FaGlobe, FaWindows, FaAndroid, FaLinux } from "react-icons/fa6";
 import { siteInfo } from "@/data/siteInfo";
 import { heroImg } from "@/assets/images";
 import { getLatestReleases, LatestReleases } from "@/lib/api";
-import { useSettings } from "@/context/SettingsContext";
 
 type PlatformType = "windows" | "linux" | "android" | "web" | "unknown";
 
@@ -21,7 +20,6 @@ interface DownloadInfo {
 }
 
 export default function Hero() {
-    const { tagline } = useSettings();
     const [releases, setReleases] = useState<LatestReleases | null>(null);
     const [detectedPlatform, setDetectedPlatform] = useState<PlatformType>("windows");
 
@@ -188,6 +186,7 @@ export default function Hero() {
                             src={heroImg}
                             alt={`${siteInfo.name} cross-platform ecosystem`}
                             title={`${siteInfo.name} cross-platform ecosystem`}
+                            style={{ width: "100%", height: "auto" }}
                             className="relative w-full max-w-xl h-auto object-contain z-10 drop-shadow-[0_0_70px_rgba(124,58,237,0.45)] hover:drop-shadow-[0_0_100px_rgba(147,51,234,0.65)] transition-all duration-500"
                             priority
                             loading="eager"

@@ -2,15 +2,17 @@ import { MetadataRoute } from "next";
 import { getPublicMarketplacePlugins } from "@/lib/api";
 import { getAllDocs } from "@/utils/markdown";
 import { getAllBlogPosts } from "@/utils/blog";
+import { SITE_URL } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = "https://browsermesh-one.vercel.app";
+    const baseUrl = SITE_URL;
 
     // 1. Static Key Pages
     const staticRoutes = [
         "",
         "/features",
         "/pricing",
+        "/download",
         "/about",
         "/docs",
         "/marketplace",

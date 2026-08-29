@@ -14,7 +14,7 @@ import PluginHelpCTA from "./plugin-details/PluginHelpCTA";
 import PluginSidebar from "./plugin-details/PluginSidebar";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 import { getPublicPluginDetail, PublicPluginDetail } from "@/lib/api";
-import { generatePluginSchema, generateBreadcrumbSchema } from "@/lib/seo";
+import { generatePluginSchema, generateBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
 const VALID_TABS: PluginTabType[] = ["overview", "readme", "schema", "reviews", "changelog"];
 
@@ -180,7 +180,7 @@ function PluginDetailsContent({ slug }: PluginDetailsViewProps) {
         rating: plugin.averageRating,
         reviewCount: plugin.reviewCount,
         authorName: typeof plugin.author === "string" ? plugin.author : "BrowserMesh Verified Creator",
-        url: `https://browsermesh-one.vercel.app/marketplace/${plugin.slug}`,
+        url: `${SITE_URL}/marketplace/${plugin.slug}`,
         image: plugin.bannerUrl || plugin.iconUrl || "/opengraph-img.png",
     });
 

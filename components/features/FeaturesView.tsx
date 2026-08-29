@@ -2,6 +2,8 @@
 
 import FeaturesHero from "./FeaturesHero";
 import FeaturesStats from "./FeaturesStats";
+import FeaturesMobileNode from "./FeaturesMobileNode";
+import FeaturesMcpHub from "./FeaturesMcpHub";
 import FeaturesCapabilities from "./FeaturesCapabilities";
 import FeaturesPerformanceShowcase from "./FeaturesPerformanceShowcase";
 import FeaturesDeveloperShowcase from "./FeaturesDeveloperShowcase";
@@ -22,18 +24,25 @@ export default function FeaturesView() {
                 {/* 2. Key Metrics Stats Bar */}
                 <FeaturesStats />
 
-                {/* 3. Core Capabilities Grid */}
+                {/* 3. 4G/5G Cellular Mobile Residential Nodes (The #1 Moat) */}
+                <FeaturesMobileNode />
+
+                {/* 4. AI Agent & MCP Protocol Integration Hub */}
+                <FeaturesMcpHub />
+
+                {/* 5. Core Capabilities Grid */}
                 <FeaturesCapabilities />
 
-                {/* 4. Built for Performance Showcase */}
+                {/* 6. Built for Performance Showcase */}
                 <FeaturesPerformanceShowcase />
 
-                {/* 5. Developer First SDK Showcase */}
+                {/* 7. Developer First SDK Showcase */}
                 <FeaturesDeveloperShowcase />
 
-                {/* 6. Bottom CTA Banner */}
+                {/* 8. Bottom CTA Banner */}
                 <FeaturesCtaBanner />
             </div>
         </div>
     );
 }
+

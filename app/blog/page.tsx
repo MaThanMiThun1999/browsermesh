@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllBlogPosts } from "@/utils/blog";
 import { constructMetadata } from "@/lib/seo";
-import { Calendar, Clock, ArrowRight, ShieldCheck, Sparkles, BookOpen } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Sparkles, BookOpen } from "lucide-react";
 
 export const metadata: Metadata = constructMetadata({
     title: "Stealth Web Scraping, Anti-Bot Evasion & AI Data Blog | BrowserMesh",
@@ -14,7 +14,6 @@ export const metadata: Metadata = constructMetadata({
 export default function BlogIndexPage() {
     const posts = getAllBlogPosts();
     const featuredPost = posts[0];
-    const regularPosts = posts.slice(1);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -61,6 +61,7 @@ export function getDynamicPluginIcon(
         iconUrl !== "undefined"
     ) {
         return (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img
                 src={iconUrl}
                 alt="plugin icon"

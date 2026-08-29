@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PluginDetailsView from "@/components/marketplace/PluginDetailsView";
 import { getPublicPluginDetail } from "@/lib/api";
-import { constructMetadata, generatePluginSchema, generateBreadcrumbSchema } from "@/lib/seo";
+import { generatePluginSchema, generateBreadcrumbSchema, constructMetadata, SITE_URL } from "@/lib/seo";
 
 export async function generateMetadata({
     params,
@@ -13,25 +13,18 @@ export async function generateMetadata({
 
     if (!plugin) {
         return constructMetadata({
-            title: "Plugin Details - BrowserMesh Marketplace",
-            description:
-                "View details, parameters, and live execution preview for BrowserMesh web scraping plugins.",
+            title: "Plugin Details | BrowserMesh",
+            description: "View no-code web scraping plugin specifications and run jobs.",
             path: `/marketplace/${id}`,
         });
     }
 
-    const title = `${plugin.name} - Stealth Web Scraper Plugin | BrowserMesh`;
-    const description =
-        plugin.description ||
-        `Extract structured data with the ${plugin.name} plugin on BrowserMesh. 99.99% success rate with automated residential node proxy routing.`;
-    const path = `/marketplace/${plugin.slug || id}`;
-    const image = plugin.bannerUrl || "/opengraph-img.png";
-
     return constructMetadata({
-        title,
-        description,
-        path,
-        image,
+        title: `${plugin.name} | BrowserMesh Marketplace`,
+        description:
+            plugin.description ||
+            `Download and run ${plugin.name} on Windows, Linux, and Android with BrowserMesh.`,
+        path: `/marketplace/${plugin.slug || id}`,
     });
 }
 
@@ -47,7 +40,7 @@ export default async function PluginDetailsPage({ params }: { params: Promise<{ 
               rating: plugin.averageRating,
               reviewCount: plugin.reviewCount,
               authorName: typeof plugin.author === "string" ? plugin.author : "BrowserMesh Verified Creator",
-              url: `https://browsermesh-one.vercel.app/marketplace/${plugin.slug || id}`,
+              url: `${SITE_URL}/marketplace/${plugin.slug || id}`,
               image: plugin.bannerUrl || plugin.iconUrl || "/opengraph-img.png",
           })
         : null;
