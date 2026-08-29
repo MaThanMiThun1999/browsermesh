@@ -1,11 +1,9 @@
 ---
-title: Linux Installation
+title: Linux Node & VPS Installation Guide
 description: Install the BrowserMesh application on Linux desktop or deploy headlessly on a VPS.
 order: 4
 category: Installation
 ---
-
-# Linux Installation
 
 BrowserMesh offers a dedicated Linux application for desktop environments (Ubuntu, Fedora, Arch, etc.), as well as a headless installation method for servers and VPS hosting.
 

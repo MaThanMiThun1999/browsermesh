@@ -1,11 +1,9 @@
 ---
-title: API Reference
+title: REST API & Headless Node Reference Guide
 description: Complete REST API documentation for the BrowserMesh Cloud.
 order: 7
 category: Automation
 ---
-
-# API Reference
 
 The BrowserMesh REST API allows you to programmatically trigger scraping jobs, monitor device status, and retrieve extracted data without using the Cloud Dashboard.
 

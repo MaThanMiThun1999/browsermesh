@@ -1,11 +1,9 @@
 ---
-title: The Automation Engine
+title: Automation Engine & Stealth Browser Pool Guide
 description: Learn how BrowserMesh nodes execute your scraping jobs with speed and stealth.
 order: 5
 category: Features
 ---
-
-# The Automation Engine
 
 At the core of every BrowserMesh Local Node is an advanced automation engine designed to run headless browsers flawlessly in the background.
 

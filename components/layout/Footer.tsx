@@ -154,7 +154,7 @@ export default function Footer() {
                     {/* Columns 2-5: 4 Link Silos */}
                     {footerLinks.map((col) => (
                         <div key={col.title} className="col-span-1">
-                            <h3 className="text-white font-bold text-[14px] mb-5">{col.title}</h3>
+                            <div className="text-white font-bold text-[14px] mb-5">{col.title}</div>
                             <ul className="space-y-3">
                                 {col.links.map((link) => {
                                     const isDownloadLink =
@@ -191,7 +191,7 @@ export default function Footer() {
 
                     {/* Column 6: Stay Updated */}
                     <div className="col-span-2 sm:col-span-3 lg:col-span-1">
-                        <h3 className="text-white font-bold text-[14px] mb-5">Stay Updated</h3>
+                        <div className="text-white font-bold text-[14px] mb-5">Stay Updated</div>
                         <p className="text-slate-400 text-[13px] leading-relaxed mb-4 max-w-[200px]">
                             Get the latest updates and scraping tips.
                         </p>
