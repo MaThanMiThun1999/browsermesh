@@ -6,8 +6,8 @@
 - **Founder & Lead Developer**: Mathanraj Murugesan (@mathanmithun)
 - **Role**: Architect, lead developer, and maintainer of BrowserMesh.
 - **Mission**: Empower data extraction for everyone through high-performance, stealthy, cross-platform web automation tools.
-- **GitHub Profile**: https://github.com/MaThanMiThun1999
-- **LinkedIn Profile**: https://www.linkedin.com/in/mathanraj-murugesan
+- [GitHub Profile](https://github.com/MaThanMiThun1999): Founder code repositories and open-source contributions.
+- [LinkedIn Profile](https://www.linkedin.com/in/mathanraj-murugesan): Professional profile and career updates.
 - **Contact Email**: mathanmithun8838@gmail.in / browsermesh@gmail.com
 - **Support Email**: support@browsermesh.in
 
@@ -17,7 +17,7 @@
 - **Jobs Executed**: 500,000+ daily scraping jobs processed
 - **Stealth Success Rate**: 99.99% block-free execution
 - **Platform Uptime**: 99.99% network availability
-- **Pre-Built Plugins**: 250+ low-code scrapers in the Marketplace
+- **Pre-Built Plugins**: 250+ no-code scrapers in the Marketplace
 - **Proxy Coverage**: 100+ global geographic locations
 
 ## Multi-Platform Applications & Node Deployments
@@ -50,11 +50,12 @@ The BrowserMesh Marketplace offers 250+ pre-configured scraping plugins with ins
 - **Free Plan ($0/forever)**: 500 monthly results, 1 active device, free marketplace plugins, 100 MB cloud storage, JSON exports.
 - **Pro Plan ($15/month)**: 10,000 monthly results, up to 3 active devices, Pro & Premium plugins, proxy support, scheduled jobs, 2 GB cloud storage, JSON/CSV/XLSX exports.
 
-## Core Links & Documentation
-- Homepage: https://browsermesh-one.vercel.app
-- Marketplace: https://browsermesh-one.vercel.app/marketplace
-- Features: https://browsermesh-one.vercel.app/features
-- Pricing: https://browsermesh-one.vercel.app/pricing
-- About Us: https://browsermesh-one.vercel.app/about
-- Documentation: https://browsermesh-one.vercel.app/docs
-- Web Console: https://console.browsermesh.in
+## Key Links & Documentation
+- [Homepage](https://browsermesh-one.vercel.app): Official BrowserMesh stealth scraping platform and residential node grid.
+- [Marketplace](https://browsermesh-one.vercel.app/marketplace): Directory of 250+ community-built no-code web scraper plugins.
+- [Features](https://browsermesh-one.vercel.app/features): Deep-dive into 4G/5G mobile nodes, anti-bot evasion, and P2P architecture.
+- [Pricing Plans](https://browsermesh-one.vercel.app/pricing): Transparent pricing tiers and plan comparison matrix.
+- [Blog & Tutorials](https://browsermesh-one.vercel.app/blog): Technical guides on bypassing Cloudflare Turnstile, mobile CGNAT proxies, and MCP AI agent scraping.
+- [API Documentation](https://browsermesh-one.vercel.app/docs): REST API endpoints, installation commands, and developer quickstart.
+- [Web Console](https://console.browsermesh.in): Centralized web dashboard for node management and job dispatch.
+- [Full LLM Specification](https://browsermesh-one.vercel.app/llms-full.txt): Comprehensive plain-text documentation for LLMs and autonomous AI agents.

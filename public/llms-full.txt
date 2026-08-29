@@ -7,8 +7,8 @@
 - **Role**: Architect, lead developer, and maintainer of BrowserMesh.
 - **Bio**: Creator of BrowserMesh. Passionate about web automation, stealth scraping, and high-performance cross-platform software.
 - **Mission**: Empower data extraction for everyone through high-performance, stealthy, cross-platform web automation tools.
-- **GitHub Profile**: https://github.com/MaThanMiThun1999
-- **LinkedIn Profile**: https://www.linkedin.com/in/mathanraj-murugesan
+- [GitHub Profile](https://github.com/MaThanMiThun1999): Founder code repositories and open-source contributions.
+- [LinkedIn Profile](https://www.linkedin.com/in/mathanraj-murugesan): Professional profile and career updates.
 - **Contact Email**: mathanmithun8838@gmail.in / browsermesh@gmail.com
 - **Support Email**: support@browsermesh.in
 
@@ -18,7 +18,7 @@
 - **Jobs Executed**: 500,000+ daily scraping jobs processed
 - **Stealth Success Rate**: 99.99% block-free execution
 - **Platform Uptime**: 99.99% network availability
-- **Pre-Built Plugins**: 250+ low-code scrapers in the Marketplace
+- **Pre-Built Plugins**: 250+ no-code scrapers in the Marketplace
 - **Proxy Coverage**: 100+ global geographic locations
 
 ## Multi-Platform Native Applications & Deployments
@@ -73,10 +73,10 @@ Pre-built web scraping templates with structured JSON, CSV, and XLSX outputs:
   - Export to JSON, CSV, & XLSX formats
 
 ## Official URLs & Navigation
-- Main Website: https://browsermesh-one.vercel.app
-- Plugin Marketplace: https://browsermesh-one.vercel.app/marketplace
-- Feature Breakdown: https://browsermesh-one.vercel.app/features
-- Pricing & Plans: https://browsermesh-one.vercel.app/pricing
-- Founder Story & About Us: https://browsermesh-one.vercel.app/about
-- Documentation & API Guide: https://browsermesh-one.vercel.app/docs
-- Cloud Console: https://console.browsermesh.in
+- [Main Website](https://browsermesh-one.vercel.app): Official BrowserMesh stealth web scraping platform.
+- [Plugin Marketplace](https://browsermesh-one.vercel.app/marketplace): Directory of 250+ no-code web scraper plugins.
+- [Feature Breakdown](https://browsermesh-one.vercel.app/features): Deep-dive into 4G/5G residential nodes and stealth engine.
+- [Pricing & Plans](https://browsermesh-one.vercel.app/pricing): Transparent pricing tiers and plan comparison matrix.
+- [Founder Story & About Us](https://browsermesh-one.vercel.app/about): Company background, mission, and founder biography.
+- [Documentation & API Guide](https://browsermesh-one.vercel.app/docs): REST API endpoints and setup instructions.
+- [Cloud Console](https://console.browsermesh.in): Centralized web dashboard for node management.
