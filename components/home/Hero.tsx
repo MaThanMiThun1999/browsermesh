@@ -123,7 +123,7 @@ export default function Hero() {
                         <div className="inline-flex items-center gap-2 bg-indigo-950/40 border border-indigo-500/30 rounded-full px-4 py-1.5 mb-6">
                             <Target size={14} className="text-cyan-400" />
                             <span className="text-xs font-medium text-indigo-200 tracking-wide">
-                                Enterprise-Grade Stealth Scraping Platform
+                                4G/5G Cellular & Decentralized Residential Node Network
                             </span>
                         </div>
                         <h1 className="text-[42px] leading-[1.1] md:text-5xl lg:text-6xl font-black lg:leading-[1.05] tracking-tight mb-6">
@@ -134,9 +134,7 @@ export default function Hero() {
                             <span className="text-gradient">Undetected.</span>
                         </h1>
                         <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg">
-                            {(tagline || siteInfo.tagline).trim().replace(/\.+$/, "")}. Powered by
-                            plugins, built for developers, and trusted by data professionals
-                            worldwide.
+                            Bypass Cloudflare and anti-bot protections instantly with decentralized residential and mobile browser nodes.
                         </p>
                         <div className="flex flex-wrap gap-4 mb-10">
                             {downloadInfo.url.startsWith("http") ? (

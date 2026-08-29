@@ -14,6 +14,11 @@ export interface FAQItem {
     answer: string;
 }
 
+export interface BreadcrumbItem {
+    name: string;
+    item: string;
+}
+
 export interface PluginSchemaOptions {
     name: string;
     description: string;
@@ -93,7 +98,7 @@ export function constructMetadata({
 }
 
 /**
- * JSON-LD Schema Generators for Search & Answer Engine Optimization (AEO)
+ * JSON-LD Schema Generators for Search & Answer Engine Optimization (AEO / GEO)
  */
 
 export function generateOrganizationSchema() {
@@ -103,11 +108,28 @@ export function generateOrganizationSchema() {
         "name": "BrowserMesh",
         "url": SITE_URL,
         "logo": `${SITE_URL}/images/logo-with-text.webp`,
-        "description": "Enterprise stealth web scraping platform and decentralized browser node network.",
+        "description": "Enterprise stealth web scraping platform and decentralized peer-to-peer residential browser node network.",
+        "foundingDate": "2024",
         "sameAs": [
             "https://github.com/MaThanMiThun1999",
             "https://www.linkedin.com/in/mathanraj-murugesan",
+            "https://x.com/BrowserMesh",
         ],
+        "knowsAbout": [
+            "Web Scraping",
+            "Anti-Bot Evasion",
+            "Cloudflare Turnstile Bypass",
+            "TLS JA4 Fingerprinting",
+            "Residential Proxy Nodes",
+            "Mobile 4G/5G Cellular Scraping",
+            "Headless Browser Automation",
+            "Puppeteer and Playwright Stealth",
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Support",
+            "url": `${SITE_URL}/about`,
+        },
     };
 }
 
@@ -117,11 +139,27 @@ export function generateWebSiteSchema() {
         "@type": "WebSite",
         "name": "BrowserMesh",
         "url": SITE_URL,
+        "description": "Bypass Cloudflare and anti-bot protections with stealth residential browser nodes and no-code marketplace plugins.",
         "potentialAction": {
             "@type": "SearchAction",
             "target": `${SITE_URL}/marketplace?search={search_term_string}`,
             "query-input": "required name=search_term_string",
         },
+    };
+}
+
+export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items.map((crumb, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": crumb.name,
+            "item": crumb.item.startsWith("http")
+                ? crumb.item
+                : `${SITE_URL}${crumb.item.startsWith("/") ? crumb.item : `/${crumb.item}`}`,
+        })),
     };
 }
 
@@ -134,14 +172,37 @@ export function generateSoftwareApplicationSchema() {
         "applicationCategory": "DeveloperApplication",
         "description": "Stealth web scraping and residential browser node automation platform.",
         "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "INR",
+            "@type": "AggregateOffer",
+            "priceCurrency": "USD",
+            "lowPrice": "0",
+            "highPrice": "49",
+            "offerCount": "3",
+            "offers": [
+                {
+                    "@type": "Offer",
+                    "name": "Starter / Free",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Pro Developer",
+                    "price": "15",
+                    "priceCurrency": "USD",
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Enterprise Mesh",
+                    "price": "49",
+                    "priceCurrency": "USD",
+                },
+            ],
         },
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
             "ratingCount": "1250",
+            "reviewCount": "840",
             "bestRating": "5",
             "worstRating": "1",
         },
@@ -221,9 +282,9 @@ export function generateTechArticleSchema({
         "dateModified": dateModified,
         "image": image.startsWith("http") ? image : `${SITE_URL}${image}`,
         "author": {
-            "@type": "Person",
-            "name": "Mathanraj Murugesan",
-            "url": "https://github.com/MaThanMiThun1999",
+            "@type": "Organization",
+            "name": "BrowserMesh Security & Research Team",
+            "url": SITE_URL,
         },
         "publisher": {
             "@type": "Organization",
@@ -235,4 +296,3 @@ export function generateTechArticleSchema({
         },
     };
 }
-
