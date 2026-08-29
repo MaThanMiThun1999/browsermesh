@@ -40,7 +40,9 @@ export interface TechArticleSchemaOptions {
     image?: string;
 }
 
-export const SITE_URL = "https://browsermesh-one.vercel.app";
+import { envConfig } from "@/data/envConfig";
+
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || envConfig.siteUrl || "https://browsermesh.in";
 export const DEFAULT_OG_IMAGE = "/opengraph-img.png";
 
 /**

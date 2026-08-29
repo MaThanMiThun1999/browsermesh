@@ -290,6 +290,7 @@ export default function PluginReviews({
                                             rev.avatar.trim() !== "" &&
                                             rev.avatar !== "null" &&
                                             rev.avatar !== "undefined" ? (
+                                                /* eslint-disable-next-line @next/next/no-img-element */
                                                 <img
                                                     src={rev.avatar}
                                                     alt={rev.name}

@@ -19,4 +19,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://browsermesh-one.vercel.app/sitemap.xml
+Sitemap: https://browsermesh.in/sitemap.xml

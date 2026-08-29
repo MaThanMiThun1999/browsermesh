@@ -73,10 +73,10 @@ Pre-built web scraping templates with structured JSON, CSV, and XLSX outputs:
   - Export to JSON, CSV, & XLSX formats
 
 ## Official URLs & Navigation
-- [Main Website](https://browsermesh-one.vercel.app): Official BrowserMesh stealth web scraping platform.
-- [Plugin Marketplace](https://browsermesh-one.vercel.app/marketplace): Directory of 250+ no-code web scraper plugins.
-- [Feature Breakdown](https://browsermesh-one.vercel.app/features): Deep-dive into 4G/5G residential nodes and stealth engine.
-- [Pricing & Plans](https://browsermesh-one.vercel.app/pricing): Transparent pricing tiers and plan comparison matrix.
-- [Founder Story & About Us](https://browsermesh-one.vercel.app/about): Company background, mission, and founder biography.
-- [Documentation & API Guide](https://browsermesh-one.vercel.app/docs): REST API endpoints and setup instructions.
+- [Main Website](https://browsermesh.in): Official BrowserMesh stealth web scraping platform.
+- [Plugin Marketplace](https://browsermesh.in/marketplace): Directory of 250+ no-code web scraper plugins.
+- [Feature Breakdown](https://browsermesh.in/features): Deep-dive into 4G/5G residential nodes and stealth engine.
+- [Pricing & Plans](https://browsermesh.in/pricing): Transparent pricing tiers and plan comparison matrix.
+- [Founder Story & About Us](https://browsermesh.in/about): Company background, mission, and founder biography.
+- [Documentation & API Guide](https://browsermesh.in/docs): REST API endpoints and setup instructions.
 - [Cloud Console](https://console.browsermesh.in): Centralized web dashboard for node management.

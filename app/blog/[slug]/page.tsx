@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlogPostBySlug, getAllBlogPosts } from "@/utils/blog";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
-import { constructMetadata, generateTechArticleSchema, generateBreadcrumbSchema } from "@/lib/seo";
+import { constructMetadata, generateTechArticleSchema, generateBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -61,7 +61,7 @@ export default async function BlogPostPage({
     const techArticleSchema = generateTechArticleSchema({
         headline: post.frontmatter.title,
         description: post.frontmatter.description,
-        url: `https://browsermesh-one.vercel.app/blog/${post.slug}`,
+        url: `${SITE_URL}/blog/${post.slug}`,
         category: post.frontmatter.category || "Web Scraping",
         datePublished: post.frontmatter.date,
         dateModified: post.frontmatter.date,

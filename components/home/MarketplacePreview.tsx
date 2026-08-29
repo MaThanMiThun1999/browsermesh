@@ -24,6 +24,13 @@ interface TabItem {
     icon: React.ReactNode;
 }
 
+const TABS: TabItem[] = [
+    { label: "Top Rated", key: "top_rated", icon: <Star size={13} /> },
+    { label: "Trending", key: "trending", icon: <TrendingUp size={13} /> },
+    { label: "New", key: "new", icon: <Sparkles size={13} /> },
+    { label: "Verified", key: "featured", icon: <CheckCircle size={13} /> },
+];
+
 export default function MarketplacePreview() {
     const [activeTab, setActiveTab] = useState<TabLabel>("Top Rated");
     const [plugins, setPlugins] = useState<PublicPlugin[]>([]);
@@ -31,13 +38,6 @@ export default function MarketplacePreview() {
     const [statsLoading, setStatsLoading] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
-    const tabs: TabItem[] = [
-        { label: "Top Rated", key: "top_rated", icon: <Star size={13} /> },
-        { label: "Trending", key: "trending", icon: <TrendingUp size={13} /> },
-        { label: "New", key: "new", icon: <Sparkles size={13} /> },
-        { label: "Verified", key: "featured", icon: <CheckCircle size={13} /> },
-    ];
 
     // Fetch overall platform telemetry stats for the header badge with loading state
     useEffect(() => {
@@ -66,7 +66,7 @@ export default function MarketplacePreview() {
             setLoading(true);
             setError(null);
 
-            const tab = tabs.find((t) => t.label === activeTab);
+            const tab = TABS.find((t) => t.label === activeTab);
             const filterKey = tab?.key || "top_rated";
 
             try {
@@ -105,7 +105,7 @@ export default function MarketplacePreview() {
     const handleRetry = () => {
         setLoading(true);
         setError(null);
-        const tab = tabs.find((t) => t.label === activeTab);
+        const tab = TABS.find((t) => t.label === activeTab);
         const filterKey = tab?.key || "top_rated";
         getPublicMarketplacePlugins({ filter: filterKey, limit: 5 })
             .then((res) => {
@@ -171,7 +171,7 @@ export default function MarketplacePreview() {
 
                 {/* Tabs */}
                 <div className="flex gap-1.5 md:gap-2 mb-4 md:mb-8 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                    {tabs.map((t) => (
+                    {TABS.map((t) => (
                         <button
                             key={t.label}
                             onClick={() => setActiveTab(t.label)}
@@ -243,6 +243,7 @@ export default function MarketplacePreview() {
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shadow-inner text-indigo-400 overflow-hidden">
                                             {p.iconUrl ? (
+                                                /* eslint-disable-next-line @next/next/no-img-element */
                                                 <img
                                                     src={p.iconUrl}
                                                     alt={p.name}

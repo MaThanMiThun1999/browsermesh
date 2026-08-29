@@ -149,6 +149,7 @@ export default function MarketplaceGrid({
                                     <div className="flex items-start justify-between gap-3 mb-3">
                                         <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
                                             {plugin.iconUrl ? (
+                                                /* eslint-disable-next-line @next/next/no-img-element */
                                                 <img
                                                     src={plugin.iconUrl}
                                                     alt={plugin.name}
@@ -292,6 +293,7 @@ export default function MarketplaceGrid({
                                     {/* Logo Box */}
                                     <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden group-hover:border-indigo-500/40 transition-colors">
                                         {plugin.iconUrl ? (
+                                            /* eslint-disable-next-line @next/next/no-img-element */
                                             <img
                                                 src={plugin.iconUrl}
                                                 alt={plugin.name}
