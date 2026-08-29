@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDocBySlug, getAllDocs } from "@/utils/markdown";
 import { MarkdownRenderer } from "@/components/docs/MarkdownRenderer";
 import { notFound } from "next/navigation";
-import { constructMetadata, generateTechArticleSchema } from "@/lib/seo";
+import { constructMetadata, generateTechArticleSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
 export async function generateStaticParams() {
     const docs = getAllDocs();
@@ -65,12 +65,20 @@ export default async function DocPage({ params }: { params: Promise<{ slug?: str
         category: doc.frontmatter.category || "Documentation",
     });
 
+    const breadcrumbSchema = generateBreadcrumbSchema([
+        { name: "Home", item: "/" },
+        { name: "Docs", item: "/docs" },
+        { name: doc.frontmatter.title, item: `/docs/${doc.slug}` },
+    ]);
+
     return (
         <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-10 sm:pb-20">
-            {/* Embedded TechArticle JSON-LD Schema */}
+            {/* Embedded TechArticle & BreadcrumbList JSON-LD Schema */}
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchemaData) }}
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify([techArticleSchemaData, breadcrumbSchema]),
+                }}
             />
             {/* Breadcrumbs */}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-400 mb-3 sm:mb-6 font-medium">

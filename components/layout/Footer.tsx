@@ -118,9 +118,9 @@ export default function Footer() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-900/10 blur-[120px] rounded-full pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 pt-10 pb-6 relative z-10">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr] gap-x-6 gap-y-10 mb-10">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10 mb-10">
                     {/* Column 1: Logo & Socials */}
-                    <div className="col-span-2 md:col-span-3 lg:col-span-1">
+                    <div className="col-span-2 sm:col-span-3 lg:col-span-1">
                         <Link href="/">
                             <Image
                                 src={logoWithText}
@@ -151,9 +151,9 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Columns 2-4: Links */}
+                    {/* Columns 2-5: 4 Link Silos */}
                     {footerLinks.map((col) => (
-                        <div key={col.title}>
+                        <div key={col.title} className="col-span-1">
                             <h3 className="text-white font-bold text-[14px] mb-5">{col.title}</h3>
                             <ul className="space-y-3">
                                 {col.links.map((link) => {
@@ -189,8 +189,8 @@ export default function Footer() {
                         </div>
                     ))}
 
-                    {/* Column 5: Stay Updated */}
-                    <div className="col-span-2 md:col-span-3 lg:col-span-1">
+                    {/* Column 6: Stay Updated */}
+                    <div className="col-span-2 sm:col-span-3 lg:col-span-1">
                         <h3 className="text-white font-bold text-[14px] mb-5">Stay Updated</h3>
                         <p className="text-slate-400 text-[13px] leading-relaxed mb-4 max-w-[200px]">
                             Get the latest updates and scraping tips.

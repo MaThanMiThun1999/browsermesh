@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     alternates: {
         canonical: "./",
     },
-    title: `${siteInfo.name} - Stealth Scraping Platform`,
-    description: siteInfo.tagline,
+    title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
+    description: `Bypass Cloudflare and anti-bot protections instantly. BrowserMesh is a multi-platform stealth web scraper for Windows, Linux, and Android with 4G/5G mobile residential nodes and no-code plugins.`,
     manifest: "/site.webmanifest",
     icons: {
         icon: [
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
         apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     },
     openGraph: {
-        title: `${siteInfo.name} - Stealth Scraping Platform`,
-        description: siteInfo.tagline,
+        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
+        description: `Bypass Cloudflare and anti-bot protections instantly. BrowserMesh is a multi-platform stealth web scraper for Windows, Linux, and Android with 4G/5G mobile residential nodes and no-code plugins.`,
         url: envConfig.siteUrl,
         siteName: siteInfo.name,
         images: [
@@ -60,15 +60,15 @@ export const metadata: Metadata = {
                 url: "/opengraph-img.png",
                 width: 1200,
                 height: 630,
-                alt: `${siteInfo.name} Stealth Scraping Platform`,
+                alt: `${siteInfo.name} Multi-Platform Stealth Scraping Platform`,
             },
         ],
         type: "website",
     },
     twitter: {
         card: "summary_large_image",
-        title: `${siteInfo.name} - Stealth Scraping Platform`,
-        description: siteInfo.tagline,
+        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
+        description: `Bypass Cloudflare and anti-bot protections instantly across Windows, Linux, and Android with 4G/5G mobile residential nodes.`,
         images: ["/opengraph-img.png"],
     },
 };

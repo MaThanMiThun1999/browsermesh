@@ -1,9 +1,9 @@
 import { constructMetadata } from "@/lib/seo";
 
 export const metadata = constructMetadata({
-    title: "BrowserMesh Marketplace - 250+ Stealth Web Scraping Plugins",
+    title: "No-Code Web Scraper Plugins Marketplace | BrowserMesh",
     description:
-        "Browse pre-built scrapers for Amazon, Google Maps, LinkedIn, Instagram, Twitter, and Zillow. Instantly extract clean structured data with BrowserMesh plugins.",
+        "Install 250+ pre-built stealth web scrapers with zero coding. Extract data from Amazon, Google Maps, and LinkedIn with zero IP bans. Run on Windows, Linux, Android, or Web.",
     path: "/marketplace",
 });
 
