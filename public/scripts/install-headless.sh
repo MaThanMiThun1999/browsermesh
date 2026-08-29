@@ -1,7 +1,17 @@
 #!/bin/bash
 
-# Exit on unexpected errors
+# Stop on errors
 set -e
+
+# Catch unexpected errors and show a friendly message
+cleanup_on_error() {
+    echo ""
+    echo "❌ [ERROR] Oops! Something went wrong during the installation."
+    echo "    Please check your internet connection or contact support if the issue persists."
+    echo "================================================="
+    exit 1
+}
+trap 'cleanup_on_error' ERR
 
 # ==============================================================================
 # CONFIGURATION
@@ -21,33 +31,48 @@ echo "Sit back and relax. We'll handle everything automatically."
 echo "================================================="
 
 # ==============================================================================
-# 1. NODE.JS VALIDATION
+# 1. NODE.JS INSTALLATION & VALIDATION
 # ==============================================================================
-if ! command -v node > /dev/null 2>&1; then
-    echo "❌ [ERROR] Node.js is not installed."
-    echo "    Please install Node.js v20+ from: https://nodejs.org/"
-    exit 1
+install_node() {
+    echo "📦 [Step 1/5] Installing Node.js engine..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh -s | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install $NODE_VERSION > /dev/null 2>&1
+    nvm use $NODE_VERSION > /dev/null 2>&1
+    nvm alias default $NODE_VERSION > /dev/null 2>&1
+}
+
+if ! command -v node &> /dev/null; then
+    install_node
 else
-    echo "✅ [Step 1/5] Node.js engine is already installed!"
+    CURRENT_NODE_VERSION=$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)
+    if [ "$CURRENT_NODE_VERSION" -lt "18" ]; then
+        echo "📦 [Step 1/5] Upgrading your Node.js engine..."
+        install_node
+    else
+        echo "✅ [Step 1/5] Node.js engine is already installed!"
+    fi
+fi
+
+if ! command -v npm &> /dev/null; then
+    echo "❌ [ERROR] NPM failed to install correctly. Please try again."
+    exit 1
 fi
 
 # ==============================================================================
 # 2. PM2 INSTALLATION
 # ==============================================================================
-if ! command -v pm2 > /dev/null 2>&1; then
-    echo "⚙️  [Step 2/5] Installing process manager (PM2)..."
-    npm install -g pm2 > /dev/null 2>&1
+if ! command -v pm2 &> /dev/null; then
+    echo "🔄 [Step 2/5] Installing background process manager (PM2)..."
+    npm install -g pm2 --silent > /dev/null 2>&1
 else
     echo "✅ [Step 2/5] Background process manager is ready!"
 fi
 
 # ==============================================================================
-# 3. DOWNLOAD & UNPACK BACKEND
+# 3. ENVIRONMENT SETUP & DOWNLOAD
 # ==============================================================================
-if [ -d "$INSTALL_DIR" ]; then
-    pm2 delete browsermesh-backend > /dev/null 2>&1 || true
-    rm -rf "$INSTALL_DIR"
-fi
 mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
@@ -93,11 +118,10 @@ fi
 echo "🚀 Starting your BrowserMesh Node..."
 
 if pm2 list | grep -q "browsermesh-backend"; then
-    pm2 restart browsermesh-backend > /dev/null 2>&1
-else
-    pm2 start dist/server.js --name "browsermesh-backend" --interpreter node --interpreter-args "--env-file=.env" > /dev/null 2>&1
+    pm2 delete "browsermesh-backend" > /dev/null 2>&1
 fi
 
+pm2 start dist/server.js --name "browsermesh-backend" --cwd "$INSTALL_DIR" --node-args="--env-file=.env" > /dev/null 2>&1
 pm2 save > /dev/null 2>&1
 
 # ==============================================================================

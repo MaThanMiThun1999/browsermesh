@@ -36,124 +36,102 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     Write-Host "    After installing, restart your terminal and run this script again."
     exit 1
 } else {
-    $nodeVerRaw = (node -v).TrimStart('v')
-    $majorVer = [int]($nodeVerRaw.Split('.')[0])
+    $nodeVerStr = (node -v) -replace 'v',''
+    $majorVer = [int]($nodeVerStr.Split('.')[0])
     if ($majorVer -lt 18) {
-        Write-Host "[ERROR] Outdated Node.js version detected (v$nodeVerRaw)." -ForegroundColor Red
-        Write-Host "    BrowserMesh requires Node.js v18 or higher."
-        Write-Host "    Please update Node.js at: https://nodejs.org/"
+        Write-Host "[ERROR] Installed Node.js version ($nodeVerStr) is out of date. Required: v18+ (v20+ recommended)." -ForegroundColor Red
+        Write-Host "    Please upgrade Node.js from https://nodejs.org/"
         exit 1
     }
-    Write-Host "[OK] Step 1/5: Node.js engine (v$nodeVerRaw) is installed!" -ForegroundColor Green
+    Write-Host "[OK] Step 1/5: Node.js engine ($nodeVerStr) is installed!" -ForegroundColor Green
 }
 
 # ==============================================================================
-# 2. PM2 PROCESS MANAGER INSTALLATION
+# 2. PM2 INSTALLATION & PATH UPDATES
 # ==============================================================================
+$env:PATH += ";$env:APPDATA\npm"
 if (-not (Get-Command pm2 -ErrorAction SilentlyContinue)) {
-    Write-Host "[WAIT] Step 2/5: Installing background process manager (PM2)..." -ForegroundColor Yellow
-    cmd.exe /c "npm install -g pm2" | Out-Null
+    Write-Host "[WAIT] Step 2/5: Installing background process manager (PM2)..."
+    npm install -g pm2 --silent
 } else {
     Write-Host "[OK] Step 2/5: Background process manager is ready!" -ForegroundColor Green
 }
 
-# Add npm global directory to current PowerShell session PATH if missing
-$npmBin = "$env:APPDATA\npm"
-if ($env:PATH -notlike "*$npmBin*") {
-    $env:PATH += ";$npmBin"
-}
-
 # ==============================================================================
-# 3. DOWNLOAD & EXTRACT BACKEND ARCHIVE
+# 3. ENVIRONMENT SETUP & DOWNLOAD
 # ==============================================================================
-if (Test-Path $INSTALL_DIR) {
-    cmd.exe /c "pm2 delete browsermesh-backend >nul 2>&1"
-    Remove-Item -Path $INSTALL_DIR -Recurse -Force -ErrorAction SilentlyContinue
-}
-New-Item -ItemType Directory -Path $INSTALL_DIR -Force | Out-Null
+Write-Host "[WAIT] Step 3/5: Downloading the latest BrowserMesh Node software..."
+New-Item -ItemType Directory -Force -Path $INSTALL_DIR | Out-Null
 Set-Location $INSTALL_DIR
 
-Write-Host "[WAIT] Step 3/5: Downloading the latest BrowserMesh Node software..." -ForegroundColor Yellow
-$zipFile = Join-Path $INSTALL_DIR "backend.tar.gz"
-
+# Resilient download helper using curl.exe or Invoke-WebRequest with fallback
 $downloadSuccess = $false
 
-# Primary download attempt
-try {
-    if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
-        curl.exe -sL "$BACKEND_ZIP_URL" -o "$zipFile"
-    } else {
-        Invoke-WebRequest -Uri "$BACKEND_ZIP_URL" -OutFile "$zipFile" -UseBasicParsing
-    }
-    if ((Test-Path "$zipFile") -and ((Get-Item "$zipFile").Length -gt 1000)) {
+if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
+    & curl.exe -sL "$BACKEND_ZIP_URL" -o "backend.tar.gz"
+    if ((Test-Path "backend.tar.gz") -and ((Get-Item "backend.tar.gz").Length -gt 1000)) {
         $downloadSuccess = $true
-    }
-} catch {
-    $downloadSuccess = $false
-}
-
-# Fallback mirror download attempt if primary failed
-if (-not $downloadSuccess) {
-    Write-Host "[WARN] Primary download server busy. Trying fallback mirror..." -ForegroundColor Yellow
-    try {
-        if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
-            curl.exe -sL "$BACKEND_ZIP_FALLBACK" -o "$zipFile"
-        } else {
-            Invoke-WebRequest -Uri "$BACKEND_ZIP_FALLBACK" -OutFile "$zipFile" -UseBasicParsing
-        }
-        if ((Test-Path "$zipFile") -and ((Get-Item "$zipFile").Length -gt 1000)) {
+    } else {
+        & curl.exe -sL "$BACKEND_ZIP_FALLBACK" -o "backend.tar.gz"
+        if ((Test-Path "backend.tar.gz") -and ((Get-Item "backend.tar.gz").Length -gt 1000)) {
             $downloadSuccess = $true
         }
-    } catch {
-        $downloadSuccess = $false
     }
 }
 
 if (-not $downloadSuccess) {
-    Write-Host "[ERROR] Couldn't download required backend release archive." -ForegroundColor Red
-    Write-Host "    Please check your internet connection or try again later."
-    exit 1
+    try {
+        Invoke-WebRequest -Uri $BACKEND_ZIP_URL -OutFile "backend.tar.gz" -UserAgent "Mozilla/5.0" -ErrorAction Stop
+        $downloadSuccess = $true
+    } catch {
+        Invoke-WebRequest -Uri $BACKEND_ZIP_FALLBACK -OutFile "backend.tar.gz" -UserAgent "Mozilla/5.0" -ErrorAction Stop
+        $downloadSuccess = $true
+    }
 }
 
-# Extract archive
-tar.exe -xzf "$zipFile"
-Remove-Item "$zipFile" -Force -ErrorAction SilentlyContinue
+# Extract using native Windows tar
+tar -xzf backend.tar.gz
+Remove-Item backend.tar.gz
 
-# ==============================================================================
-# 4. GENERATE ENVIRONMENT CONFIGURATION (.env)
-# ==============================================================================
-Write-Host "[WAIT] Step 4/5: Configuring your environment..." -ForegroundColor Yellow
+# Create .env without UTF-8 BOM
+Write-Host "[WAIT] Step 4/5: Configuring your environment..."
 $envContent = @"
 PORT=3001
 HOST=127.0.0.1
 CLOUD_API_URL=https://aelxyxu12qa0-production-5hawy35i.us-central1.suga.run/api/v1
-SCRAPER_HOME=./scraper_data
+SCRAPER_HOME=.\scraper_data
 LOG_LEVEL=info
 NODE_ENV=production
 CLOAKBROWSER_AUTO_UPDATE=false
 "@
-
-# Write .env cleanly without UTF-8 BOM byte corruption
-$envFile = Join-Path $INSTALL_DIR ".env"
-[System.IO.File]::WriteAllText($envFile, $envContent, (New-Object System.Text.UTF8Encoding $false))
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $INSTALL_DIR ".env"), $envContent, $utf8NoBom)
 
 # ==============================================================================
-# 5. DEPENDENCY & CLOAKBROWSER STEALTH INSTALLATION
+# 4. DEPENDENCY & CLOAKBROWSER INSTALLATION
 # ==============================================================================
-Write-Host "[WAIT] Step 5/5: Installing system dependencies & Stealth Browser..." -ForegroundColor Yellow
-cmd.exe /c "npm install --omit=dev" | Out-Null
-cmd.exe /c "npx cloakbrowser install" | Out-Null
+Write-Host "[WAIT] Step 5/5: Installing system dependencies & Stealth Browser..."
+npm install --silent --omit=dev
+
+# Install CloakBrowser binaries natively
+cmd.exe /c "npx cloakbrowser install >nul 2>nul"
 
 # ==============================================================================
-# 6. START PM2 SERVICE
+# 5. START SERVICE
 # ==============================================================================
-Write-Host "[WAIT] Starting your BrowserMesh Node..." -ForegroundColor Yellow
+Write-Host "[WAIT] Starting your BrowserMesh Node..."
 
-cmd.exe /c "pm2 start dist/server.js --name browsermesh-backend --interpreter node --interpreter-args --env-file=.env" | Out-Null
+$pm2Output = cmd.exe /c "pm2 list 2>&1"
+if ($pm2Output -match "browsermesh-backend") {
+    cmd.exe /c "pm2 delete browsermesh-backend" | Out-Null
+}
+
+# Launch via PM2 with explicit working directory
+cmd.exe /c "pm2 start dist/server.js --name browsermesh-backend --cwd `"$INSTALL_DIR`" --node-args=`"--env-file=.env`"" | Out-Null
 cmd.exe /c "pm2 save" | Out-Null
 
 # ==============================================================================
-# 7. SETUP 'mesh' CLI COMMAND
+# 6. SETUP 'mesh' CLI COMMAND
 # ==============================================================================
 Write-Host "[WAIT] Configuring 'mesh' shortcut command..."
 
