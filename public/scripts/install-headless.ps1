@@ -112,10 +112,12 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 # 4. DEPENDENCY & CLOAKBROWSER INSTALLATION
 # ==============================================================================
 Write-Host "[WAIT] Step 5/5: Installing system dependencies & Stealth Browser..."
-npm install --silent --omit=dev
+Write-Host "📦 Installing production dependencies..." -ForegroundColor Cyan
+npm install --no-audit --no-fund --omit=dev
 
-# Install CloakBrowser binaries into local assets folder
-cmd.exe /c "cross-env CLOAKBROWSER_CACHE_DIR=.\scraper_data\assets\cloakbrowser npx cloakbrowser install >nul 2>nul"
+Write-Host "🌐 Downloading Stealth Browser binaries (~535 MB)..." -ForegroundColor Cyan
+$env:CLOAKBROWSER_CACHE_DIR = ".\scraper_data\assets\cloakbrowser"
+npx cloakbrowser install
 
 # ==============================================================================
 # 5. START SERVICE
