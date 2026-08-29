@@ -1,11 +1,9 @@
 ---
-title: Windows Installation (Headless)
+title: Windows Node Installation Guide (Headless & GUI)
 description: Step-by-step guide to installing the background scraping node on Windows using PowerShell.
 order: 2
 category: Installation
 ---
-
-# Windows Installation (Headless Node)
 
 You can turn any Windows 10/11 machine into a powerful, background scraping node for BrowserMesh. The installation process is completely automated via PowerShell.
 

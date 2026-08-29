@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     alternates: {
         canonical: "./",
     },
-    title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
-    description: `Bypass Cloudflare and anti-bot protections instantly. BrowserMesh is a multi-platform stealth web scraper for Windows, Linux, and Android with 4G/5G mobile residential nodes and no-code plugins.`,
+    title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Nodes`,
+    description: `Bypass Cloudflare and anti-bot systems with BrowserMesh: a multi-platform stealth web scraper with 4G/5G mobile residential nodes and no-code plugins.`,
     manifest: "/site.webmanifest",
     icons: {
         icon: [
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
         apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     },
     openGraph: {
-        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
-        description: `Bypass Cloudflare and anti-bot protections instantly. BrowserMesh is a multi-platform stealth web scraper for Windows, Linux, and Android with 4G/5G mobile residential nodes and no-code plugins.`,
+        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Nodes`,
+        description: `Bypass Cloudflare and anti-bot systems with BrowserMesh: a multi-platform stealth web scraper with 4G/5G mobile residential nodes and no-code plugins.`,
         url: envConfig.siteUrl,
         siteName: siteInfo.name,
         images: [
@@ -67,8 +67,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes`,
-        description: `Bypass Cloudflare and anti-bot protections instantly across Windows, Linux, and Android with 4G/5G mobile residential nodes.`,
+        title: `BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Nodes`,
+        description: `Bypass Cloudflare and anti-bot systems with BrowserMesh: a multi-platform stealth web scraper with 4G/5G mobile residential nodes.`,
         images: ["/opengraph-img.png"],
     },
 };

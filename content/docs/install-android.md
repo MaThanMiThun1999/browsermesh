@@ -1,11 +1,9 @@
 ---
-title: Android Installation
+title: Android 4G/5G Mobile Node Installation Guide
 description: Install the BrowserMesh background service on your Android smartphone.
 order: 3
 category: Installation
 ---
-
-# Android Installation
 
 BrowserMesh was heavily optimized to run on mobile architectures. By running a node on your Android device, you leverage your mobile carrier's IP address (4G/5G), which is virtually impossible for anti-bot systems to block.
 

@@ -1,11 +1,9 @@
 ---
-title: How BrowserMesh Works
+title: How BrowserMesh Decentralized Network Works
 description: Understanding the decentralized architecture of BrowserMesh nodes and the cloud dashboard.
 order: 1
 category: Architecture
 ---
-
-# How BrowserMesh Works
 
 BrowserMesh fundamentally rethinks web scraping by moving the heavy lifting off centralized servers and onto a distributed network of your own devices.
 

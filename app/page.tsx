@@ -10,9 +10,9 @@ import Testimonials from "@/components/home/Testimonials";
 import CTABanner from "@/components/home/CTABanner";
 
 export const metadata = constructMetadata({
-    title: "BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Residential Nodes",
+    title: "BrowserMesh | Multi-Platform Stealth Web Scraper & Mobile Nodes",
     description:
-        "Bypass Cloudflare and anti-bot protections instantly. BrowserMesh is a multi-platform stealth web scraper for Windows, Linux, and Android with 4G/5G mobile residential nodes and no-code plugins.",
+        "Bypass Cloudflare and anti-bot systems with BrowserMesh: a multi-platform stealth web scraper with 4G/5G mobile residential nodes and no-code plugins.",
     path: "/",
 });
 

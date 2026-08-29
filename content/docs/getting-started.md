@@ -1,11 +1,9 @@
 ---
-title: Getting Started
+title: Getting Started with BrowserMesh Platform
 description: Welcome to the BrowserMesh documentation. Learn how to install the native desktop/mobile apps or headless node script and connect to the Web Console.
 order: 1
 category: Introduction
 ---
-
-# Getting Started with BrowserMesh
 
 BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://console.browsermesh.in)**.
 

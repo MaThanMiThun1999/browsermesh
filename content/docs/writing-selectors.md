@@ -1,13 +1,11 @@
 ---
-title: Writing Selectors
-description: Learn how to write CSS and XPath selectors to extract data accurately.
-order: 2
-category: Automation
+title: Writing Anti-Bot Resilient DOM Selectors Guide
+description: Best practices for writing robust, anti-bot resilient CSS and XPath selectors for web scraping.
+order: 6
+category: Best Practices
 ---
 
-# Writing Selectors
-
-BrowserMesh uses a powerful visual extraction engine that relies on standard CSS and XPath selectors.
+When scraping modern dynamic websites, brittle selectors (like generated class names or deep absolute paths) frequently break when sites update their DOM or apply bot obfuscation.
 
 ## CSS Selectors
 
