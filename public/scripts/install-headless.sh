@@ -99,6 +99,7 @@ SCRAPER_HOME=./scraper_data
 LOG_LEVEL=info
 NODE_ENV=production
 CLOAKBROWSER_AUTO_UPDATE=false
+CLOAKBROWSER_CACHE_DIR=./scraper_data/assets/cloakbrowser
 EOF
 
 # ==============================================================================
@@ -107,8 +108,8 @@ EOF
 echo "⚙️  [Step 5/5] Installing dependencies & Stealth Browser..."
 npm install --silent --omit=dev > /dev/null 2>&1
 
-# Install CloakBrowser stealth binaries
-if ! npx cloakbrowser install > /dev/null 2>&1; then
+# Install CloakBrowser stealth binaries into local assets folder
+if ! CLOAKBROWSER_CACHE_DIR=./scraper_data/assets/cloakbrowser npx cloakbrowser install > /dev/null 2>&1; then
      echo "⚠️  [WARNING] Minor issue installing stealth browser binaries. The node will still attempt to start!"
 fi
 
