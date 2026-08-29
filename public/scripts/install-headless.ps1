@@ -1,6 +1,3 @@
-# No strict ErrorActionPreference, because native CLI tools like npm write to stderr for warnings,
-# which triggers false-positive crashes in PowerShell.
-
 # Catch unexpected PowerShell exceptions
 trap {
     Write-Host ""
@@ -14,8 +11,8 @@ trap {
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-$BACKEND_ZIP_URL = "https://github.com/MaThanMiThun1999/browsermesh/raw/refs/heads/main/backend-latest.tar.gz"
-$FRONTEND_URL = "https://browsermesh.com"
+$BACKEND_ZIP_URL = "https://browsermesh-one.vercel.app/scripts/backend-latest.tar.gz"
+$FRONTEND_URL = "https://studio-browsermesh.vercel.app"
 $INSTALL_DIR = "$HOME\browsermesh-node"
 
 Write-Host "=================================================" -ForegroundColor Cyan
@@ -26,20 +23,28 @@ Write-Host "Sit back and relax. We'll handle everything automatically."
 Write-Host "================================================="
 
 # ==============================================================================
-# 1. NODE.JS VALIDATION
+# 1. NODE.JS VALIDATION (Version >= 18)
 # ==============================================================================
 if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     Write-Host "[ERROR] Node.js is not installed on this computer." -ForegroundColor Red
-    Write-Host "    Please download and install it first from: https://nodejs.org/"
+    Write-Host "    Please download and install Node.js v20+ from: https://nodejs.org/"
     Write-Host "    After installing, restart your terminal and run this script again."
     exit 1
 } else {
-    Write-Host "[OK] Step 1/5: Node.js engine is installed!" -ForegroundColor Green
+    $nodeVerStr = (node -v) -replace 'v',''
+    $majorVer = [int]($nodeVerStr.Split('.')[0])
+    if ($majorVer -lt 18) {
+        Write-Host "[ERROR] Installed Node.js version ($nodeVerStr) is out of date. Required: v18+ (v20+ recommended)." -ForegroundColor Red
+        Write-Host "    Please upgrade Node.js from https://nodejs.org/"
+        exit 1
+    }
+    Write-Host "[OK] Step 1/5: Node.js engine ($nodeVerStr) is installed!" -ForegroundColor Green
 }
 
 # ==============================================================================
-# 2. PM2 INSTALLATION
+# 2. PM2 INSTALLATION & PATH UPDATES
 # ==============================================================================
+$env:PATH += ";$env:APPDATA\npm"
 if (-not (Get-Command pm2 -ErrorAction SilentlyContinue)) {
     Write-Host "[WAIT] Step 2/5: Installing background process manager (PM2)..."
     npm install -g pm2 --silent
@@ -56,44 +61,46 @@ Set-Location $INSTALL_DIR
 
 Invoke-WebRequest -Uri $BACKEND_ZIP_URL -OutFile "backend.tar.gz" -ErrorAction Stop
 
-# Windows 10/11 natively includes tar
+# Extract using native Windows tar
 tar -xzf backend.tar.gz
 Remove-Item backend.tar.gz
 
-# Create the .env configuration file with production defaults
+# Create .env without UTF-8 BOM
 Write-Host "[WAIT] Step 4/5: Configuring your environment..."
-@"
+$envContent = @"
 PORT=3001
 HOST=127.0.0.1
-CLOUD_API_URL=https://browsermesh-cloud.onrender.com/api/v1
+CLOUD_API_URL=https://aelxyxu12qa0-production-5hawy35i.us-central1.suga.run/api/v1
 SCRAPER_HOME=.\scraper_data
 LOG_LEVEL=info
 NODE_ENV=production
-"@ | Out-File -FilePath ".env" -Encoding utf8
+CLOAKBROWSER_AUTO_UPDATE=false
+"@
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $INSTALL_DIR ".env"), $envContent, $utf8NoBom)
 
 # ==============================================================================
-# 4. DEPENDENCY INSTALLATION
+# 4. DEPENDENCY & CLOAKBROWSER INSTALLATION
 # ==============================================================================
-Write-Host "[WAIT] Step 5/5: Installing final system requirements (this may take a minute or two)..."
+Write-Host "[WAIT] Step 5/5: Installing system dependencies & Stealth Browser..."
 npm install --silent --omit=dev
 
-# Hide Playwright's noisy installation warnings by redirecting stderr (2) and stdout (1) to null
-cmd.exe /c "npx playwright install --with-deps chromium >nul 2>nul"
+# Install CloakBrowser binaries natively
+cmd.exe /c "npx cloakbrowser install >nul 2>nul"
 
 # ==============================================================================
 # 5. START SERVICE
 # ==============================================================================
 Write-Host "[WAIT] Starting your BrowserMesh Node..."
 
-# Clean up any existing older instances safely (ignoring PM2's welcome banner)
-$pm2Output = pm2 list 2>&1
+$pm2Output = cmd.exe /c "pm2 list 2>&1"
 if ($pm2Output -match "browsermesh-backend") {
-    pm2 delete "browsermesh-backend" | Out-Null
+    cmd.exe /c "pm2 delete browsermesh-backend" | Out-Null
 }
 
-# Run the application directly with PM2
-pm2 start dist/server.js --name "browsermesh-backend" --node-args="--env-file=.env" | Out-Null
-pm2 save | Out-Null
+# Launch via PM2 with explicit working directory
+cmd.exe /c "pm2 start dist/server.js --name browsermesh-backend --cwd `"$INSTALL_DIR`" --node-args=`"--env-file=.env`"" | Out-Null
+cmd.exe /c "pm2 save" | Out-Null
 
 # ==============================================================================
 # 6. SETUP 'mesh' CLI COMMAND
@@ -106,17 +113,16 @@ $MeshFunc = @"
 function mesh {
     param(`$action)
     switch (`$action) {
-        'start'   { pm2 start browsermesh-backend }
-        'stop'    { pm2 stop browsermesh-backend }
-        'restart' { pm2 restart browsermesh-backend }
-        'logs'    { pm2 logs browsermesh-backend }
-        'status'  { pm2 status browsermesh-backend }
+        'start'   { cmd.exe /c "pm2 start browsermesh-backend" }
+        'stop'    { cmd.exe /c "pm2 stop browsermesh-backend" }
+        'restart' { cmd.exe /c "pm2 restart browsermesh-backend" }
+        'logs'    { cmd.exe /c "pm2 logs browsermesh-backend" }
+        'status'  { cmd.exe /c "pm2 status browsermesh-backend" }
         default   { Write-Host "Usage: mesh {start|stop|restart|logs|status}" }
     }
 }
 "@
 
-# Inject into PowerShell Profile
 if (-not (Test-Path $PROFILE)) {
     New-Item -ItemType File -Path $PROFILE -Force | Out-Null
 }
