@@ -2,7 +2,7 @@
 title: "How to Build Undetectable Web Scraping Workflows for AI Agents with MCP in 2026"
 description: "Learn how to connect Claude Desktop, Cursor, and autonomous AI agents directly to stealth web scraping nodes using Model Context Protocol (MCP) and BrowserMesh."
 date: "2026-08-28"
-author: "BrowserMesh AI & Agent Systems"
+author: "BrowserMesh AI"
 category: "AI & MCP Integration"
 tags: ["Model Context Protocol", "MCP Scraper", "Claude AI", "AI Agents", "LLM Web Scraping"]
 readTime: "8 min read"
