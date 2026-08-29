@@ -2,7 +2,7 @@
 title: "How to Bypass Anti-Bot Web Scraping Protections in 2026"
 description: "A comprehensive guide to bypassing Cloudflare, Akamai, DataDome, and Kasada anti-bot protections using TLS JA4 masking, residential IP routing, and real browser nodes."
 date: "2026-08-25"
-author: "BrowserMesh Security Team"
+author: "BrowserMesh Security"
 category: "Stealth Scraping"
 tags: ["Anti-Bot", "Web Scraping", "DataDome", "Akamai", "JA4 Fingerprinting"]
 readTime: "8 min read"

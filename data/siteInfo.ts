@@ -174,7 +174,7 @@ export const siteInfo: SiteInfo = {
         },
         pro: {
             name: "Pro",
-            price: "$15",
+            price: "$29",
             period: "month",
             resultsLimit: "10,000 Monthly Results",
             devicesLimit: "Up to 3 Active Devices",
@@ -184,7 +184,7 @@ export const siteInfo: SiteInfo = {
                 "Up to 3 Active Devices",
                 "Access to Premium (Pro) Plugins",
                 "Export to JSON, CSV, & XLSX formats",
-                "Proxy Support included",
+                "Distributed Multi-Node Mesh",
                 "Scheduled Jobs automation",
                 "2 GB Cloud Storage",
             ],

@@ -33,38 +33,38 @@ export default function BlogIndexPage() {
 
             {/* Featured Hero Article */}
             {featuredPost && (
-                <div className="mb-14 sm:mb-20">
+                <div className="mb-10 sm:mb-20">
                     <Link
                         href={`/blog/${featuredPost.slug}`}
-                        className="group block relative rounded-3xl overflow-hidden glass-strong border border-indigo-500/30 hover:border-indigo-500/60 transition-all duration-500 glow-blue p-6 sm:p-10 lg:p-12"
+                        className="group block relative rounded-2xl sm:rounded-3xl overflow-hidden glass-strong border border-indigo-500/30 hover:border-indigo-500/60 transition-all duration-500 glow-blue p-4 sm:p-8 lg:p-12"
                     >
                         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-500/20 transition-all duration-500" />
 
-                        <div className="flex flex-wrap items-center gap-3 mb-4">
-                            <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold border border-indigo-500/30">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                            <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] sm:text-xs font-semibold border border-indigo-500/30">
                                 {featuredPost.frontmatter.category || "Featured Guide"}
                             </span>
-                            <span className="flex items-center gap-1.5 text-xs text-slate-400">
-                                <Calendar className="w-3.5 h-3.5" />
+                            <span className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-400">
+                                <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                                 {featuredPost.frontmatter.date}
                             </span>
-                            <span className="flex items-center gap-1.5 text-xs text-slate-400">
-                                <Clock className="w-3.5 h-3.5" />
+                            <span className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-400">
+                                <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                                 {featuredPost.frontmatter.readTime || "6 min read"}
                             </span>
                         </div>
 
-                        <h2 className="text-2xl sm:text-4xl font-extrabold text-white group-hover:text-indigo-300 transition-colors duration-300 mb-4 tracking-tight">
+                        <h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white group-hover:text-indigo-300 transition-colors duration-300 mb-2.5 sm:mb-4 tracking-tight leading-snug sm:leading-tight">
                             {featuredPost.frontmatter.title}
                         </h2>
 
-                        <p className="text-sm sm:text-base text-slate-300 mb-6 line-clamp-3 max-w-4xl leading-relaxed">
+                        <p className="text-xs sm:text-base text-slate-300 mb-4 sm:mb-6 line-clamp-3 max-w-4xl leading-relaxed">
                             {featuredPost.frontmatter.description}
                         </p>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                        <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-slate-800/80">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-[10px] sm:text-xs font-bold shadow-md">
                                     BM
                                 </div>
                                 <span className="text-xs sm:text-sm font-medium text-slate-300">
@@ -72,8 +72,8 @@ export default function BlogIndexPage() {
                                 </span>
                             </div>
 
-                            <span className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 group-hover:text-indigo-300 group-hover:translate-x-1 transition-all duration-300">
-                                Read Full Guide <ArrowRight className="w-4 h-4" />
+                            <span className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-indigo-400 group-hover:text-indigo-300 group-hover:translate-x-1 transition-all duration-300">
+                                Read Full Guide <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </span>
                         </div>
                     </Link>
@@ -81,45 +81,45 @@ export default function BlogIndexPage() {
             )}
 
             {/* Articles Grid */}
-            <div className="mb-16">
-                <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <BookOpen className="w-5 h-5 text-indigo-400" />
-                        All Articles & Tutorials
+            <div className="mb-12 sm:mb-16">
+                <div className="flex items-center justify-between mb-6 sm:mb-8 pb-3 sm:pb-4 border-b border-slate-800">
+                    <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                        <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
+                        All Articles &amp; Tutorials
                     </h3>
-                    <span className="text-xs sm:text-sm text-slate-400">
+                    <span className="text-[11px] sm:text-sm text-slate-400">
                         {posts.length} {posts.length === 1 ? "article" : "articles"} published
                     </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
                     {posts.map((post) => (
                         <Link
                             key={post.slug}
                             href={`/blog/${post.slug}`}
-                            className="group flex flex-col justify-between rounded-2xl glass p-6 border border-slate-800/80 hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300"
+                            className="group flex flex-col justify-between rounded-xl sm:rounded-2xl glass p-4 sm:p-6 border border-slate-800/80 hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300"
                         >
                             <div>
-                                <div className="flex items-center justify-between gap-2 mb-3">
-                                    <span className="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-300 text-xs font-medium border border-purple-500/20">
+                                <div className="flex items-center justify-between gap-2 mb-2.5 sm:mb-3">
+                                    <span className="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 text-[10px] sm:text-xs font-medium border border-purple-500/20">
                                         {post.frontmatter.category || "Guide"}
                                     </span>
-                                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                                    <span className="text-[10px] sm:text-xs text-slate-400 flex items-center gap-1">
                                         <Clock className="w-3 h-3" />
                                         {post.frontmatter.readTime || "5 min"}
                                     </span>
                                 </div>
 
-                                <h4 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors duration-200 mb-2 leading-snug">
+                                <h4 className="text-base sm:text-lg font-bold text-white group-hover:text-indigo-300 transition-colors duration-200 mb-1.5 sm:mb-2 leading-snug">
                                     {post.frontmatter.title}
                                 </h4>
 
-                                <p className="text-xs sm:text-sm text-slate-400 line-clamp-3 mb-4 leading-relaxed">
+                                <p className="text-xs sm:text-sm text-slate-400 line-clamp-3 mb-3 sm:mb-4 leading-relaxed">
                                     {post.frontmatter.description}
                                 </p>
                             </div>
 
-                            <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+                            <div className="pt-3 sm:pt-4 border-t border-slate-800/60 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
                                 <span>{post.frontmatter.date}</span>
                                 <span className="text-indigo-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200">
                                     Read <ArrowRight className="w-3.5 h-3.5" />

@@ -79,13 +79,6 @@ export default function PricingCompareTable() {
             pro: "Entire Marketplace (Free + Pro)",
         },
         {
-            title: "Advanced Networking",
-            subtitle: "Proxies & IP Rotation",
-            icon: <Globe className="w-5 h-5 text-indigo-400" />,
-            free: "No Proxies",
-            pro: "Full Proxy Support",
-        },
-        {
             title: "Automation",
             subtitle: "Job Scheduling",
             icon: <Clock className="w-5 h-5 text-indigo-400" />,

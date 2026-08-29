@@ -56,7 +56,7 @@ function PreBlock({ children, ...props }: React.ComponentPropsWithoutRef<"pre">)
                 </button>
             </div>
             <pre
-                className="px-4 py-3.5 h-8 sm:px-6 sm:py-5 overflow-x-auto text-xs sm:text-sm font-mono text-indigo-200 leading-relaxed"
+                className="px-4 py-3.5 sm:px-6 sm:py-5 overflow-x-auto text-xs sm:text-sm font-mono text-indigo-200 leading-relaxed"
                 {...props}
             >
                 {children}
