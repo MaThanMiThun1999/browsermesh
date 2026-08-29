@@ -70,12 +70,12 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const bashSetting = settings.find((s) => s.key === "headless_install_cmd_bash");
     const bashCommand =
         (bashSetting?.value as { cmd?: string })?.cmd ||
-        "curl -sSL https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.sh | bash";
+        "curl -sSL https://browsermesh-one.vercel.app/scripts/install-headless.sh | bash";
 
     const powershellSetting = settings.find((s) => s.key === "headless_install_cmd_powershell");
     const powershellCommand =
         (powershellSetting?.value as { cmd?: string })?.cmd ||
-        'Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.ps1" -OutFile "install-headless.ps1"; .\\install-headless.ps1';
+        'powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr -useb https://browsermesh-one.vercel.app/scripts/install-headless.ps1 | iex"';
 
     const regSetting = settings.find((s) => s.key === "allow_user_registration");
     const allowRegistration = regSetting

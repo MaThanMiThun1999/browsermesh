@@ -22,3 +22,30 @@ If you are running a Linux desktop environment, the easiest way to get started i
 5. Log in using your BrowserMesh cloud account credentials to link your device.
 
 ---
+
+## Headless Node Setup (CLI / VPS / Server)
+
+For background servers, cloud VPS, or headless Linux environments:
+
+1. Open your terminal.
+2. Run the one-line installation script:
+
+```bash
+curl -sSL https://browsermesh-one.vercel.app/scripts/install-headless.sh | bash
+```
+
+_Alternative using `wget`:_
+
+```bash
+wget -qO- https://browsermesh-one.vercel.app/scripts/install-headless.sh | bash
+```
+
+### Managing Your Linux Node
+
+The setup script creates a global command shortcut called `mesh`:
+
+- `mesh status` : Check process status and CPU/RAM metrics.
+- `mesh logs`   : View live tail of scraping activity logs.
+- `mesh restart`: Reboot the background scraping daemon.
+- `mesh stop`    : Pause the node daemon.
+- `mesh start`   : Resume the node daemon.

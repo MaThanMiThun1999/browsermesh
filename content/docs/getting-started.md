@@ -5,7 +5,7 @@ order: 1
 category: Introduction
 ---
 
-BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://console.browsermesh.in)**.
+BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It allows you to run headless browsers directly on your own devices (Linux, Windows, or Android) while controlling all scraping jobs, marketplace plugins, and extracted data centrally from the **[Web Console](https://studio-browsermesh.vercel.app)**.
 
 ---
 
@@ -13,7 +13,7 @@ BrowserMesh is a decentralized web automation and stealth scraping ecosystem. It
 
 All platform management and telemetry are handled through our centralized dashboard:
 
-- **Web Console Link:** [https://console.browsermesh.in](https://console.browsermesh.in)
+- **Web Console Link:** [https://studio-browsermesh.vercel.app](https://studio-browsermesh.vercel.app)
 - Log in or create an account to view active devices, execute marketplace plugins, and monitor job queues.
 
 ---
@@ -36,48 +36,55 @@ If you prefer graphical user interfaces, download the dedicated native app for y
 
 For background servers, cloud VPS, or headless environments, use our automated one-line setup scripts:
 
-#### Linux / Cloud VPS (One-Command Setup)
+#### Linux & macOS (Bash / Terminal)
 
 Open your terminal and execute:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.sh | bash
+curl -sSL https://browsermesh-one.vercel.app/scripts/install-headless.sh | bash
 ```
 
 _Alternative using `wget`:_
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.sh | bash
+wget -qO- https://browsermesh-one.vercel.app/scripts/install-headless.sh | bash
 ```
 
-#### Windows Headless Setup (PowerShell)
+#### Windows Headless Setup (PowerShell / CMD / Double-Click)
 
-Open **PowerShell as Administrator** and execute:
+**Option 1: One-Line PowerShell Command**
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/refs/heads/main/install-headless.ps1" -OutFile "install-headless.ps1"; .\install-headless.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr -useb https://browsermesh-one.vercel.app/scripts/install-headless.ps1 | iex"
 ```
+
+**Option 2: One-Line CMD Command**
+
+```cmd
+curl -sL https://browsermesh-one.vercel.app/scripts/install-headless.cmd -o install.cmd && install.cmd
+```
+
+**Option 3: Double-Click Installer File**
+
+1. Download **[`install-headless.cmd`](https://browsermesh-one.vercel.app/scripts/install-headless.cmd)** directly to your computer.
+2. Double-click **`install-headless.cmd`** in Windows File Explorer to launch the automated setup window.
 
 ---
 
-## 3. Managing & Connecting Your Node
+## 3. Managing Your Node
 
-Once installed (via GUI app or Headless CLI daemon), connect your device to your account:
+Once installed (via GUI app or Headless CLI script), your node automatically connects to the BrowserMesh Cloud network:
 
-### Linking to Your Account
+### Automated Cloud Registration
 
-1. Open the **[Web Console](https://console.browsermesh.in)**.
-2. Copy your Device Auth Token from **Console Dashboard -> Active Devices**.
-3. **If using GUI App:** Enter your token or log in directly under the **Cloud Sync** tab.
-4. **If using Headless CLI:** Link your node by running in your terminal:
-    ```bash
-    mesh link <YOUR_DEVICE_TOKEN>
-    ```
-5. Your device will immediately appear under the **Active Devices** tab on [console.browsermesh.in](https://console.browsermesh.in).
+1. The installer automatically configures your background daemon to communicate with the BrowserMesh Cloud network.
+2. Log in with your BrowserMesh account on the **[Web Console](https://studio-browsermesh.vercel.app)**.
+3. Your machine will immediately appear under the **Active Devices** tab on [studio-browsermesh.vercel.app](https://studio-browsermesh.vercel.app).
 
 ### CLI Management Commands (Headless Nodes)
 
-- `mesh status`: Check memory, CPU, and connection status.
-- `mesh logs`: View live scraping activity logs.
-- `mesh restart`: Reboot the background scraping daemon.
-- `mesh stop`: Pause the node daemon.
+- `mesh status` : Check memory, CPU, and connection status of the daemon.
+- `mesh logs`   : View live scraping activity logs.
+- `mesh restart`: Reboot the background scraping node.
+- `mesh stop`    : Pause the node daemon.
+- `mesh start`   : Resume the node daemon.
