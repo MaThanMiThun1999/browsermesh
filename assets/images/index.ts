@@ -101,3 +101,9 @@ export const aboutHeroImg: StaticImageData = {
     width: 1536,
     height: 1024,
 };
+
+export const mathanmithunWorkingComputer: StaticImageData = {
+    src: "/images/mathanmithun-working-computer.webp",
+    width: 1536,
+    height: 1024,
+};
