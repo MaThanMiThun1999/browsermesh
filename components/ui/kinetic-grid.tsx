@@ -292,6 +292,11 @@ export default function KineticGrid({
         const container = containerRef.current;
         if (!canvas || !container) return;
 
+        const isTouchOrReduced =
+            typeof window !== "undefined" &&
+            (window.matchMedia("(pointer: coarse)").matches ||
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
         const setSize = () => {
             const w = container.offsetWidth;
             const h = container.offsetHeight;
@@ -302,9 +307,28 @@ export default function KineticGrid({
                 mouseRef.current = { x: -9999, y: -9999 };
                 targetMouseRef.current = { x: -9999, y: -9999 };
             }
+            // Draw initial static frame
+            draw(performance.now());
         };
 
+        setSize();
+
+        if (isTouchOrReduced) {
+            const resizeObserver = new ResizeObserver(() => setSize());
+            resizeObserver.observe(container);
+            return () => resizeObserver.disconnect();
+        }
+
+        let isRunning = true;
+
         const animate = (now: number) => {
+            if (!isRunning) return;
+
+            if (document.hidden) {
+                rafRef.current = requestAnimationFrame(animate);
+                return;
+            }
+
             const m = mouseRef.current;
             const t = targetMouseRef.current;
 
@@ -314,8 +338,6 @@ export default function KineticGrid({
             draw(now);
             rafRef.current = requestAnimationFrame(animate);
         };
-
-        setSize();
 
         const resizeObserver = new ResizeObserver(() => setSize());
         resizeObserver.observe(container);
@@ -339,11 +361,12 @@ export default function KineticGrid({
             });
         };
 
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("click", onClick);
+        window.addEventListener("mousemove", onMouseMove, { passive: true });
+        window.addEventListener("click", onClick, { passive: true });
         rafRef.current = requestAnimationFrame(animate);
 
         return () => {
+            isRunning = false;
             resizeObserver.disconnect();
             window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("click", onClick);
