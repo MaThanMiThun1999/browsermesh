@@ -16,8 +16,10 @@ trap 'cleanup_on_error' ERR
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-BACKEND_ZIP_URL="https://browsermesh-one.vercel.app/scripts/backend-latest.tar.gz"
 FRONTEND_URL="https://studio-browsermesh.vercel.app"
+PUBLIC_URL="https://browsermesh-one.vercel.app"
+BACKEND_ZIP_URL="$PUBLIC_URL/scripts/backend-latest.tar.gz"
+BACKEND_ZIP_FALLBACK="https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/main/public/scripts/backend-latest.tar.gz"
 INSTALL_DIR="$HOME/browsermesh-node"
 NODE_VERSION="20"
 
@@ -75,7 +77,12 @@ mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
 echo "📥 [Step 3/5] Downloading the latest BrowserMesh Node software..."
-if ! curl -sL "$BACKEND_ZIP_URL" -o backend.tar.gz; then
+if ! curl -sL "$BACKEND_ZIP_URL" -o backend.tar.gz || [ ! -s backend.tar.gz ]; then
+    echo "⚠️  Primary download server busy. Trying fallback mirror..."
+    curl -sL "$BACKEND_ZIP_FALLBACK" -o backend.tar.gz
+fi
+
+if [ ! -s backend.tar.gz ]; then
     echo "❌ [ERROR] Couldn't download required backend release archive."
     exit 1
 fi
@@ -122,6 +129,26 @@ pm2 save > /dev/null 2>&1
 # ==============================================================================
 echo "🪄  Configuring 'mesh' shortcut command..."
 
+NPM_PREFIX=$(npm config get prefix 2>/dev/null || echo "$HOME/.nvm/versions/node/v20.0.0")
+NPM_BIN_DIR="$NPM_PREFIX/bin"
+if [ ! -d "$NPM_BIN_DIR" ]; then
+    NPM_BIN_DIR="$NPM_PREFIX"
+fi
+mkdir -p "$NPM_BIN_DIR" 2>/dev/null || true
+
+cat << 'EOF' > "$NPM_BIN_DIR/mesh"
+#!/bin/sh
+case "$1" in
+  start)   pm2 start browsermesh-backend ;;
+  stop)    pm2 stop browsermesh-backend ;;
+  restart) pm2 restart browsermesh-backend ;;
+  logs)    pm2 logs browsermesh-backend ;;
+  status)  pm2 status browsermesh-backend ;;
+  *)       pm2 status browsermesh-backend ;;
+esac
+EOF
+chmod +x "$NPM_BIN_DIR/mesh" 2>/dev/null || true
+
 MESH_FUNC="
 # BrowserMesh CLI
 mesh() {
@@ -131,17 +158,17 @@ mesh() {
     restart) pm2 restart browsermesh-backend ;;
     logs)    pm2 logs browsermesh-backend ;;
     status)  pm2 status browsermesh-backend ;;
-    *)       echo \"Usage: mesh {start|stop|restart|logs|status}\" ;;
+    *)       pm2 status browsermesh-backend ;;
   esac
 }
 "
 
-if [ -f "$HOME/.bashrc" ] && ! grep -q "BrowserMesh CLI" "$HOME/.bashrc"; then
-    echo "$MESH_FUNC" >> "$HOME/.bashrc"
-fi
-if [ -f "$HOME/.zshrc" ] && ! grep -q "BrowserMesh CLI" "$HOME/.zshrc"; then
-    echo "$MESH_FUNC" >> "$HOME/.zshrc"
-fi
+touch "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.profile" 2>/dev/null || true
+for rcfile in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.profile"; do
+    if [ -f "$rcfile" ] && ! grep -q "BrowserMesh CLI" "$rcfile" 2>/dev/null; then
+        echo "$MESH_FUNC" >> "$rcfile"
+    fi
+done
 
 echo "================================================="
 echo "🎉 SUCCESS! Your BrowserMesh node is now running silently in the background!"
@@ -149,7 +176,7 @@ echo ""
 echo "👉 Please return to your dashboard to see your connected device:"
 echo "   $FRONTEND_URL"
 echo ""
-echo "🛠️  COMMAND LINE TOOLS (Open a new terminal to use these):"
+echo "🛠️  COMMAND LINE TOOLS (Ready to use in any terminal):"
 echo "    mesh logs     -> View live scraping activity"
 echo "    mesh stop     -> Pause the node"
 echo "    mesh start    -> Resume the node"

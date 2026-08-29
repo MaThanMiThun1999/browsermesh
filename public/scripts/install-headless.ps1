@@ -1,3 +1,6 @@
+# Force TLS 1.2 and TLS 1.3 in PowerShell to prevent SSL connection aborts
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
+
 # Catch unexpected PowerShell exceptions
 trap {
     Write-Host ""
@@ -11,8 +14,10 @@ trap {
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-$BACKEND_ZIP_URL = "https://browsermesh-one.vercel.app/scripts/backend-latest.tar.gz"
 $FRONTEND_URL = "https://studio-browsermesh.vercel.app"
+$PUBLIC_URL = "https://browsermesh-one.vercel.app"
+$BACKEND_ZIP_URL = "$PUBLIC_URL/scripts/backend-latest.tar.gz"
+$BACKEND_ZIP_FALLBACK = "https://raw.githubusercontent.com/MaThanMiThun1999/browsermesh/main/public/scripts/backend-latest.tar.gz"
 $INSTALL_DIR = "$HOME\browsermesh-node"
 
 Write-Host "=================================================" -ForegroundColor Cyan
@@ -59,7 +64,30 @@ Write-Host "[WAIT] Step 3/5: Downloading the latest BrowserMesh Node software...
 New-Item -ItemType Directory -Force -Path $INSTALL_DIR | Out-Null
 Set-Location $INSTALL_DIR
 
-Invoke-WebRequest -Uri $BACKEND_ZIP_URL -OutFile "backend.tar.gz" -ErrorAction Stop
+# Resilient download helper using curl.exe or Invoke-WebRequest with fallback
+$downloadSuccess = $false
+
+if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
+    & curl.exe -sL "$BACKEND_ZIP_URL" -o "backend.tar.gz"
+    if ((Test-Path "backend.tar.gz") -and ((Get-Item "backend.tar.gz").Length -gt 1000)) {
+        $downloadSuccess = $true
+    } else {
+        & curl.exe -sL "$BACKEND_ZIP_FALLBACK" -o "backend.tar.gz"
+        if ((Test-Path "backend.tar.gz") -and ((Get-Item "backend.tar.gz").Length -gt 1000)) {
+            $downloadSuccess = $true
+        }
+    }
+}
+
+if (-not $downloadSuccess) {
+    try {
+        Invoke-WebRequest -Uri $BACKEND_ZIP_URL -OutFile "backend.tar.gz" -UserAgent "Mozilla/5.0" -ErrorAction Stop
+        $downloadSuccess = $true
+    } catch {
+        Invoke-WebRequest -Uri $BACKEND_ZIP_FALLBACK -OutFile "backend.tar.gz" -UserAgent "Mozilla/5.0" -ErrorAction Stop
+        $downloadSuccess = $true
+    }
+}
 
 # Extract using native Windows tar
 tar -xzf backend.tar.gz
@@ -107,29 +135,64 @@ cmd.exe /c "pm2 save" | Out-Null
 # ==============================================================================
 Write-Host "[WAIT] Configuring 'mesh' shortcut command..."
 
-$MeshFunc = @"
-
-# BrowserMesh CLI
-function mesh {
-    param(`$action)
-    switch (`$action) {
-        'start'   { cmd.exe /c "pm2 start browsermesh-backend" }
-        'stop'    { cmd.exe /c "pm2 stop browsermesh-backend" }
-        'restart' { cmd.exe /c "pm2 restart browsermesh-backend" }
-        'logs'    { cmd.exe /c "pm2 logs browsermesh-backend" }
-        'status'  { cmd.exe /c "pm2 status browsermesh-backend" }
-        default   { Write-Host "Usage: mesh {start|stop|restart|logs|status}" }
-    }
+$npmBinDir = (cmd.exe /c "npm config get prefix")
+if ($npmBinDir) {
+    $npmBinDir = $npmBinDir.Trim()
 }
+if (-not $npmBinDir -or -not (Test-Path $npmBinDir)) {
+    $npmBinDir = "$env:APPDATA\npm"
+}
+
+New-Item -ItemType Directory -Force -Path $npmBinDir | Out-Null
+
+# Write mesh.cmd for Windows CMD and PowerShell
+$MeshCmdContent = @"
+@echo off
+if "%~1"=="" (
+    cmd.exe /c pm2 status browsermesh-backend
+    goto end
+)
+if "%~1"=="start" (
+    cmd.exe /c pm2 start browsermesh-backend
+    goto end
+)
+if "%~1"=="stop" (
+    cmd.exe /c pm2 stop browsermesh-backend
+    goto end
+)
+if "%~1"=="restart" (
+    cmd.exe /c pm2 restart browsermesh-backend
+    goto end
+)
+if "%~1"=="logs" (
+    cmd.exe /c pm2 logs browsermesh-backend
+    goto end
+)
+if "%~1"=="status" (
+    cmd.exe /c pm2 status browsermesh-backend
+    goto end
+)
+
+echo Usage: mesh {start|stop|restart|logs|status}
+:end
 "@
 
-if (-not (Test-Path $PROFILE)) {
-    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
-}
-$ProfileContent = Get-Content $PROFILE -ErrorAction SilentlyContinue | Out-String
-if ($ProfileContent -notmatch "BrowserMesh CLI") {
-    $MeshFunc | Out-File -FilePath $PROFILE -Append -Encoding utf8
-}
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $npmBinDir "mesh.cmd"), $MeshCmdContent, $utf8NoBom)
+
+# Write mesh bash script for Git Bash / MINGW64 users on Windows
+$MeshBashContent = @"
+#!/bin/sh
+case "`$1" in
+  start)   pm2 start browsermesh-backend ;;
+  stop)    pm2 stop browsermesh-backend ;;
+  restart) pm2 restart browsermesh-backend ;;
+  logs)    pm2 logs browsermesh-backend ;;
+  status)  pm2 status browsermesh-backend ;;
+  *)       pm2 status browsermesh-backend ;;
+esac
+"@
+[System.IO.File]::WriteAllText((Join-Path $npmBinDir "mesh"), $MeshBashContent, $utf8NoBom)
 
 Write-Host "=================================================" -ForegroundColor Cyan
 Write-Host "[SUCCESS] Your BrowserMesh node is now running silently in the background!" -ForegroundColor Green
@@ -137,7 +200,7 @@ Write-Host ""
 Write-Host "Please return to your dashboard to see your connected device:"
 Write-Host "   $FRONTEND_URL" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "COMMAND LINE TOOLS (Open a new PowerShell window to use these):"
+Write-Host "COMMAND LINE TOOLS (Ready to use in any terminal):"
 Write-Host "    mesh logs     -> View live scraping activity"
 Write-Host "    mesh stop     -> Pause the node"
 Write-Host "    mesh start    -> Resume the node"
