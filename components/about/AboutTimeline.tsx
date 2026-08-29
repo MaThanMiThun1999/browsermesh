@@ -1,35 +1,35 @@
 "use client";
 
-import { Lightbulb, Code2, Rocket, TrendingUp } from "lucide-react";
+import { Code2, Puzzle, Server, Globe } from "lucide-react";
 
 export default function AboutTimeline() {
     const milestones = [
         {
-            year: "2022",
-            title: "The Idea",
-            description: "I wanted a better way to scrape — faster, stealthier, and smarter.",
-            icon: <Lightbulb className="w-6 h-6 text-indigo-400" />,
+            year: "Jun 2026",
+            title: "Stealth Core Engine",
+            description: "Built anti-detection fingerprinting & browser automation kernel.",
+            icon: <Code2 className="w-6 h-6 text-indigo-400" />,
             glowColor: "shadow-[0_0_30px_rgba(99,102,241,0.4)] border-indigo-500/40 bg-[#090726]",
         },
         {
-            year: "2022",
-            title: "First Commit",
-            description: "Wrote the first line of code. The prototype was born.",
-            icon: <Code2 className="w-6 h-6 text-purple-400" />,
+            year: "Jul 2026",
+            title: "Plugin Marketplace",
+            description: "Architected modular plugin engine & dynamic marketplace API.",
+            icon: <Puzzle className="w-6 h-6 text-purple-400" />,
             glowColor: "shadow-[0_0_30px_rgba(168,85,247,0.4)] border-purple-500/40 bg-[#0c0729]",
         },
         {
-            year: "2023",
-            title: "Going Public",
-            description: "Released to early users and built an amazing community.",
-            icon: <Rocket className="w-6 h-6 text-blue-400" />,
+            year: "Aug 2026",
+            title: "Cloud Infrastructure",
+            description: "Developed cloud backend, node sync, & license management.",
+            icon: <Server className="w-6 h-6 text-blue-400" />,
             glowColor: "shadow-[0_0_30px_rgba(59,130,246,0.4)] border-blue-500/40 bg-[#060b2b]",
         },
         {
-            year: "2024+",
-            title: "Growing Together",
-            description: "Continuously improving and building the future of web automation.",
-            icon: <TrendingUp className="w-6 h-6 text-emerald-400" />,
+            year: "Late Aug 2026",
+            title: "BrowserMesh Platform",
+            description: "Launched web platform & automated headless node setup.",
+            icon: <Globe className="w-6 h-6 text-emerald-400" />,
             glowColor: "shadow-[0_0_30px_rgba(16,185,129,0.4)] border-emerald-500/40 bg-[#041a22]",
         },
     ];
@@ -72,7 +72,7 @@ export default function AboutTimeline() {
                             </span>
 
                             {/* Description */}
-                            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-[220px]">
+                            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-[250px]">
                                 {item.description}
                             </p>
                         </div>

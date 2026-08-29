@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { SiGithub } from "react-icons/si";
-import { heroImg } from "@/assets/images";
+import { mathanmithunWorkingComputer } from "@/assets/images";
 import { siteInfo } from "@/data/siteInfo";
 
 const LinkedinIcon = ({ size = 16 }: { size?: number }) => (
@@ -91,24 +91,24 @@ export default function AboutFounderStory() {
                         {/* Background Developer Workstation Art */}
                         <div className="absolute inset-0 bg-[#060412] flex items-center justify-center">
                             <Image
-                                src={heroImg}
+                                src={mathanmithunWorkingComputer}
                                 alt={`${siteInfo.author.name} Developer Workstation`}
                                 title={`${siteInfo.author.name} Developer Workstation`}
-                                width={1536}
-                                height={1024}
+                                width={1200}
+                                height={900}
                                 loading="lazy"
-                                className="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
+                                className="w-full h-full object-cover opacity-60"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#060412] via-transparent to-transparent" />
                         </div>
 
-                        {/* Floating Syntax-Highlighted Code Card Overlay */}
-                        <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-[#090620]/95 border border-indigo-500/40 rounded-2xl p-4 sm:p-5 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-2xl font-mono text-xs text-slate-300">
-                            <div className="text-slate-400 mb-1">
+                        {/* Floating Syntax-Highlighted Code Card Overlay (Glassmorphism Effect) */}
+                        <div className="absolute bottom-1.5 right-1.5 sm:bottom-4 sm:right-4 w-fit max-w-[80%] sm:max-w-[calc(100%-1.5rem)] bg-slate-950/70 border border-white/20 rounded-md sm:rounded-xl p-1.5 sm:p-3.5 shadow-[0_4px_20px_0_rgba(0,0,0,0.9)] backdrop-blur-md sm:backdrop-blur-xl font-mono text-[9px] sm:text-xs leading-[1.2] sm:leading-relaxed text-slate-200 group-hover:border-indigo-400/40 transition-colors duration-500">
+                            <div className="text-slate-400 mb-0 sm:mb-0.5">
                                 <span className="text-purple-400">const</span>{" "}
                                 <span className="text-blue-400">developer</span> = &#123;
                             </div>
-                            <div className="pl-4 space-y-1">
+                            <div className="pl-1.5 sm:pl-3 space-y-0 sm:space-y-0.5">
                                 <div>
                                     <span className="text-purple-300">name:</span>{" "}
                                     <span className="text-emerald-400">
@@ -133,11 +133,11 @@ export default function AboutFounderStory() {
                                 <div>
                                     <span className="text-purple-300">mission:</span>{" "}
                                     <span className="text-emerald-400">
-                                        &quot;Empower data extraction for everyone&quot;
+                                        &quot;Empower data extraction&quot;
                                     </span>
                                     ,
                                 </div>
-                                <div>
+                                <div className="hidden sm:block">
                                     <span className="text-purple-300">coffeeIntake:</span>{" "}
                                     <span className="text-emerald-400">
                                         &quot;Unlimited ☕&quot;
@@ -151,7 +151,7 @@ export default function AboutFounderStory() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="text-slate-400 mt-1">&#125;;</div>
+                            <div className="text-slate-400 mt-0 sm:mt-0.5">&#125;;</div>
                         </div>
                     </div>
                 </div>

@@ -140,8 +140,8 @@ export const siteInfo: SiteInfo = {
     },
 
     contact: {
-        email: "hello@browsermesh.in",
-        supportEmail: "support@browsermesh.in",
+        email: "browsermesh@gmail.com",
+        supportEmail: "browsermesh@gmail.com",
         location: "Global / Remote",
     },
 
