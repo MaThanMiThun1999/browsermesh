@@ -16,9 +16,8 @@ trap 'cleanup_on_error' ERR
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-# The official download link for the latest BrowserMesh backend release
-BACKEND_ZIP_URL="https://github.com/MaThanMiThun1999/browsermesh/raw/refs/heads/main/backend-latest.tar.gz"
-FRONTEND_URL="https://browsermesh.com"
+BACKEND_ZIP_URL="https://browsermesh-one.vercel.app/scripts/backend-latest.tar.gz"
+FRONTEND_URL="https://studio-browsermesh.vercel.app"
 INSTALL_DIR="$HOME/browsermesh-node"
 NODE_VERSION="20"
 
@@ -28,7 +27,6 @@ echo "================================================="
 echo "Welcome! We are setting up your background node."
 echo "Sit back and relax. We'll handle everything automatically."
 echo "================================================="
-
 
 # ==============================================================================
 # 1. NODE.JS INSTALLATION & VALIDATION
@@ -46,7 +44,6 @@ install_node() {
 if ! command -v node &> /dev/null; then
     install_node
 else
-    # Check if node version is >= 18
     CURRENT_NODE_VERSION=$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)
     if [ "$CURRENT_NODE_VERSION" -lt "18" ]; then
         echo "📦 [Step 1/5] Upgrading your Node.js engine..."
@@ -56,7 +53,6 @@ else
     fi
 fi
 
-# Ensure npm is available before proceeding
 if ! command -v npm &> /dev/null; then
     echo "❌ [ERROR] NPM failed to install correctly. Please try again."
     exit 1
@@ -80,35 +76,33 @@ cd "$INSTALL_DIR"
 
 echo "📥 [Step 3/5] Downloading the latest BrowserMesh Node software..."
 if ! curl -sL "$BACKEND_ZIP_URL" -o backend.tar.gz; then
-    echo "❌ [ERROR] Oops! We couldn't download the required files."
-    echo "    Please check your internet connection or try again later."
+    echo "❌ [ERROR] Couldn't download required backend release archive."
     exit 1
 fi
 
-# Extract and clean up
-tar -xzf backend.tar.gz || { echo "❌ [ERROR] Failed to extract the downloaded files. Archive might be corrupted."; exit 1; }
+tar -xzf backend.tar.gz || { echo "❌ [ERROR] Failed to extract archive."; exit 1; }
 rm backend.tar.gz
 
-# Create the .env configuration file with production defaults
 echo "🔧 [Step 4/5] Configuring your environment..."
 cat << 'EOF' > .env
 PORT=3001
 HOST=127.0.0.1
-CLOUD_API_URL=https://browsermesh-cloud.onrender.com/api/v1
+CLOUD_API_URL=https://aelxyxu12qa0-production-5hawy35i.us-central1.suga.run/api/v1
 SCRAPER_HOME=./scraper_data
 LOG_LEVEL=info
 NODE_ENV=production
+CLOAKBROWSER_AUTO_UPDATE=false
 EOF
 
 # ==============================================================================
-# 4. DEPENDENCY INSTALLATION
+# 4. DEPENDENCY & CLOAKBROWSER INSTALLATION
 # ==============================================================================
-echo "⚙️  [Step 5/5] Installing final system requirements (this may take a minute or two)..."
+echo "⚙️  [Step 5/5] Installing dependencies & Stealth Browser..."
 npm install --silent --omit=dev > /dev/null 2>&1
 
-# Install Playwright safely
-if ! npx playwright install --with-deps chromium > /dev/null 2>&1; then
-     echo "⚠️  [WARNING] Minor issue installing some browser dependencies. The node will still try to start!"
+# Install CloakBrowser stealth binaries
+if ! npx cloakbrowser install > /dev/null 2>&1; then
+     echo "⚠️  [WARNING] Minor issue installing stealth browser binaries. The node will still attempt to start!"
 fi
 
 # ==============================================================================
@@ -116,13 +110,11 @@ fi
 # ==============================================================================
 echo "🚀 Starting your BrowserMesh Node..."
 
-# Clean up any existing older instances to prevent duplication errors
 if pm2 list | grep -q "browsermesh-backend"; then
     pm2 delete "browsermesh-backend" > /dev/null 2>&1
 fi
 
-# Run the application directly with PM2 (bypassing npm/cross-env to avoid missing devDependencies)
-pm2 start dist/server.js --name "browsermesh-backend" --node-args="--env-file=.env" > /dev/null 2>&1
+pm2 start dist/server.js --name "browsermesh-backend" --cwd "$INSTALL_DIR" --node-args="--env-file=.env" > /dev/null 2>&1
 pm2 save > /dev/null 2>&1
 
 # ==============================================================================
@@ -144,11 +136,9 @@ mesh() {
 }
 "
 
-# Inject into bashrc if not already there
 if [ -f "$HOME/.bashrc" ] && ! grep -q "BrowserMesh CLI" "$HOME/.bashrc"; then
     echo "$MESH_FUNC" >> "$HOME/.bashrc"
 fi
-# Inject into zshrc if not already there (for macOS / modern linux)
 if [ -f "$HOME/.zshrc" ] && ! grep -q "BrowserMesh CLI" "$HOME/.zshrc"; then
     echo "$MESH_FUNC" >> "$HOME/.zshrc"
 fi
@@ -165,4 +155,3 @@ echo "    mesh stop     -> Pause the node"
 echo "    mesh start    -> Resume the node"
 echo "    mesh status   -> Check if it's running"
 echo "================================================="
-
